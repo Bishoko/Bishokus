@@ -117,7 +117,7 @@ def init():
     print('Database | guilds_count:', guilds_count)
     if guilds_count < 1:
         print('The database is new.')
-        convert_old_data()
+        convert_data()
     
     conn.commit()
     conn.close()
