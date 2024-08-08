@@ -17,7 +17,7 @@ INSERT INTO guilds (
     bot_logs_enabled
 ) VALUES (
     %s,    -- id
-    '!',   -- prefix
+    %s,    -- prefix
     %s,    -- bot_language
     NULL,  -- ratio_emoji
     '{}',  -- sniper
