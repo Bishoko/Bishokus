@@ -31,7 +31,7 @@ def register_slash_commands(bot: commands.Bot):
         description_localizations=locales[command]['desc'],
         default_member_permissions=(nextcord.Permissions(manage_guild=True))
     )
-    @application_checks.has_permissions(manage_guild=True)
+    @application_checks.has_permissions(**{perm: True for perm in locales[command].get('permissions', [])})
     async def prefix_command(interaction: nextcord.Interaction,
         new_prefix: str = nextcord.SlashOption(
             name=locales[command]['args'][0]['name'][default_locale],
@@ -51,7 +51,7 @@ def register_slash_commands(bot: commands.Bot):
         description_localizations=locales[command]['desc'],
         default_member_permissions=(nextcord.Permissions(manage_guild=True))
     )
-    @application_checks.has_permissions(manage_guild=True)
+    @application_checks.has_permissions(**{perm: True for perm in locales[command].get('permissions', [])})
     async def language_command(interaction: nextcord.Interaction,
         new_lang: str = nextcord.SlashOption(
             name=locales[command]['args'][0]['name'][default_locale],
@@ -71,6 +71,7 @@ def register_slash_commands(bot: commands.Bot):
         name_localizations=locales[command]['name'],
         description_localizations=locales[command]['desc']
     )
+    @application_checks.has_permissions(**{perm: True for perm in locales[command].get('permissions', [])})
     async def roll_command(interaction: nextcord.Interaction,
         dice: str = nextcord.SlashOption(
             name=locales[command]['args'][0]['name'][default_locale],
