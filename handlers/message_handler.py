@@ -11,7 +11,7 @@ from commands.settings.set_guild_lang import set_guild_lang
 
 def remove_command(content: str, prefixes: tuple) -> str:
     for prefix in prefixes:
-        if content.startswith(prefix):
+        if content.lower().startswith(prefix):
             return content[len(prefix):].strip()
     return content.strip()
 
@@ -51,7 +51,9 @@ async def handle_message(bot, message: nextcord.Message):
                 await set_guild_lang(lang, message)
                 
             case 'roll' | 'dice' | 'diceroll' | 'rolldice' | 'dice_roll' | 'roll_dice':
-                message.content = message.content.removeprefix('roll').strip()
+                message.content = remove_command(
+                    message.content, ('roll', 'dice', 'diceroll', 'rolldice', 'dice_roll', 'roll_dice')
+                )
                 await roll_dice(lang, p, message)
                 
             case _:
