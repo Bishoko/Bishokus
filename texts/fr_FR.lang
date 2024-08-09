@@ -13,7 +13,7 @@ lang_code=fr
 credits=Lenoch
 
 # ====  Bot  ====
-bot_mention=Salut :D  Mon prefixe est : `%prefix%` ! \n\n**%prefix%help** pour voir les commandes, \nEt n'hésite pas à utiliser **!suggestion** !
+bot_mention=Salut :D  Mon prefixe est : `%prefix%` ! \n\n**%prefix%help** pour voir les commandes, \nEt n'hésite pas à utiliser **%prefix%suggestion** !
 
 
 # ====  Discord Permissions  ====

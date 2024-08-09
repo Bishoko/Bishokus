@@ -13,7 +13,7 @@ lang_code=en-US
 credits=Lenoch
 
 # ====  Bot  ====
-bot_mention=Hey :D  My prefix is: `%prefix%`! \n\n**%prefix%help** to see the commands, \nAnd don't hesitate to use **!suggestion**!
+bot_mention=Hey :D  My prefix is: `%prefix%`! \n\n**%prefix%help** to see the commands, \nAnd don't hesitate to use **%prefix%suggestion**!
 
 
 # ====  Discord Permissions  ====
