@@ -37,7 +37,9 @@ def register_slash_commands(bot: commands.Bot):
             name=locales[command]['args'][0]['name'][default_locale],
             name_localizations=locales[command]['args'][0]['name'],
             description=locales[command]['args'][0]['desc'][default_locale],
-            description_localizations=locales[command]['args'][0]['desc']
+            description_localizations=locales[command]['args'][0]['desc'],
+            min_length=1,
+            max_length=10
         )
     ):
         await set_prefix_slash(get_lang(interaction), interaction, new_prefix)
