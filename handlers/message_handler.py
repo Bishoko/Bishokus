@@ -64,15 +64,15 @@ async def handle_message(bot, message: nextcord.Message):
             command_aliases = [command_name, *command_data.get('aliases', []), *command_data.get('hidden_aliases', [])]
             if command in command_aliases:
                 message.content = remove_command(message.content, command_aliases)
-                print('msg: ', message.content)
                 
-                if command_name == 'prefix':
-                    await set_prefix(lang, message)
-                elif command_name == 'lang':
-                    await set_guild_lang(lang, message)
-                elif command_name == 'roll':
-                    await roll_dice(lang, p, message)
-                
+                match command_name:
+                    case 'prefix':
+                        await set_prefix(lang, message)
+                    case 'lang':
+                        await set_guild_lang(lang, message)
+                    case 'roll':
+                        await roll_dice(lang, p, message)
+                    
                 break
         else:
             print(f"Unknown command: {command}")
