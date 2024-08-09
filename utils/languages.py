@@ -23,7 +23,9 @@ def load_lang_file(lang: str) -> dict:
             ):
                 try:
                     key, value = line.strip().replace("\n", "").split("=", 1)
-                    lang_dictionary[key] = value.strip()
+                    lang_dictionary[key] = value.strip().replace(
+                                            '\\n', '\n').replace(
+                                            '\\r', '\r')
                 except Exception as e:
                     line = line.replace("\n", "")
                     print(f'\nLANG FILE ERROR:\nLine: {line}\nError: {e}\n')
@@ -91,9 +93,7 @@ def text(text: str=None, lang: str='en') -> str:
     if text not in lang_files[lang]:
         return text
     
-    return lang_files[lang][text].replace(
-                     '\\n', '\n').replace(
-                     '\\r', '\r')
+    return lang_files[lang][text]
 
 # Testing
 if __name__ == '__main__':
