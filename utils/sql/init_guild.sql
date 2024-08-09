@@ -3,14 +3,11 @@ INSERT INTO guilds (
     prefix,
     bot_language,
     ratio_emoji,
+    wordplay_enabled,
+    sniper_enabled,
     sniper,
     antisniper_backup,
-    sniper_enabled,
-    GIFs_enabled,
-    GIFs_sus_enabled,
-    GIFs_supernut_enabled,
-    talkingben_enabled,
-    wordplay_enabled,
+    command_settings,
     confess_cooldown,
     confess_channels,
     confess_banned,
@@ -20,14 +17,11 @@ INSERT INTO guilds (
     %s,    -- prefix
     %s,    -- bot_language
     NULL,  -- ratio_emoji
-    '{}',  -- sniper
-    '{}',  -- antisniper_backup
-    TRUE,  -- sniper_enabled
-    TRUE,  -- GIFs_enabled
-    TRUE,  -- GIFs_sus_enabled
-    TRUE,  -- GIFs_supernut_enabled
-    TRUE,  -- talkingben_enabled
     FALSE, -- wordplay_enabled
+    TRUE,  -- sniper_enabled
+    '[]',  -- sniper
+    '{}',  -- antisniper_backup
+    '{}',  -- command_settings
     3,     -- confess_cooldown
     '{}',  -- confess_channels
     '{}',  -- confess_banned
