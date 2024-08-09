@@ -37,7 +37,6 @@ def get_commands_locales() -> dict:
     """
 
     lang_codes = [lang["code"] for lang in get_languages_info()]
-    print('Available langs:', lang_codes)
     
     with open('config/commands.json', 'r', encoding='utf-8') as commands_file:
         commands = json.load(commands_file)

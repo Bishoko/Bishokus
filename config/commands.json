@@ -1,5 +1,6 @@
 {
-    "COMMENT": "SEE: https://docs.nextcord.dev/en/stable/api.html#nextcord.Locale",
+    "COMMENT1": "SEE: https://docs.nextcord.dev/en/stable/api.html#nextcord.Locale",
+    "COMMENT2": "SEE: https://docs.nextcord.dev/en/stable/api.html#nextcord.Permissions",
 
     "categories": {
         "CONFIG": {

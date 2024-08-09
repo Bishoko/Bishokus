@@ -2,14 +2,15 @@ import json
 import nextcord
 from nextcord.ext import commands
 
-from handlers.message_handler import handle_message
-from handlers.slash_commands import register_slash_commands
-
 from utils.languages import init as langs_init
 import utils.sql as db
 
 langs_init()
 db.init()
+
+from handlers.message_handler import handle_message
+from handlers.slash_commands import register_slash_commands
+
 
 intents = nextcord.Intents.all()
 intents.typing = False

@@ -1,5 +1,6 @@
 import nextcord
 
+from utils.get_commands_locales import get_commands_locales
 from utils.languages import text
 from utils.settings import prefix
 from utils.settings import lang as language
@@ -9,12 +10,32 @@ from commands.settings.set_prefix import set_prefix
 from commands.settings.set_guild_lang import set_guild_lang
 
 
-def remove_command(content: str, prefixes: tuple) -> str:
-    for prefix in prefixes:
+def remove_command(content: str, prefixes: list) -> str:
+    """
+    Remove command prefix from the content string.
+
+    Args:
+        content (str): The input string containing the command.
+        prefixes (list): A list of possible command prefixes.
+
+    Returns:
+        str: The content string with the command prefix removed, if found.
+
+    Note:
+        Prefixes are sorted by length in descending order to ensure longer prefixes
+        are checked first. This prevents shorter prefixes from being removed prematurely.
+        For example, if content='rolldice' and both 'roll' and 'r' are prefixes,
+        we want to check 'roll' before 'r' to avoid incorrectly removing just 'r'.
+    """
+    sorted_prefixes = sorted(prefixes, key=len, reverse=True)
+    
+    for prefix in sorted_prefixes:
         if content.lower().startswith(prefix):
             return content[len(prefix):].strip()
     return content.strip()
 
+
+commands = get_commands_locales()
 
 async def handle_message(bot, message: nextcord.Message):
     p = prefix.get(message.guild.id)
@@ -39,23 +60,19 @@ async def handle_message(bot, message: nextcord.Message):
         
         lang = language.get(message.guild.id, message.author.id)
         
-        match command:
-            case 'prefix' | 'setprefix' | 'set_prefix':
-                message.content = remove_command(message.content, ('prefix', 'setprefix', 'set_prefix'))
-                await set_prefix(lang, message)
+        for command_name, command_data in commands.items():
+            command_aliases = [command_name, *command_data.get('aliases', []), *command_data.get('hidden_aliases', [])]
+            if command in command_aliases:
+                message.content = remove_command(message.content, command_aliases)
+                print('msg: ', message.content)
                 
-            case 'setlang' | 'setlanguage' | 'lang' | 'language' | 'setserverlang' | 'serverlang' | 'set_serverlang' | 'set_server_lang' | 'setguildlang' | 'set_guildlang' | 'set_guild_lang' | 'guild_lang' | 'guildlang':
-                message.content = remove_command(
-                    message.content, ('setlang', 'setlanguage', 'lang', 'language', 'setserverlang', 'serverlang', 'set_serverlang', 'set_server_lang', 'setguildlang', 'set_guildlang', 'set_guild_lang', 'guild_lang', 'guildlang')
-                )
-                await set_guild_lang(lang, message)
+                if command_name == 'prefix':
+                    await set_prefix(lang, message)
+                elif command_name == 'lang':
+                    await set_guild_lang(lang, message)
+                elif command_name == 'roll':
+                    await roll_dice(lang, p, message)
                 
-            case 'roll' | 'dice' | 'diceroll' | 'rolldice' | 'dice_roll' | 'roll_dice':
-                message.content = remove_command(
-                    message.content, ('roll', 'dice', 'diceroll', 'rolldice', 'dice_roll', 'roll_dice')
-                )
-                await roll_dice(lang, p, message)
-                
-            case _:
-                print(f"Unknown command: {command}")
-                
+                break
+        else:
+            print(f"Unknown command: {command}")
