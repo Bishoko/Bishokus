@@ -23,7 +23,11 @@ def load_config():
 config = load_config()
 
 
-bot = commands.Bot(command_prefix=config['default-prefix'], intents=intents)
+bot = commands.Bot(
+    owner_id=config.get('owner-id'),
+    command_prefix=config['default-prefix'],
+    intents=intents
+)
 
 @bot.event
 async def on_ready():

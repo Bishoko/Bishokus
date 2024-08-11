@@ -11,7 +11,11 @@ INSERT INTO guilds (
     confess_cooldown,
     confess_channels,
     confess_banned,
-    bot_logs_enabled
+    bot_logs_enabled,
+    bot_banned,
+    bot_banned_type,
+    bot_banned_reason,
+    bot_banned_history
 ) VALUES (
     %s,    -- id
     %s,    -- prefix
@@ -25,5 +29,9 @@ INSERT INTO guilds (
     3,     -- confess_cooldown
     '{}',  -- confess_channels
     '{}',  -- confess_banned
-    FALSE  -- bot_logs_enabled
+    FALSE, -- bot_logs_enabled
+    FALSE, -- bot_banned
+    NULL,  -- bot_banned_type
+    NULL,  -- bot_banned_reason
+    '[]'   -- bot_banned_history
 )

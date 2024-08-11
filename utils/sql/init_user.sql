@@ -13,7 +13,11 @@ INSERT INTO users (
     howgay_enabled,
     howgay_min,
     howgay_max,
-    birthday
+    birthday,
+    bot_banned,
+    bot_banned_type,
+    bot_banned_reason,
+    bot_banned_history
 ) VALUES (
     %s,    -- id
     %s,    -- bot_language
@@ -29,5 +33,9 @@ INSERT INTO users (
     TRUE,  -- howgay_enabled
     0,     -- howgay_min
     100,   -- howgay_max
-    NULL   -- birthday
+    NULL,  -- birthday
+    FALSE, -- bot_banned
+    NULL,  -- bot_banned_type
+    NULL,  -- bot_banned_reason
+    '{}'   -- bot_banned_history
 )

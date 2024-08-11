@@ -12,6 +12,7 @@
     },
     "owner-id": 390265556357611521,
     "bot-guild": 391919052563546112,
+    "testing-guild": 934123189548752946,
     "mysql": {
         "user": "bish",
         "password": "PASSWORD_HERE",

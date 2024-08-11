@@ -24,7 +24,11 @@ CREATE TABLE IF NOT EXISTS users (
     howgay_enabled BOOL,
     howgay_min INT,
     howgay_max INT,
-    birthday DATE
+    birthday DATE,
+    bot_banned BOOL,
+    bot_banned_type TINYTEXT,
+    bot_banned_reason TINYTEXT,
+    bot_banned_history JSON
 );
 
 CREATE TABLE IF NOT EXISTS guilds (
@@ -40,7 +44,11 @@ CREATE TABLE IF NOT EXISTS guilds (
     confess_cooldown BIGINT,
     confess_channels JSON,
     confess_banned JSON,
-    bot_logs_enabled BOOL
+    bot_logs_enabled BOOL,
+    bot_banned BOOL,
+    bot_banned_type TINYTEXT,
+    bot_banned_reason TINYTEXT,
+    bot_banned_history JSON
 );
 
 CREATE TABLE IF NOT EXISTS guild_count (
