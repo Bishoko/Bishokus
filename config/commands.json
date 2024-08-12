@@ -22,6 +22,7 @@
                         "desc": "The type of ban to apply.",
                         "choices": {
                             "Default - default option in config": "default",
+                            "Banned Message - inform users that the server is banned": "banned_message",
                             "Sulks - don't respond to the user anymore": "sulks"
                         }
                     },
@@ -49,7 +50,8 @@
                         "desc": "The type of ban to apply.",
                         "choices": {
                             "Default - default option in config": "default",
-                            "Sulks - don't respond to the members anymore": "sulks",
+                            "Banned Message - inform users that the server is banned": "banned_message",
+                            "Sulks - don't even respond to the members anymore": "sulks",
                             "Instant Leave": "instant_leave"
                         }
                     },

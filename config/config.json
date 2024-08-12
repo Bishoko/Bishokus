@@ -4,6 +4,8 @@
     "default-slash-locale": "en-US",
     "default-prefix": "!",
     "default-confess-cooldown": 3,
+    "default-user-ban-type": "banned_message",
+    "default-guild-ban-type": "banned_message",
     "tokens": {
         "main": "BOT_TOKEN",
         "test": "TEST_BOT_TOKEN"

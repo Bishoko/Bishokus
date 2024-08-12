@@ -9,6 +9,13 @@ from utils.sql import get_db_connection
 from utils.sql.create_guild import guild_db
 from utils.sql.create_user import user_db
 
+import json
+
+with open('config/config.json') as config_file:
+    config = json.load(config_file)
+    default_user_ban_type = config['default-user-ban-type']
+    default_guild_ban_type = config['default-guild-ban-type']
+
 
 @user_db
 def ban_user(user_id: int, ban_type: str, reason: str):
@@ -234,6 +241,49 @@ def get_ban_reason(id: int, is_guild: bool = False) -> str:
 
 @user_db
 @guild_db
+def get_ban_type(id: int, is_guild: bool = False) -> str:
+    """
+    Gets the ban type for a user or guild.
+
+    Args:
+        id (int): The ID of the user or guild to check.
+        is_guild (bool): True if checking a guild, False if checking a user.
+
+    Returns:
+        str: The ban type if the entity is banned, None otherwise.
+
+    Raises:
+        mysql.connector.Error: If there's an error while querying the database.
+    """
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    try:
+        table = 'guilds' if is_guild else 'users'
+        query = f'SELECT bot_banned_type FROM {table} WHERE id = %s AND bot_banned = TRUE'
+        cursor.execute(query, (id,))
+        result = cursor.fetchone()
+        
+        default = default_guild_ban_type if is_guild else default_user_ban_type
+        if result and result[0]:
+            result = result[0].lower()
+            if result == 'default':
+                result = default
+        else:
+            result = default
+            
+        return result
+
+    except mysql.connector.Error as err:
+        print(f'Error: {err}')
+        return None
+    finally:
+        cursor.close()
+        conn.close()
+
+
+@user_db
+@guild_db
 async def check_ban_on_message(message: nextcord.Message):
     """
     A function that checks if a user or guild is banned from using the bot for on_message events.
@@ -258,19 +308,26 @@ async def check_ban_on_message(message: nextcord.Message):
     guild_banned = is_banned(message.guild.id, is_guild=True) if message.guild else False
 
     if user_banned:
-        await message.channel.send(
-            text('user_is_bot_banned',
-                lang.get(message.guild.id, message.author.id)).replace('%ban_reason%', str(get_ban_reason(message.author.id))
+        ban_type = get_ban_type(message.author.id)
+        if ban_type == 'banned_message':
+            await message.channel.send(
+                text('user_is_bot_banned',
+                    lang.get(message.guild.id, message.author.id)).replace('%ban_reason%', str(get_ban_reason(message.author.id))
+                )
             )
-        )
         return False
     
     if guild_banned:
-        await message.channel.send(
-            text('guild_is_bot_banned',
-                lang.get(message.guild.id, message.author.id)).replace('%ban_reason%', str(get_ban_reason(message.guild.id, is_guild=True))
+        ban_type = get_ban_type(message.guild.id, is_guild=True)
+        if ban_type == 'banned_message':
+            await message.channel.send(
+                text('guild_is_bot_banned',
+                    lang.get(message.guild.id, message.author.id)).replace('%ban_reason%', str(get_ban_reason(message.guild.id, is_guild=True))
+                )
             )
-        )
+        elif ban_type == 'instant_leave':
+            await message.guild.leave()
+        
         return False
     
     return True
@@ -298,21 +355,28 @@ def check_ban():
         guild_banned = is_banned(interaction.guild_id, is_guild=True) if interaction.guild else False
 
         if user_banned:
-            await interaction.response.send_message(
-                text('user_is_bot_banned',
-                    get_lang(interaction)).replace('%ban_reason%', str(get_ban_reason(interaction.user.id))
-                ),
-                ephemeral=True
-            )
+            ban_type = get_ban_type(interaction.user.id)
+            if ban_type == 'banned_message':
+                await interaction.response.send_message(
+                    text('user_is_bot_banned',
+                        get_lang(interaction)).replace('%ban_reason%', str(get_ban_reason(interaction.user.id))
+                    ),
+                    ephemeral=True
+                )
             return False
         
         if guild_banned:
-            await interaction.response.send_message(
-                text('guild_is_bot_banned',
-                    get_lang(interaction)).replace('%ban_reason%', str(get_ban_reason(interaction.guild_id, is_guild=True))
-                ),
-                ephemeral=True
-            )
+            ban_type = get_ban_type(interaction.guild_id, is_guild=True)
+            if ban_type == 'banned_message':
+                await interaction.response.send_message(
+                    text('guild_is_bot_banned',
+                        get_lang(interaction)).replace('%ban_reason%', str(get_ban_reason(interaction.guild_id, is_guild=True))
+                    ),
+                    ephemeral=True
+                )
+            elif ban_type == 'instant_leave':
+                await interaction.guild.leave()
+                
             return False
         
         return True
