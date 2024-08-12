@@ -1,3 +1,4 @@
+import nextcord
 from functools import wraps
 from utils.sql import get_db_connection, execute_sql_file
 
@@ -48,6 +49,10 @@ def user_db(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
         user_id = args[0] if args else kwargs.get('user_id')
+        if not user_id or isinstance(user_id, nextcord.Message):
+            message = args[0] if args else kwargs.get('message')
+            if message and hasattr(message, 'author'):
+                user_id = message.author.id
         if user_id:
             ensure_user_exists(user_id)
         return func(*args, **kwargs)

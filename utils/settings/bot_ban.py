@@ -2,8 +2,9 @@ import mysql.connector
 import nextcord
 from nextcord.ext import application_checks
 
-from utils.languages import text
+import utils.settings.lang as lang
 from utils.settings.lang import get_lang
+from utils.languages import text
 from utils.sql import get_db_connection
 from utils.sql.create_guild import guild_db
 from utils.sql.create_user import user_db
@@ -47,6 +48,7 @@ def ban_user(user_id: int, ban_type: str, reason: str):
         cursor.close()
         conn.close()
 
+
 @guild_db
 def ban_guild(guild_id: int, ban_type: str, reason: str):
     """
@@ -85,6 +87,7 @@ def ban_guild(guild_id: int, ban_type: str, reason: str):
         cursor.close()
         conn.close()
 
+
 @user_db
 def unban_user(user_id: int):
     """
@@ -121,6 +124,7 @@ def unban_user(user_id: int):
     finally:
         cursor.close()
         conn.close()
+
 
 @guild_db
 def unban_guild(guild_id: int):
@@ -159,6 +163,7 @@ def unban_guild(guild_id: int):
         cursor.close()
         conn.close()
 
+
 @user_db
 @guild_db
 def is_banned(id: int, is_guild: bool = False) -> bool:
@@ -192,6 +197,7 @@ def is_banned(id: int, is_guild: bool = False) -> bool:
         cursor.close()
         conn.close()
 
+
 @user_db
 @guild_db
 def get_ban_reason(id: int, is_guild: bool = False) -> str:
@@ -224,6 +230,50 @@ def get_ban_reason(id: int, is_guild: bool = False) -> str:
     finally:
         cursor.close()
         conn.close()
+
+
+@user_db
+@guild_db
+async def check_ban_on_message(message: nextcord.Message):
+    """
+    A function that checks if a user or guild is banned from using the bot for on_message events.
+
+    This function checks whether the user sending the message or the guild where the message
+    is sent is banned from using the bot.
+
+    Args:
+        message: The message object from the on_message event.
+
+    Returns:
+        bool: True if the user and guild are not banned, False otherwise.
+
+    Usage:
+        @bot.event
+        async def on_message(message):
+            if not check_ban_on_message(message):
+                return
+            # Rest of the on_message logic
+    """
+    user_banned = is_banned(message.author.id)
+    guild_banned = is_banned(message.guild.id, is_guild=True) if message.guild else False
+
+    if user_banned:
+        await message.channel.send(
+            text('user_is_bot_banned',
+                lang.get(message.guild.id, message.author.id)).replace('%ban_reason%', str(get_ban_reason(message.author.id))
+            )
+        )
+        return False
+    
+    if guild_banned:
+        await message.channel.send(
+            text('guild_is_bot_banned',
+                lang.get(message.guild.id, message.author.id)).replace('%ban_reason%', str(get_ban_reason(message.guild.id, is_guild=True))
+            )
+        )
+        return False
+    
+    return True
 
 
 def check_ban():

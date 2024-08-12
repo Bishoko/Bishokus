@@ -4,6 +4,7 @@ from utils.get_commands_locales import get_commands_locales
 from utils.languages import text
 from utils.settings import prefix
 from utils.settings import lang as language
+from utils.settings.bot_ban import check_ban_on_message
 
 from commands.roll import roll_dice
 from commands.settings.set_prefix import set_prefix
@@ -63,6 +64,9 @@ async def handle_message(bot, message: nextcord.Message):
         for command_name, command_data in commands.items():
             command_aliases = [command_name, *command_data.get('aliases', []), *command_data.get('hidden_aliases', [])]
             if command in command_aliases:
+                if not await check_ban_on_message(message):
+                    return
+                
                 message.content = remove_command(message.content, command_aliases)
                 
                 match command_name:

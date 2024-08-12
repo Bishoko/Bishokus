@@ -1,3 +1,4 @@
+import nextcord
 from functools import wraps
 from utils.sql import get_db_connection, execute_sql_file
 
@@ -50,6 +51,10 @@ def guild_db(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
         guild_id = args[0] if args else kwargs.get('guild_id')
+        if not guild_id or isinstance(guild_id, nextcord.Message):
+            message = args[0] if args else kwargs.get('message')
+            if message and hasattr(message, 'guild'):
+                guild_id = message.guild.id
         if guild_id:
             ensure_guild_exists(guild_id)
         return func(*args, **kwargs)
