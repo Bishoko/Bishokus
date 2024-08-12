@@ -11,11 +11,11 @@ CREATE TABLE IF NOT EXISTS bot (
 
 CREATE TABLE IF NOT EXISTS users (
     id BIGINT PRIMARY KEY,
-    bot_language TINYTEXT,
-    bot_reply BOOL,
     is_oomf BOOL,
     is_vip BOOL,
     vip_end DATE,
+    bot_language TINYTEXT,
+    bot_reply BOOL,
     first_dm_received BOOL,
     dms_accepted BOOL,
     dms_anon_accepted BOOL,
@@ -33,6 +33,7 @@ CREATE TABLE IF NOT EXISTS users (
 
 CREATE TABLE IF NOT EXISTS guilds (
     id BIGINT PRIMARY KEY,
+    is_oomf BOOL,
     prefix TINYTEXT,
     bot_language TINYTEXT,
     ratio_emoji BIGINT,

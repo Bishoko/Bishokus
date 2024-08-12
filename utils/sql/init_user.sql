@@ -1,10 +1,10 @@
 INSERT INTO users (
     id,
-    bot_language,
-    bot_reply,
     is_oomf,
     is_vip,
     vip_end,
+    bot_language,
+    bot_reply,
     first_dm_received,
     dms_accepted,
     dms_anon_accepted,
@@ -20,11 +20,11 @@ INSERT INTO users (
     bot_banned_history
 ) VALUES (
     %s,    -- id
-    %s,    -- bot_language
-    TRUE,  -- bot_reply
     FALSE, -- is_oomf
     FALSE, -- is_vip
     NULL,  -- vip_end
+    %s,    -- bot_language
+    TRUE,  -- bot_reply
     FALSE, -- first_dm_received
     TRUE,  -- dms_accepted
     TRUE,  -- dms_anon_accepted

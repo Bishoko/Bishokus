@@ -1,5 +1,6 @@
 INSERT INTO guilds (
     id,
+    is_oomf,
     prefix,
     bot_language,
     ratio_emoji,
@@ -18,6 +19,7 @@ INSERT INTO guilds (
     bot_banned_history
 ) VALUES (
     %s,    -- id
+    FALSE, -- is_oomf
     %s,    -- prefix
     %s,    -- bot_language
     NULL,  -- ratio_emoji
