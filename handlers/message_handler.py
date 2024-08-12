@@ -47,6 +47,8 @@ async def handle_message(bot, message: nextcord.Message):
     # Check if the message mentions the bot
     bot_mention = f'<@{bot.user.id}>'
     if message.content == bot_mention or (bot_mention in message.content.lstrip('!') and not message.content.startswith(bot_mention)):
+        if not await check_ban_on_message(message):
+            return
         await message.reply(
             text('bot_mention', language.get(message.guild.id, message.author.id)).replace('%prefix%', p),
             mention_author=False
