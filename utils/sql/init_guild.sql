@@ -24,7 +24,7 @@ INSERT INTO guilds (
     FALSE, -- wordplay_enabled
     TRUE,  -- sniper_enabled
     '[]',  -- sniper
-    '{}',  -- antisniper_backup
+    '[]',  -- antisniper_backup
     '{}',  -- command_settings
     3,     -- confess_cooldown
     '{}',  -- confess_channels

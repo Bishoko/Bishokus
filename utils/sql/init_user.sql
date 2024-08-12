@@ -37,5 +37,5 @@ INSERT INTO users (
     FALSE, -- bot_banned
     NULL,  -- bot_banned_type
     NULL,  -- bot_banned_reason
-    '{}'   -- bot_banned_history
+    '[]'   -- bot_banned_history
 )
