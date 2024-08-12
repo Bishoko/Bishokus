@@ -3,7 +3,7 @@ import nextcord
 from nextcord.ext import commands
 
 from utils.languages import init as langs_init
-from utils.settings.bot_ban import is_banned, get_ban_type
+from utils.settings.bot_ban import get_ban_type
 import utils.sql as db
 
 langs_init()
@@ -59,7 +59,7 @@ async def on_application_command_error(interaction: nextcord.Interaction, error:
 
 @bot.event
 async def on_guild_join(guild):
-    if is_banned(guild.id, is_guild=True) and get_ban_type(guild.id, is_guild=True) == 'instant_leave':
+    if get_ban_type(guild.id, is_guild=True) == 'instant_leave':
         await guild.leave()
         print(f"Left banned guild: {guild.name} (ID: {guild.id})")
 
