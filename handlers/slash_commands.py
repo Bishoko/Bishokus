@@ -10,6 +10,7 @@ from commands.bot_owner.ban_user import bot_ban_user
 from commands.bot_owner.ban_guild import bot_ban_guild
 
 from utils.settings import prefix, lang
+from utils.settings.bot_ban import check_ban
 from utils.languages import get_languages_info
 
 # Load JSON localization data
@@ -37,6 +38,7 @@ def register_slash_commands(bot: commands.Bot):
         description_localizations=locales[command]['desc'],
         default_member_permissions=None
     )
+    @check_ban()
     @application_checks.is_owner()
     async def bot_ban_user_command(interaction: nextcord.Interaction,
         user: nextcord.User = nextcord.SlashOption(
@@ -72,6 +74,7 @@ def register_slash_commands(bot: commands.Bot):
         description_localizations=locales[command]['desc'],
         default_member_permissions=None
     )
+    @check_ban()
     @application_checks.is_owner()
     async def bot_ban_guild_command(interaction: nextcord.Interaction,
         guild: str = nextcord.SlashOption(
@@ -108,6 +111,7 @@ def register_slash_commands(bot: commands.Bot):
         description_localizations=locales[command]['desc'],
         default_member_permissions=(nextcord.Permissions(manage_guild=True))
     )
+    @check_ban()
     @application_checks.has_permissions(**{perm: True for perm in locales[command].get('permissions', [])})
     async def prefix_command(interaction: nextcord.Interaction,
         new_prefix: str = nextcord.SlashOption(
@@ -130,6 +134,7 @@ def register_slash_commands(bot: commands.Bot):
         description_localizations=locales[command]['desc'],
         default_member_permissions=(nextcord.Permissions(manage_guild=True))
     )
+    @check_ban()
     @application_checks.has_permissions(**{perm: True for perm in locales[command].get('permissions', [])})
     async def language_command(interaction: nextcord.Interaction,
         new_lang: str = nextcord.SlashOption(
@@ -152,6 +157,7 @@ def register_slash_commands(bot: commands.Bot):
         name_localizations=locales[command]['name'],
         description_localizations=locales[command]['desc']
     )
+    @check_ban()
     @application_checks.has_permissions(**{perm: True for perm in locales[command].get('permissions', [])})
     async def roll_command(interaction: nextcord.Interaction,
         dice: str = nextcord.SlashOption(

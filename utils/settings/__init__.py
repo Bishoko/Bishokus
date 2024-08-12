@@ -1,1 +1,1 @@
-from . import prefix, lang
+from . import bot_ban, prefix, lang

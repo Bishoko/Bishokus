@@ -40,6 +40,22 @@ async def on_message(message):
 
 register_slash_commands(bot)
 
+
+@bot.event
+async def on_application_command_error(interaction: nextcord.Interaction, error: Exception):
+    # This function is used to ignore errors that occur when preventing commands for banned users or guilds
+
+    if not isinstance(
+        error,
+        (
+            nextcord.errors.ApplicationCheckFailure,
+            nextcord.errors.InteractionResponded,
+        ),
+    ):
+        # Handle other types of errors or re-raise them
+        raise error
+
+
 if config.get('production', False) == True:
     bot.run(config['tokens']['main'])
 else:
