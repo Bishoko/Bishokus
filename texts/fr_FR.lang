@@ -14,6 +14,8 @@ credits=Lenoch
 
 # ====  Bot  ====
 bot_mention=Salut :D  Mon prefixe est : `%prefix%` ! \n\n**%prefix%help** pour voir les commandes, \nEt n'hésite pas à utiliser **%prefix%suggestion** !
+user_is_bot_banned=Vous êtes banni définitivement de ce bot.\n\nRaison: `%ban_reason%`
+guild_is_bot_banned=Ce serveur est banni définitivement de ce bot.\n\nRaison: `%ban_reason%`
 
 
 # ====  Discord Permissions  ====

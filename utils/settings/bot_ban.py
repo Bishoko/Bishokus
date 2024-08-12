@@ -1,7 +1,9 @@
+import mysql.connector
 import nextcord
 from nextcord.ext import application_checks
 
-import mysql.connector
+from utils.languages import text
+from utils.settings.lang import get_lang
 from utils.sql import get_db_connection
 from utils.sql.create_guild import guild_db
 from utils.sql.create_user import user_db
@@ -87,8 +89,8 @@ def ban_guild(guild_id: int, ban_type: str, reason: str):
 @guild_db
 def is_banned(id: int, is_guild: bool = False) -> bool:
     """
-    Checks if a user or guild is banned from using the bot.
-
+    Checks whether a user or guild is banned from using the bot.
+    
     Args:
         id (int): The ID of the user or guild to check.
         is_guild (bool): True if checking a guild, False if checking a user.
@@ -116,6 +118,39 @@ def is_banned(id: int, is_guild: bool = False) -> bool:
         cursor.close()
         conn.close()
 
+@user_db
+@guild_db
+def get_ban_reason(id: int, is_guild: bool = False) -> str:
+    """
+    Gets the ban reason for a user or guild.
+
+    Args:
+        id (int): The ID of the user or guild to check.
+        is_guild (bool): True if checking a guild, False if checking a user.
+
+    Returns:
+        str: The ban reason if the entity is banned, None otherwise.
+
+    Raises:
+        mysql.connector.Error: If there's an error while querying the database.
+    """
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    try:
+        table = 'guilds' if is_guild else 'users'
+        query = f'SELECT bot_banned_reason FROM {table} WHERE id = %s AND bot_banned = TRUE'
+        cursor.execute(query, (id,))
+        result = cursor.fetchone()
+        
+        return result[0] if result else None
+    except mysql.connector.Error as err:
+        print(f'Error: {err}')
+        return None
+    finally:
+        cursor.close()
+        conn.close()
+
 
 def check_ban():
     """
@@ -138,9 +173,24 @@ def check_ban():
         user_banned = is_banned(interaction.user.id)
         guild_banned = is_banned(interaction.guild_id, is_guild=True) if interaction.guild else False
 
-        if user_banned or guild_banned:
-            await interaction.response.send_message("You or this server is banned from using the bot.", ephemeral=True)
+        if user_banned:
+            await interaction.response.send_message(
+                text('user_is_bot_banned',
+                    get_lang(interaction)).replace('%ban_reason%', str(get_ban_reason(interaction.user.id))
+                ),
+                ephemeral=True
+            )
             return False
+        
+        if guild_banned:
+            await interaction.response.send_message(
+                text('guild_is_bot_banned',
+                    get_lang(interaction)).replace('%ban_reason%', str(get_ban_reason(interaction.guild_id, is_guild=True))
+                ),
+                ephemeral=True
+            )
+            return False
+        
         return True
 
     return application_checks.check(predicate)
