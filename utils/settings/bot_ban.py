@@ -86,6 +86,80 @@ def ban_guild(guild_id: int, ban_type: str, reason: str):
         conn.close()
 
 @user_db
+def unban_user(user_id: int):
+    """
+    Unbans a user from using the bot by setting the bot_banned flag to False in the database.
+
+    Args:
+        user_id (int): The ID of the user to unban.
+
+    Raises:
+        mysql.connector.Error: If there's an error while updating the database.
+    """
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    try:
+
+        query = '''
+        UPDATE users
+        SET bot_banned = FALSE,
+            bot_banned_type = NULL,
+            bot_banned_reason = NULL,
+            bot_banned_history = JSON_ARRAY_APPEND(
+                bot_banned_history,
+                '$[last]',
+                JSON_OBJECT('removed_timestamp', CURRENT_TIMESTAMP)
+            )
+        WHERE id = %s
+        '''
+        cursor.execute(query, (user_id,))
+        conn.commit()
+    except mysql.connector.Error as err:
+        print(f'Error: {err}')
+        conn.rollback()
+    finally:
+        cursor.close()
+        conn.close()
+
+@guild_db
+def unban_guild(guild_id: int):
+    """
+    Unbans a guild from using the bot by setting the bot_banned flag to False in the database.
+
+    Args:
+        guild_id (int): The ID of the guild to unban.
+
+    Raises:
+        mysql.connector.Error: If there's an error while updating the database.
+    """
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    try:
+
+        query = '''
+        UPDATE guilds
+        SET bot_banned = FALSE,
+            bot_banned_type = NULL,
+            bot_banned_reason = NULL,
+            bot_banned_history = JSON_ARRAY_APPEND(
+                bot_banned_history,
+                '$[last]',
+                JSON_OBJECT('removed_timestamp', CURRENT_TIMESTAMP)
+            )
+        WHERE id = %s
+        '''
+        cursor.execute(query, (guild_id,))
+        conn.commit()
+    except mysql.connector.Error as err:
+        print(f'Error: {err}')
+        conn.rollback()
+    finally:
+        cursor.close()
+        conn.close()
+
+@user_db
 @guild_db
 def is_banned(id: int, is_guild: bool = False) -> bool:
     """

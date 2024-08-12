@@ -58,6 +58,44 @@
                         "desc": "The reason for the ban"
                     }
                 ]
+            },
+            "unban_user": {
+                "aliases": ["unbanuser", "user_unban"],
+                "hidden_aliases": ["unban_u"],
+                "available": ["slash_command"],
+                "visibility": "bot_owner",
+                "permissions": ["bot_owner"],
+                "name": "unban_user",
+                "desc": "Unban a user from using the bot (BOT OWNER ONLY)",
+                "args": [
+                    {
+                        "name": "user_id",
+                        "desc": "The ID of the user to unban."
+                    },
+                    {
+                        "name": "confirmation",
+                        "desc": "type 'yes'"
+                    }
+                ]
+            },
+            "unban_guild": {
+                "aliases": ["unbanguild", "guild_unban", "server_unban", "unban_server"],
+                "hidden_aliases": ["unban_g"],
+                "available": ["slash_command"],
+                "visibility": "bot_owner",
+                "permissions": ["bot_owner"],
+                "name": "unban_guild",
+                "desc": "Unban a server from using the bot (BOT OWNER ONLY)",
+                "args": [
+                    {
+                        "name": "guild_id",
+                        "desc": "The ID of the guild to unban."
+                    },
+                    {
+                        "name": "confirmation",
+                        "desc": "type 'yes'"
+                    }
+                ]
             }
         },
         "CONFIG": {

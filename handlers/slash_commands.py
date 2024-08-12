@@ -6,8 +6,8 @@ from utils.get_commands_locales import get_commands_locales
 from commands.roll import roll_dice_slash
 from commands.settings.set_prefix import set_prefix_slash
 from commands.settings.set_guild_lang import set_guild_lang_slash
-from commands.bot_owner.ban_user import bot_ban_user
-from commands.bot_owner.ban_guild import bot_ban_guild
+from commands.bot_owner.ban_user import bot_ban_user, bot_unban_user
+from commands.bot_owner.ban_guild import bot_ban_guild, bot_unban_guild
 
 from utils.settings import prefix, lang
 from utils.settings.bot_ban import check_ban
@@ -99,6 +99,62 @@ def register_slash_commands(bot: commands.Bot):
         )
     ):
         await bot_ban_guild(interaction, guild, type, reason)
+        
+        
+    command = 'unban_user'
+    @bot.slash_command(
+        guild_ids=[config.get('bot-guild'), config.get('testing-guild')],
+        name=locales[command]['name'][default_locale],
+        description=locales[command]['desc'][default_locale],
+        name_localizations=locales[command]['name'],
+        description_localizations=locales[command]['desc'],
+        default_member_permissions=None
+    )
+    @check_ban()
+    @application_checks.is_owner()
+    async def bot_unban_user_command(interaction: nextcord.Interaction,
+        user: nextcord.User = nextcord.SlashOption(
+            name=locales[command]['args'][0]['name'][default_locale],
+            name_localizations=locales[command]['args'][0]['name'],
+            description=locales[command]['args'][0]['desc'][default_locale],
+            description_localizations=locales[command]['args'][0]['desc']
+        ),
+        confirmation: str = nextcord.SlashOption(
+            name=locales[command]['args'][1]['name'][default_locale],
+            name_localizations=locales[command]['args'][1]['name'],
+            description=locales[command]['args'][1]['desc'][default_locale],
+            description_localizations=locales[command]['args'][1]['desc']
+        )
+    ):
+        await bot_unban_user(interaction, user, confirmation)
+
+
+    command = 'unban_guild'
+    @bot.slash_command(
+        guild_ids=[config.get('bot-guild'), config.get('testing-guild')],
+        name=locales[command]['name'][default_locale],
+        description=locales[command]['desc'][default_locale],
+        name_localizations=locales[command]['name'],
+        description_localizations=locales[command]['desc'],
+        default_member_permissions=None
+    )
+    @check_ban()
+    @application_checks.is_owner()
+    async def bot_unban_guild_command(interaction: nextcord.Interaction,
+        guild: str = nextcord.SlashOption(
+            name=locales[command]['args'][0]['name'][default_locale],
+            name_localizations=locales[command]['args'][0]['name'],
+            description=locales[command]['args'][0]['desc'][default_locale],
+            description_localizations=locales[command]['args'][0]['desc']
+        ),
+        confirmation: str = nextcord.SlashOption(
+            name=locales[command]['args'][1]['name'][default_locale],
+            name_localizations=locales[command]['args'][1]['name'],
+            description=locales[command]['args'][1]['desc'][default_locale],
+            description_localizations=locales[command]['args'][1]['desc']
+        )
+    ):
+        await bot_unban_guild(interaction, guild, confirmation)
     
     
     #  -- CONFIG --
