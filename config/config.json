@@ -3,6 +3,7 @@
     "default-language": "fr",
     "default-slash-locale": "en-US",
     "default-prefix": "!",
+    "default-confess-cooldown": 3,
     "tokens": {
         "main": "BOT_TOKEN",
         "test": "TEST_BOT_TOKEN"

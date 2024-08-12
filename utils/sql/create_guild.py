@@ -7,6 +7,7 @@ with open('config/config.json') as config_file:
     config = json.load(config_file)
     default_prefix = config['default-prefix']
     default_language = config['default-language']
+    default_confess_cooldown = config['default-confess-cooldown']
     
 
 def ensure_guild_exists(guild_id):
@@ -19,7 +20,7 @@ def ensure_guild_exists(guild_id):
 
     if result is None:
         # Guild doesn't exist, so we add it
-        execute_sql_file(cursor, 'utils/sql/init_guild.sql', (guild_id, default_prefix, default_language,))
+        execute_sql_file(cursor, 'utils/sql/init_guild.sql', (guild_id, default_prefix, default_language, default_confess_cooldown,))
 
         connection.commit()
 
