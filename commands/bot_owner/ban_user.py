@@ -5,9 +5,12 @@ from utils.settings import bot_ban
 
 async def bot_ban_user(interaction: nextcord.Interaction, user: nextcord.User, ban_type: str, reason: str):
 
-    bot_ban.ban_user(user.id, ban_type, reason)
-    await interaction.response.send_message(f"User `{user.name} ({user.id})` has been banned successfully.")    
-    
+    bot_ban.ban_user(user.id, ban_type, reason) 
+    await interaction.response.send_message(
+        f"User `{user.name} ({user.id})` has been banned successfully.\n" \
+        f"\n" \
+        f"Reason: `{reason}`\n" \
+    )
     
 async def bot_unban_user(interaction: nextcord.Interaction, user: nextcord.User, confirmation: str):
     if confirmation.lower() != 'yes':

@@ -9,7 +9,12 @@ async def bot_ban_guild(interaction: nextcord.Interaction, guild_id: int, ban_ty
 
     bot_ban.ban_guild(guild_id, ban_type, reason)
 
-    await interaction.response.send_message(f"Guild `{guild_name} ({guild_id})` has been banned successfully.\nOwner: `{guild.owner.name} ({guild.owner_id})`")
+    await interaction.response.send_message(
+        f"Guild `{guild_name} ({guild_id})` has been banned successfully.\n" \
+        f"Owner: `{guild.owner.name} ({guild.owner_id})`\n" \
+        f"\n" \
+        f"Reason: `{reason}`\n" \
+    )
     
     
 async def bot_unban_guild(interaction: nextcord.Interaction, guild_id: int, confirmation: str):
