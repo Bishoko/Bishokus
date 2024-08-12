@@ -1,4 +1,6 @@
 import mysql.connector
+import nextcord
+
 from utils.sql import get_db_connection
 from utils.sql.create_guild import guild_db
 from utils.sql.create_user import user_db
@@ -120,3 +122,6 @@ def get(guild_id: int, user_id: int) -> str:
     finally:
         cursor.close()
         conn.close()
+
+def get_lang(interaction: nextcord.Interaction) -> str:
+    return get(interaction.guild_id, interaction.user.id)

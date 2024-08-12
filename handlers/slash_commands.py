@@ -20,7 +20,7 @@ with open('config/config.json', 'r', encoding='utf-8') as config_file:
 
 
 def get_lang(interaction: nextcord.Interaction) -> str:
-    return lang.get(interaction.guild_id, interaction.user.id)
+    return lang.get_lang(interaction)
 
 
 def register_slash_commands(bot: commands.Bot):
