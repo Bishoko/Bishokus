@@ -7,13 +7,23 @@ async def bot_ban_guild(interaction: nextcord.Interaction, guild_id: int, ban_ty
     guild = interaction.client.get_guild(int(guild_id))
     guild_name = guild.name if guild else "Unknown Guild"
 
-    bot_ban.ban_guild(guild_id, ban_type, reason)
+    bot_ban.ban_guild(guild_id, ban_type, reason.lower())
+    
+    instantleave_success = ""
+    if ban_type and ban_type.lower() == 'instant_leave':
+        instantleave_success = "Instant leave success: False :/"
+        guild = interaction.client.get_guild(int(guild_id))
+        if guild:
+            await guild.leave()
+            instantleave_success = "Instant leave success: True :D"
+            
 
     await interaction.response.send_message(
         f"Guild `{guild_name} ({guild_id})` has been banned successfully.\n" \
         f"Owner: `{guild.owner.name} ({guild.owner_id})`\n" \
         f"\n" \
         f"Reason: `{reason}`\n" \
+        f"{instantleave_success}"
     )
     
     
