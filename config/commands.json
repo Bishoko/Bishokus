@@ -22,7 +22,7 @@
                         "desc": "The type of ban to apply.",
                         "choices": {
                             "Default - default option in config": "default",
-                            "Banned Message - inform users that the server is banned": "banned_message",
+                            "Banned Message - inform users that the user is banned": "banned_message",
                             "Sulks - don't respond to the user anymore": "sulks"
                         }
                     },
