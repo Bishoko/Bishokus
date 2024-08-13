@@ -3,7 +3,7 @@ import nextcord
 from nextcord.ext import commands, application_checks
 from utils.get_commands_locales import get_commands_locales
 
-from commands.roll import roll_dice_slash
+from commands.fun.roll import roll_dice_slash
 from commands.settings.set_prefix import set_prefix_slash
 from commands.settings.set_guild_lang import set_guild_lang_slash
 from commands.bot_owner.ban_user import bot_ban_user, bot_unban_user

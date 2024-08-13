@@ -6,7 +6,7 @@ from utils.settings import prefix
 from utils.settings import lang as language
 from utils.settings.bot_ban import check_ban_on_message
 
-from commands.roll import roll_dice
+from commands.fun.roll import roll_dice
 from commands.settings.set_prefix import set_prefix
 from commands.settings.set_guild_lang import set_guild_lang
 
