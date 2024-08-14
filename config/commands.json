@@ -9,7 +9,7 @@
                 "hidden_aliases": ["ban_u", "uban"],
                 "available": ["slash_command"],
                 "visibility": "bot_owner",
-                "permissions": ["bot_owner"],
+                "user_permissions": ["bot_owner"],
                 "name": "ban_user",
                 "desc": "Ban a user from using the bot (BOT OWNER ONLY)",
                 "args": [
@@ -37,7 +37,7 @@
                 "hidden_aliases": ["ban_g", "gban", "sban", "bans"],
                 "available": ["slash_command"],
                 "visibility": "bot_owner",
-                "permissions": ["bot_owner"],
+                "user_permissions": ["bot_owner"],
                 "name": "ban_guild",
                 "desc": "Ban a server from using the bot (BOT OWNER ONLY)",
                 "args": [
@@ -66,7 +66,7 @@
                 "hidden_aliases": ["unban_u"],
                 "available": ["slash_command"],
                 "visibility": "bot_owner",
-                "permissions": ["bot_owner"],
+                "user_permissions": ["bot_owner"],
                 "name": "unban_user",
                 "desc": "Unban a user from using the bot (BOT OWNER ONLY)",
                 "args": [
@@ -85,7 +85,7 @@
                 "hidden_aliases": ["unban_g"],
                 "available": ["slash_command"],
                 "visibility": "bot_owner",
-                "permissions": ["bot_owner"],
+                "user_permissions": ["bot_owner"],
                 "name": "unban_guild",
                 "desc": "Unban a server from using the bot (BOT OWNER ONLY)",
                 "args": [
@@ -106,7 +106,7 @@
                 "hidden_aliases": "",
                 "available": ["slash_command", "text_command"],
                 "visibility": "everyone",
-                "permissions": ["manage_guild"],
+                "user_permissions": ["manage_guild"],
                 "name": "prefix_name",
                 "desc": "prefix_desc",
                 "args": [
@@ -121,7 +121,7 @@
                 "hidden_aliases": ["setserverlang", "setserverlanguage", "set_serverlang", "set_server_lang", "setguildlang", "set_guildlang", "set_guild_lang", "guild_lang", "guildlang"],
                 "available": ["slash_command", "text_command"],
                 "visibility": "everyone",
-                "permissions": ["manage_guild"],
+                "user_permissions": ["manage_guild"],
                 "name": "language_name",
                 "desc": "language_desc",
                 "args": [
@@ -138,7 +138,7 @@
                 "hidden_aliases": ["dice_roll", "roll_dice"],
                 "available": ["slash_command", "text_command"],
                 "visibility": "everyone",
-                "permissions": [],
+                "user_permissions": [],
                 "name": "roll_name",
                 "desc": "roll_desc",
                 "args": [

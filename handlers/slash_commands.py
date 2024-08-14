@@ -168,7 +168,7 @@ def register_slash_commands(bot: commands.Bot):
         default_member_permissions=(nextcord.Permissions(manage_guild=True))
     )
     @check_ban()
-    @application_checks.has_permissions(**{perm: True for perm in locales[command].get('permissions', [])})
+    @application_checks.has_permissions(**{perm: True for perm in locales[command].get('user_permissions', [])})
     async def prefix_command(interaction: nextcord.Interaction,
         new_prefix: str = nextcord.SlashOption(
             name=locales[command]['args'][0]['name'][default_locale],
@@ -191,7 +191,7 @@ def register_slash_commands(bot: commands.Bot):
         default_member_permissions=(nextcord.Permissions(manage_guild=True))
     )
     @check_ban()
-    @application_checks.has_permissions(**{perm: True for perm in locales[command].get('permissions', [])})
+    @application_checks.has_permissions(**{perm: True for perm in locales[command].get('user_permissions', [])})
     async def language_command(interaction: nextcord.Interaction,
         new_lang: str = nextcord.SlashOption(
             name=locales[command]['args'][0]['name'][default_locale],
@@ -214,7 +214,7 @@ def register_slash_commands(bot: commands.Bot):
         description_localizations=locales[command]['desc']
     )
     @check_ban()
-    @application_checks.has_permissions(**{perm: True for perm in locales[command].get('permissions', [])})
+    @application_checks.has_permissions(**{perm: True for perm in locales[command].get('user_permissions', [])})
     async def roll_command(interaction: nextcord.Interaction,
         dice: str = nextcord.SlashOption(
             name=locales[command]['args'][0]['name'][default_locale],
