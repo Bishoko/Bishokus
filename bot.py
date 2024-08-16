@@ -11,6 +11,7 @@ db.init()
 
 from handlers.message_handler import handle_message
 from handlers.slash_commands import register_slash_commands
+from handlers.context_menu_commands import register_context_menu_commands
 
 
 intents = nextcord.Intents.all()
@@ -40,6 +41,7 @@ async def on_message(message):
     await handle_message(bot, message)
 
 register_slash_commands(bot)
+register_context_menu_commands(bot)
 
 
 @bot.event

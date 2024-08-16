@@ -133,6 +133,22 @@
             }
         },
         "FUN": {
+            "ratio": {
+                "aliases": [],
+                "hidden_aliases": ["raito"],
+                "available": ["context_command"],
+                "visibility": "everyone",
+                "user_permissions": [],
+                "name": "ratio_name",
+                "desc": "ratio_desc",
+                "args": [
+                    {
+                        "name": "ratio_arg_name",
+                        "desc": "ratio_arg_desc",
+                        "required": false
+                    }
+                ]
+            },
             "roll": {
                 "aliases": ["dice", "diceroll", "rolldice"],
                 "hidden_aliases": ["dice_roll", "roll_dice"],

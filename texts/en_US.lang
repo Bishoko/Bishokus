@@ -47,6 +47,28 @@ set_guild_lang_error=The language "`%new_lang%`" is not valid. \nPlease choose a
 set_guild_lang_success=✅ The server language has been set to `%new_lang%`
 
 
+# ====  !ratio  ====
+ratio_name=Ratio
+ratio_desc=Starts a ratio with the person you replied to. (Adds a like reaction to both messages)
+
+ratio_context_title1=Get ratio'd !!!! 😵
+ratio_context_title2=Ratio time! 😁
+ratio_context_title3=The tables have turned! ‼️
+ratio_context_title4=Counter-attack initiated! 👎
+ratio_context_title5=Taste of your own medicine! 🔥
+ratio_context_title6=Ratio showdown! 🤯
+ratio_context_title7=The ratio game is on! 😼
+ratio_context_title8=Ratio revenge! ^^
+ratio_context_title9=Ratio challenge accepted! 💪
+
+ratio_context_description=%original_author% is getting ratio'd by %interaction_user%
+ratio_context_original_message=Relevant message
+ratio_context_see_original_message=See original message
+ratio_context_button_label=View attachments (%attachment_count%)
+
+ratio_context_confirmation=✅ Ratio sent!
+
+
 # ====  !roll  ====
 roll_name=roll
 roll_desc=Rolls dice in NdN format

@@ -47,6 +47,28 @@ set_guild_lang_error=La langue "`%new_lang%`" n'est pas valide. \nVeuillez chois
 set_guild_lang_success=✅ La langue pour le serveur a été définie sur `%new_lang%`
 
 
+# ====  !ratio  ====
+ratio_name=Ratio
+ratio_desc=Démarre un ratio avec la personne à laquelle vous avez répondu. (Ajoute une réaction like aux deux messages)
+
+ratio_context_title1=Get ratio'd !!!! 😵
+ratio_context_title2=C'est l'heure du ratio 😁
+ratio_context_title3=La roue a tourné ! 10/10 IGO ‼️
+ratio_context_title4=Contre-attaque ! 👎
+ratio_context_title5=Rends la monnaie de ta pièce #IMO 😭👌🔥
+ratio_context_title6=Duel de ratios ! Masterclass ahky
+ratio_context_title7=Que le jeu du ratio commence 😼
+ratio_context_title8=retourne dormir mdrrrrr 🤡
+ratio_context_title9=T'as pas dead ça chacal 👎
+
+ratio_context_description=%original_author% se fait ratio par %interaction_user%
+ratio_context_original_message=Message concerné
+ratio_context_see_original_message=Voir le message original
+ratio_context_button_label=Voir les pièces jointes (%attachment_count%)
+
+ratio_context_confirmation=✅ Ratio envoyé !
+
+
 # ====  !roll  ====
 roll_name=lancer
 roll_desc=Lance des dés au format NdN
