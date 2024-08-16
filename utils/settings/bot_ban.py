@@ -11,7 +11,7 @@ from utils.sql.create_user import user_db
 
 import json
 
-with open('config/config.json') as config_file:
+with open('config/config.json', encoding='utf-8') as config_file:
     config = json.load(config_file)
     default_user_ban_type = config['default-user-ban-type']
     default_guild_ban_type = config['default-guild-ban-type']

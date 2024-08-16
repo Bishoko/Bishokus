@@ -4,7 +4,7 @@ import mysql.connector
 import json
 import os
 
-with open('config/config.json') as f:
+with open('config/config.json', encoding='utf-8') as f:
     config = json.load(f)
     db_config = config['mysql']
 

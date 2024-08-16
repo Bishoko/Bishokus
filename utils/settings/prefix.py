@@ -4,7 +4,7 @@ from utils.sql.create_guild import guild_db
 
 import json
 
-with open('config/config.json') as config_file:
+with open('config/config.json', encoding='utf-8') as config_file:
     config = json.load(config_file)
     default_prefix = config['default-prefix']
     

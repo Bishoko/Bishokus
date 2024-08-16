@@ -4,7 +4,7 @@ from utils.sql import get_db_connection, execute_sql_file
 
 import json
 
-with open('config/config.json') as config_file:
+with open('config/config.json', encoding='utf-8') as config_file:
     config = json.load(config_file)
     default_language = config['default-language']
 
