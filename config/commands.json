@@ -136,7 +136,7 @@
             "ratio": {
                 "aliases": [],
                 "hidden_aliases": ["raito"],
-                "available": ["context_command"],
+                "available": ["text_command", "context_command"],
                 "visibility": "everyone",
                 "user_permissions": [],
                 "name": "ratio_name",

@@ -3,8 +3,15 @@ import random
 from utils.languages import text
 from utils.get_user_nickname import get_nickname
 
-async def ratio(lang: str, message: nextcord.Message):
-    await message.reply(message, mention_author=False)
+
+async def ratio(message: nextcord.Message):
+    await message.add_reaction('👍')
+    
+    try:
+        target_message = await message.channel.fetch_message(message.reference.message_id)
+        await target_message.add_reaction('👍')
+    except AttributeError:
+        pass
 
 
 async def ratio_context(lang: str, interaction: nextcord.Interaction, original_message: nextcord.Message):

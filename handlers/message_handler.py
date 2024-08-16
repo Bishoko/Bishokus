@@ -6,10 +6,10 @@ from utils.settings import prefix
 from utils.settings import lang as language
 from utils.settings.bot_ban import check_ban_on_message
 
-from commands.fun.roll import roll_dice
 from commands.settings.set_prefix import set_prefix
 from commands.settings.set_guild_lang import set_guild_lang
-
+from commands.fun.ratio import ratio
+from commands.fun.roll import roll_dice
 
 def remove_command(content: str, prefixes: list) -> str:
     """
@@ -76,6 +76,8 @@ async def handle_message(bot, message: nextcord.Message):
                         await set_prefix(lang, message)
                     case 'lang':
                         await set_guild_lang(lang, message)
+                    case 'ratio':
+                        await ratio(message)
                     case 'roll':
                         await roll_dice(lang, p, message)
                     
