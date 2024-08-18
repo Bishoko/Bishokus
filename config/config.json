@@ -6,6 +6,8 @@
     "default-confess-cooldown": 3,
     "default-user-ban-type": "banned_message",
     "default-guild-ban-type": "banned_message",
+    "default-ratio-emoji-up": "👍",
+    "default-ratio-emoji-down": "👎",
     "tokens": {
         "main": "BOT_TOKEN",
         "test": "TEST_BOT_TOKEN"

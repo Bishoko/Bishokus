@@ -3,7 +3,8 @@ INSERT INTO guilds (
     is_oomf,
     prefix,
     bot_language,
-    ratio_emoji,
+    ratio_emoji_up,
+    ratio_emoji_down,
     wordplay_enabled,
     sniper_enabled,
     sniper,
@@ -22,7 +23,8 @@ INSERT INTO guilds (
     FALSE, -- is_oomf
     %s,    -- prefix
     %s,    -- bot_language
-    NULL,  -- ratio_emoji
+    NULL,  -- ratio_emoji_up
+    NULL,  -- ratio_emoji_down
     FALSE, -- wordplay_enabled
     TRUE,  -- sniper_enabled
     '[]',  -- sniper

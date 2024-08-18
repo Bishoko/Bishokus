@@ -1,21 +1,26 @@
 import nextcord
 import random
 from utils.languages import text
+from utils.settings import ratio_emoji
 from utils.get_user_nickname import get_nickname
 
 
 async def ratio(message: nextcord.Message):
-    await message.add_reaction('👍')
+    up_emoji = ratio_emoji.get(message.guild.id, 'up')[0]
+    await message.add_reaction(up_emoji)
     
     try:
         target_message = await message.channel.fetch_message(message.reference.message_id)
-        await target_message.add_reaction('👍')
+        await target_message.add_reaction(up_emoji)
     except AttributeError:
         pass
 
 
 async def ratio_context(lang: str, interaction: nextcord.Interaction, original_message: nextcord.Message):
-    await original_message.add_reaction('👍')
+    emojis = ratio_emoji.get(interaction.guild_id)
+    up_emoji, down_emoji = emojis[0], emojis[1]
+    
+    await original_message.add_reaction(up_emoji)
     
     embed = nextcord.Embed(
         title=text(f'ratio_context_title{random.randint(1, 9)}', lang),
@@ -42,8 +47,8 @@ async def ratio_context(lang: str, interaction: nextcord.Interaction, original_m
     else:
         sent_message = await original_message.reply(embed=embed, mention_author=False)
     
-    await sent_message.add_reaction('👍')
-    await sent_message.add_reaction('👎')
+    await sent_message.add_reaction(up_emoji)
+    await sent_message.add_reaction(down_emoji)
     
     await interaction.response.send_message(
         text('ratio_context_confirmation', lang),
