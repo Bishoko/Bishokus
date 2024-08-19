@@ -134,7 +134,7 @@
             "set_ratio_emoji": {
                 "aliases": ["setratio", "ratio_emoji"],
                 "hidden_aliases": ["set_ratio", "ratioemoji", "ratio_emoji", "setraito", "set_ratio"],
-                "available": ["slash_command", "text_command"],
+                "available": ["slash_command"],
                 "visibility": "everyone",
                 "user_permissions": ["manage_guild"],
                 "name": "set_ratio_emoji_name",
