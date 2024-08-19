@@ -6,6 +6,7 @@ from utils.get_commands_locales import get_commands_locales
 from commands.fun.roll import roll_dice_slash
 from commands.settings.set_prefix import set_prefix_slash
 from commands.settings.set_guild_lang import set_guild_lang_slash
+from commands.settings.set_ratio_emoji import set_ratio_emoji_slash
 from commands.bot_owner.ban_user import bot_ban_user, bot_unban_user
 from commands.bot_owner.ban_guild import bot_ban_guild, bot_unban_guild
 
@@ -202,6 +203,35 @@ def register_slash_commands(bot: commands.Bot):
         )
     ):
         await set_guild_lang_slash(get_lang(interaction), interaction, new_lang)
+    
+    
+    command = 'set_ratio_emoji'
+    @bot.slash_command(
+        name=locales[command]['name'][default_locale],
+        description=locales[command]['desc'][default_locale],
+        name_localizations=locales[command]['name'],
+        description_localizations=locales[command]['desc'],
+        default_member_permissions=(nextcord.Permissions(manage_guild=True))
+    )
+    @check_ban()
+    @application_checks.has_permissions(**{perm: True for perm in locales[command].get('user_permissions', [])})
+    async def set_ratio_emoji_command(interaction: nextcord.Interaction,
+        up_emoji: str = nextcord.SlashOption(
+            name=locales[command]['args'][0]['name'][default_locale],
+            name_localizations=locales[command]['args'][0]['name'],
+            description=locales[command]['args'][0]['desc'][default_locale],
+            description_localizations=locales[command]['args'][0]['desc'],
+            required=False
+        ),
+        down_emoji: str = nextcord.SlashOption(
+            name=locales[command]['args'][1]['name'][default_locale],
+            name_localizations=locales[command]['args'][1]['name'],
+            description=locales[command]['args'][1]['desc'][default_locale],
+            description_localizations=locales[command]['args'][1]['desc'],
+            required=False
+        )
+    ):
+        await set_ratio_emoji_slash(get_lang(interaction), interaction, up_emoji, down_emoji)    
     
     
     #  -- FUN --

@@ -47,6 +47,20 @@ set_guild_lang_error=La langue "`%new_lang%`" n'est pas valide. \nVeuillez chois
 set_guild_lang_success=✅ La langue pour le serveur a été définie sur `%new_lang%`
 
 
+# ====  !set_ratio_emoji  ====
+set_ratio_emoji_name=emoji_ratio
+set_ratio_emoji_desc=Modifie les émojis pour les ratios
+
+set_ratio_emoji_up_arg_name=emoji_upvote
+set_ratio_emoji_up_arg_desc=Nouvel émoji upvote (like 👍)
+set_ratio_emoji_down_arg_name=emoji_downvote
+set_ratio_emoji_down_arg_desc=Nouvel émoji downvote (dislike 👎)
+
+set_ratio_emoji_invalid_error=🚫 L'emoji `%emoji%` n'est pas valide.
+set_ratio_emoji_unknown_error=🚫 L'emoji `%emoji%` est inconnu ou inaccessible.
+set_ratio_emoji_success=✅ Les émojis de ratio ont été définis sur %emoji_up% et %emoji_down%.
+
+
 # ====  !ratio  ====
 ratio_name=Ratio
 ratio_desc=Démarre un ratio avec la personne à laquelle vous avez répondu. (Ajoute une réaction like aux deux messages)

@@ -47,6 +47,20 @@ set_guild_lang_error=The language "`%new_lang%`" is not valid. \nPlease choose a
 set_guild_lang_success=✅ The server language has been set to `%new_lang%`
 
 
+# ====  !set_ratio_emoji  ====
+set_ratio_emoji_name=set_ratio_emoji
+set_ratio_emoji_desc=Modifies the emojis for ratios
+
+set_ratio_emoji_up_arg_name=upvote_emoji
+set_ratio_emoji_up_arg_desc=New upvote emoji (like 👍)
+set_ratio_emoji_down_arg_name=downvote_emoji
+set_ratio_emoji_down_arg_desc=New downvote emoji (dislike 👎)
+
+set_ratio_emoji_invalid_error=🚫 The emoji `%emoji%` is not valid.
+set_ratio_emoji_unknown_error=🚫 The emoji `%emoji%` is unknown or not accessible.
+set_ratio_emoji_success=✅ The ratio emojis have been set to %emoji_up% and %emoji_down%.
+
+
 # ====  !ratio  ====
 ratio_name=Ratio
 ratio_desc=Starts a ratio with the person you replied to. (Adds a like reaction to both messages)

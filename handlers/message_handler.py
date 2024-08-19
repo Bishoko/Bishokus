@@ -77,7 +77,7 @@ async def handle_message(bot, message: nextcord.Message):
                     case 'lang':
                         await set_guild_lang(lang, message)
                     case 'ratio':
-                        await ratio(message)
+                        await ratio(bot, message)
                     case 'roll':
                         await roll_dice(lang, p, message)
                     

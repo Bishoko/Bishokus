@@ -5,8 +5,8 @@ from utils.settings import ratio_emoji
 from utils.get_user_nickname import get_nickname
 
 
-async def ratio(message: nextcord.Message):
-    up_emoji = ratio_emoji.get(message.guild.id, 'up')[0]
+async def ratio(client, message: nextcord.Message):
+    up_emoji = ratio_emoji.get(message.guild.id, client, 'up')[0]
     await message.add_reaction(up_emoji)
     
     try:
@@ -17,7 +17,7 @@ async def ratio(message: nextcord.Message):
 
 
 async def ratio_context(lang: str, interaction: nextcord.Interaction, original_message: nextcord.Message):
-    emojis = ratio_emoji.get(interaction.guild_id)
+    emojis = ratio_emoji.get(interaction.guild_id, interaction.client)
     up_emoji, down_emoji = emojis[0], emojis[1]
     
     await original_message.add_reaction(up_emoji)
