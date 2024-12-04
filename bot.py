@@ -2,6 +2,7 @@ import json
 import nextcord
 from nextcord.ext import commands
 
+import utils.global_variables as gv
 from utils.languages import init as langs_init
 from utils.settings.bot_ban import get_ban_type
 import utils.sql as db
@@ -30,6 +31,8 @@ bot = commands.Bot(
     command_prefix=config['default-prefix'],
     intents=intents
 )
+gv.set('bot', bot)
+gv.set('client', bot)
 
 @bot.event
 async def on_ready():
