@@ -1,6 +1,7 @@
 import nextcord
 import re
 import mysql.connector
+import utils.global_variables as gv
 from utils.sql import get_db_connection
 from utils.sql.create_guild import guild_db
 from utils.is_emoji import is_emoji
@@ -14,7 +15,7 @@ with open('config/config.json', encoding='utf-8') as config_file:
 
 
 @guild_db
-def set(guild_id: int, client: nextcord.Client, up_emoji: str = None, down_emoji: str = None):
+def set(guild_id: int, client: nextcord.Client = None, up_emoji: str = None, down_emoji: str = None):
     """
     Sets new ratio emojis for a given guild ID in the database.
 
@@ -27,6 +28,8 @@ def set(guild_id: int, client: nextcord.Client, up_emoji: str = None, down_emoji
     Raises:
         mysql.connector.Error: If there's an error while updating the database.
     """
+    if client is None:
+        client = gv.get('client')
     
     conn = get_db_connection()
     cursor = conn.cursor()

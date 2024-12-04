@@ -8,6 +8,8 @@ from utils.settings.bot_ban import check_ban_on_message
 
 from commands.settings.set_prefix import set_prefix
 from commands.settings.set_guild_lang import set_guild_lang
+from commands.settings.set_ratio_emoji import set_ratio_emoji
+
 from commands.fun.ratio import ratio
 from commands.fun.roll import roll_dice
 
@@ -76,6 +78,8 @@ async def handle_message(bot, message: nextcord.Message):
                         await set_prefix(lang, message)
                     case 'lang':
                         await set_guild_lang(lang, message)
+                    case 'set_ratio_emoji':
+                        await set_ratio_emoji(lang, message)
                     case 'ratio':
                         await ratio(bot, message)
                     case 'roll':
