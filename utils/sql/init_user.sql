@@ -23,7 +23,7 @@ INSERT INTO users (
     FALSE, -- is_oomf
     FALSE, -- is_vip
     NULL,  -- vip_end
-    %s,    -- bot_language
+    NULL,   -- bot_language
     TRUE,  -- bot_reply
     FALSE, -- first_dm_received
     TRUE,  -- dms_accepted
