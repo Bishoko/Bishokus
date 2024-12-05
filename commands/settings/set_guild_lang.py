@@ -10,8 +10,13 @@ async def set_guild_lang(lang: str, message: nextcord.Message):
         await message.reply(text('manage_guild_error', lang), mention_author=False)
         return
     
-    new_lang = message.content
-    if not new_lang:
+    lang_codes = [lang["code"] for lang in get_languages_info()]
+    
+    new_lang = message.content.lower().replace('anglais', 'en')
+    new_lang = next((l for l in lang_codes if l.lower().startswith(new_lang[:2])), '')
+    
+    # Check if the user provided a new language
+    if not message.content.replace('-','').replace('_',''):
         current_lang = language.get_guild(message.guild.id)
         p = prefix.get(message.guild.id)
         await message.reply(
@@ -20,11 +25,11 @@ async def set_guild_lang(lang: str, message: nextcord.Message):
         )
         return
     
-    lang_codes = [lang["code"] for lang in get_languages_info()]
     
     if new_lang not in lang_codes:
         await message.reply(
-            text('set_guild_lang_error', lang).replace('%new_lang%', new_lang).replace(
+            text('set_guild_lang_error', lang).replace(
+                '%new_lang%', message.content.lower()).replace(
                 '%available_langs%', '`'+f'` {text("or", lang).strip()} `'.join(lang_codes)+'`'
             ),
             mention_author=False
