@@ -80,7 +80,7 @@ def set(guild_id: int, client: nextcord.Client = None, up_emoji: str = None, dow
         conn.close()
 
 @guild_db
-def get(guild_id: int, client: nextcord.Client, emoji_type: str = 'both') -> tuple:
+def get(guild_id: int, client: nextcord.Client = None, emoji_type: str = 'both') -> tuple:
     """
     Retrieves the ratio emojis for a given guild ID from the database.
 
@@ -100,6 +100,8 @@ def get(guild_id: int, client: nextcord.Client, emoji_type: str = 'both') -> tup
         mysql.connector.Error: If there's an error while querying the database.
         ValueError: If an invalid emoji_type is provided.
     """
+    if client is None:
+        client = gv.get('client')
     
     conn = get_db_connection()
     cursor = conn.cursor()

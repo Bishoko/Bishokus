@@ -56,7 +56,7 @@ set_ratio_emoji_up_arg_desc=Nouvel émoji upvote (like 👍)
 set_ratio_emoji_down_arg_name=emoji_downvote
 set_ratio_emoji_down_arg_desc=Nouvel émoji downvote (dislike 👎)
 
-set_ratio_emoji_format_error=🚫 Format incorrect ! \nExemple : `%prefix%set_ratio_emoji [up|down] 👍`
+set_ratio_emoji_format_error=🚫 Format incorrect ! \nExemples: \n- `%prefix%set_ratio_emoji down 👎` \n- `%prefix%set_ratio_emoji 👍` \n- `%prefix%set_ratio_emoji 👍 👎`
 set_ratio_emoji_invalid_error=🚫 L'emoji `%emoji%` n'est pas valide.
 set_ratio_emoji_unknown_error=🚫 L'emoji `%emoji%` est inconnu ou inaccessible.
 set_ratio_emoji_success=✅ Les émojis de ratio ont été définis sur %emoji_up% et %emoji_down%.
