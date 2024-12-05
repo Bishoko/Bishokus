@@ -43,6 +43,7 @@ language_arg_name=language
 language_arg_desc=New language
 
 or=or
+set_guild_lang_empty_error=🚫 The language cannot be empty! \nThe current server language is `%current_lang%`. \nTo change it, use `%prefix%lang <language>`.
 set_guild_lang_error=The language "`%new_lang%`" is not valid. \nPlease choose a supported language from: \n %available_langs%
 set_guild_lang_success=✅ The server language has been set to `%new_lang%`
 

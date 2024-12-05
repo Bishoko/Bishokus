@@ -123,5 +123,11 @@ def get(guild_id: int, user_id: int) -> str:
         cursor.close()
         conn.close()
 
+def get_guild(guild_id: int) -> str:
+    return get(guild_id, 0)
+
+def get_user(user_id: int) -> str:
+    return get(0, user_id)
+
 def get_lang(interaction: nextcord.Interaction) -> str:
     return get(interaction.guild_id, interaction.user.id)

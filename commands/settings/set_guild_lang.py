@@ -1,7 +1,9 @@
 import nextcord
 from utils.languages import text, get_languages_info
 
+from utils.settings import prefix
 from utils.settings import lang as language
+
 
 async def set_guild_lang(lang: str, message: nextcord.Message):
     if message.author.guild_permissions.manage_guild == False:
@@ -9,6 +11,14 @@ async def set_guild_lang(lang: str, message: nextcord.Message):
         return
     
     new_lang = message.content
+    if not new_lang:
+        current_lang = language.get_guild(message.guild.id)
+        p = prefix.get(message.guild.id)
+        await message.reply(
+            text('set_guild_lang_empty_error', lang).replace('%current_lang%', current_lang).replace('%prefix%', p),
+            mention_author=False
+        )
+        return
     
     lang_codes = [lang["code"] for lang in get_languages_info()]
     
