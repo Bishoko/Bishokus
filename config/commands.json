@@ -115,7 +115,9 @@
                     {
                         "name": "prefix_arg_name",
                         "desc": "prefix_arg_desc",
-                        "required": true
+                        "required": true,
+                        "min_length": 1,
+                        "max_length": 10
                     }
                 ]
             },

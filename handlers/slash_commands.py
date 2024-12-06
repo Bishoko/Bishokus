@@ -176,8 +176,8 @@ def register_slash_commands(bot: commands.Bot):
             name_localizations=locales[command]['args'][0]['name'],
             description=locales[command]['args'][0]['desc'][default_locale],
             description_localizations=locales[command]['args'][0]['desc'],
-            min_length=1,
-            max_length=10
+            min_length=locales[command]['args'][0].get('min_length'),
+            max_length=locales[command]['args'][0].get('max_length')
         )
     ):
         await set_prefix_slash(get_lang(interaction), interaction, new_prefix)
