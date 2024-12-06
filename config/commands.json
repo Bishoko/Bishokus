@@ -28,7 +28,8 @@
                     },
                     {
                         "name": "reason",
-                        "desc": "The reason for the ban"
+                        "desc": "The reason for the ban",
+                        "required": false
                     }
                 ]
             },
@@ -57,7 +58,8 @@
                     },
                     {
                         "name": "reason",
-                        "desc": "The reason for the ban"
+                        "desc": "The reason for the ban",
+                        "required": false
                     }
                 ]
             },
@@ -112,7 +114,8 @@
                 "args": [
                     {
                         "name": "prefix_arg_name",
-                        "desc": "prefix_arg_desc"
+                        "desc": "prefix_arg_desc",
+                        "required": true
                     }
                 ]
             },

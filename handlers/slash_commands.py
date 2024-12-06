@@ -60,7 +60,7 @@ def register_slash_commands(bot: commands.Bot):
             name_localizations=locales[command]['args'][2]['name'],
             description=locales[command]['args'][2]['desc'][default_locale],
             description_localizations=locales[command]['args'][2]['desc'],
-            required=False
+            required=locales[command]['args'][2].get('required', True)
         )
     ):
         await bot_ban_user(interaction, user, ban_type, reason)
@@ -96,7 +96,7 @@ def register_slash_commands(bot: commands.Bot):
             name_localizations=locales[command]['args'][2]['name'],
             description=locales[command]['args'][2]['desc'][default_locale],
             description_localizations=locales[command]['args'][2]['desc'],
-            required=False
+            required=locales[command]['args'][2].get('required', True)
         )
     ):
         await bot_ban_guild(interaction, guild, type, reason)
@@ -221,14 +221,14 @@ def register_slash_commands(bot: commands.Bot):
             name_localizations=locales[command]['args'][0]['name'],
             description=locales[command]['args'][0]['desc'][default_locale],
             description_localizations=locales[command]['args'][0]['desc'],
-            required=False
+            required=locales[command]['args'][0].get('required', True)
         ),
         down_emoji: str = nextcord.SlashOption(
             name=locales[command]['args'][1]['name'][default_locale],
             name_localizations=locales[command]['args'][1]['name'],
             description=locales[command]['args'][1]['desc'][default_locale],
             description_localizations=locales[command]['args'][1]['desc'],
-            required=False
+            required=locales[command]['args'][1].get('required', True)
         )
     ):
         await set_ratio_emoji_slash(get_lang(interaction), interaction, up_emoji, down_emoji)    
