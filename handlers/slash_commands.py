@@ -23,6 +23,21 @@ with open('config/config.json', 'r', encoding='utf-8') as config_file:
 def get_lang(interaction: nextcord.Interaction) -> str:
     return lang.get_lang(interaction)
 
+def get_slash_option(command, arg_index, locales=None, custom_choices=None):
+    if not locales:
+        locales = get_commands_locales()
+    
+    return nextcord.SlashOption(
+        name=locales[command]['args'][arg_index]['name'][default_locale],
+        name_localizations=locales[command]['args'][arg_index]['name'],
+        description=locales[command]['args'][arg_index]['desc'][default_locale],
+        description_localizations=locales[command]['args'][arg_index]['desc'],
+        choices=custom_choices or locales[command]['args'][arg_index].get('choices'),
+        required=locales[command]['args'][arg_index].get('required', True),
+        min_length=locales[command]['args'][arg_index].get('min_length'),
+        max_length=locales[command]['args'][arg_index].get('max_length')
+    )
+
 
 def register_slash_commands(bot: commands.Bot):
     locales = get_commands_locales()
@@ -42,26 +57,9 @@ def register_slash_commands(bot: commands.Bot):
     @check_ban()
     @application_checks.is_owner()
     async def bot_ban_user_command(interaction: nextcord.Interaction,
-        user: nextcord.User = nextcord.SlashOption(
-            name=locales[command]['args'][0]['name'][default_locale],
-            name_localizations=locales[command]['args'][0]['name'],
-            description=locales[command]['args'][0]['desc'][default_locale],
-            description_localizations=locales[command]['args'][0]['desc']
-        ),
-        ban_type: str = nextcord.SlashOption(
-            name=locales[command]['args'][1]['name'][default_locale],
-            name_localizations=locales[command]['args'][1]['name'],
-            description=locales[command]['args'][1]['desc'][default_locale],
-            description_localizations=locales[command]['args'][1]['desc'],
-            choices=locales[command]['args'][1]['choices']
-        ),
-        reason: str = nextcord.SlashOption(
-            name=locales[command]['args'][2]['name'][default_locale],
-            name_localizations=locales[command]['args'][2]['name'],
-            description=locales[command]['args'][2]['desc'][default_locale],
-            description_localizations=locales[command]['args'][2]['desc'],
-            required=locales[command]['args'][2].get('required', True)
-        )
+        user: nextcord.User = get_slash_option('ban_user', 0),
+        ban_type: str = get_slash_option('ban_user', 1),
+        reason: str = get_slash_option('ban_user', 2)
     ):
         await bot_ban_user(interaction, user, ban_type, reason)
 
@@ -78,26 +76,9 @@ def register_slash_commands(bot: commands.Bot):
     @check_ban()
     @application_checks.is_owner()
     async def bot_ban_guild_command(interaction: nextcord.Interaction,
-        guild: str = nextcord.SlashOption(
-            name=locales[command]['args'][0]['name'][default_locale],
-            name_localizations=locales[command]['args'][0]['name'],
-            description=locales[command]['args'][0]['desc'][default_locale],
-            description_localizations=locales[command]['args'][0]['desc']
-        ),
-        type: str = nextcord.SlashOption(
-            name=locales[command]['args'][1]['name'][default_locale],
-            name_localizations=locales[command]['args'][1]['name'],
-            description=locales[command]['args'][1]['desc'][default_locale],
-            description_localizations=locales[command]['args'][1]['desc'],
-            choices=locales[command]['args'][1]['choices']
-        ),
-        reason: str = nextcord.SlashOption(
-            name=locales[command]['args'][2]['name'][default_locale],
-            name_localizations=locales[command]['args'][2]['name'],
-            description=locales[command]['args'][2]['desc'][default_locale],
-            description_localizations=locales[command]['args'][2]['desc'],
-            required=locales[command]['args'][2].get('required', True)
-        )
+        guild: str = get_slash_option('ban_guild', 0),
+        type: str = get_slash_option('ban_guild', 1),
+        reason: str = get_slash_option('ban_guild', 2)
     ):
         await bot_ban_guild(interaction, guild, type, reason)
         
@@ -114,18 +95,8 @@ def register_slash_commands(bot: commands.Bot):
     @check_ban()
     @application_checks.is_owner()
     async def bot_unban_user_command(interaction: nextcord.Interaction,
-        user: nextcord.User = nextcord.SlashOption(
-            name=locales[command]['args'][0]['name'][default_locale],
-            name_localizations=locales[command]['args'][0]['name'],
-            description=locales[command]['args'][0]['desc'][default_locale],
-            description_localizations=locales[command]['args'][0]['desc']
-        ),
-        confirmation: str = nextcord.SlashOption(
-            name=locales[command]['args'][1]['name'][default_locale],
-            name_localizations=locales[command]['args'][1]['name'],
-            description=locales[command]['args'][1]['desc'][default_locale],
-            description_localizations=locales[command]['args'][1]['desc']
-        )
+        user: nextcord.User = get_slash_option('unban_user', 0),
+        confirmation: str = get_slash_option('unban_user', 1)
     ):
         await bot_unban_user(interaction, user, confirmation)
 
@@ -142,18 +113,8 @@ def register_slash_commands(bot: commands.Bot):
     @check_ban()
     @application_checks.is_owner()
     async def bot_unban_guild_command(interaction: nextcord.Interaction,
-        guild: str = nextcord.SlashOption(
-            name=locales[command]['args'][0]['name'][default_locale],
-            name_localizations=locales[command]['args'][0]['name'],
-            description=locales[command]['args'][0]['desc'][default_locale],
-            description_localizations=locales[command]['args'][0]['desc']
-        ),
-        confirmation: str = nextcord.SlashOption(
-            name=locales[command]['args'][1]['name'][default_locale],
-            name_localizations=locales[command]['args'][1]['name'],
-            description=locales[command]['args'][1]['desc'][default_locale],
-            description_localizations=locales[command]['args'][1]['desc']
-        )
+        guild: str = get_slash_option('unban_guild', 0),
+        confirmation: str = get_slash_option('unban_guild', 1)
     ):
         await bot_unban_guild(interaction, guild, confirmation)
     
@@ -171,14 +132,7 @@ def register_slash_commands(bot: commands.Bot):
     @check_ban()
     @application_checks.has_permissions(**{perm: True for perm in locales[command].get('user_permissions', [])})
     async def prefix_command(interaction: nextcord.Interaction,
-        new_prefix: str = nextcord.SlashOption(
-            name=locales[command]['args'][0]['name'][default_locale],
-            name_localizations=locales[command]['args'][0]['name'],
-            description=locales[command]['args'][0]['desc'][default_locale],
-            description_localizations=locales[command]['args'][0]['desc'],
-            min_length=locales[command]['args'][0].get('min_length'),
-            max_length=locales[command]['args'][0].get('max_length')
-        )
+        new_prefix: str = get_slash_option('prefix', 0)
     ):
         await set_prefix_slash(get_lang(interaction), interaction, new_prefix)
     
@@ -194,13 +148,7 @@ def register_slash_commands(bot: commands.Bot):
     @check_ban()
     @application_checks.has_permissions(**{perm: True for perm in locales[command].get('user_permissions', [])})
     async def language_command(interaction: nextcord.Interaction,
-        new_lang: str = nextcord.SlashOption(
-            name=locales[command]['args'][0]['name'][default_locale],
-            name_localizations=locales[command]['args'][0]['name'],
-            description=locales[command]['args'][0]['desc'][default_locale],
-            description_localizations=locales[command]['args'][0]['desc'],
-            choices={lang["native_name"]: lang["code"] for lang in get_languages_info()}
-        )
+        new_lang: str = get_slash_option('lang', 0, custom_choices={lang["native_name"]: lang["code"] for lang in get_languages_info()})
     ):
         await set_guild_lang_slash(get_lang(interaction), interaction, new_lang)
     
@@ -216,20 +164,8 @@ def register_slash_commands(bot: commands.Bot):
     @check_ban()
     @application_checks.has_permissions(**{perm: True for perm in locales[command].get('user_permissions', [])})
     async def set_ratio_emoji_command(interaction: nextcord.Interaction,
-        up_emoji: str = nextcord.SlashOption(
-            name=locales[command]['args'][0]['name'][default_locale],
-            name_localizations=locales[command]['args'][0]['name'],
-            description=locales[command]['args'][0]['desc'][default_locale],
-            description_localizations=locales[command]['args'][0]['desc'],
-            required=locales[command]['args'][0].get('required', True)
-        ),
-        down_emoji: str = nextcord.SlashOption(
-            name=locales[command]['args'][1]['name'][default_locale],
-            name_localizations=locales[command]['args'][1]['name'],
-            description=locales[command]['args'][1]['desc'][default_locale],
-            description_localizations=locales[command]['args'][1]['desc'],
-            required=locales[command]['args'][1].get('required', True)
-        )
+        up_emoji: str = get_slash_option('set_ratio_emoji', 0),
+        down_emoji: str = get_slash_option('set_ratio_emoji', 1)
     ):
         await set_ratio_emoji_slash(get_lang(interaction), interaction, up_emoji, down_emoji)    
     
@@ -246,12 +182,7 @@ def register_slash_commands(bot: commands.Bot):
     @check_ban()
     @application_checks.has_permissions(**{perm: True for perm in locales[command].get('user_permissions', [])})
     async def roll_command(interaction: nextcord.Interaction,
-        dice: str = nextcord.SlashOption(
-            name=locales[command]['args'][0]['name'][default_locale],
-            name_localizations=locales[command]['args'][0]['name'],
-            description=locales[command]['args'][0]['desc'][default_locale],
-            description_localizations=locales[command]['args'][0]['desc']
-        )
+        dice: str = get_slash_option('roll', 0)
     ):
         await roll_dice_slash(get_lang(interaction), prefix.get(interaction.guild_id), interaction, dice)
 
