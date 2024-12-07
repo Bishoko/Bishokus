@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS users (
     birthday DATE,
     bot_banned BOOL,
     bot_banned_type TINYTEXT,
-    bot_banned_reason TINYTEXT,
+    bot_banned_reason TEXT(10000),
     bot_banned_history JSON
 );
 
@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS guilds (
     bot_logs_enabled BOOL,
     bot_banned BOOL,
     bot_banned_type TINYTEXT,
-    bot_banned_reason TINYTEXT,
+    bot_banned_reason TEXT(10000),
     bot_banned_history JSON
 );
 
