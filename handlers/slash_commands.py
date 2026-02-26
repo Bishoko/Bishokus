@@ -11,6 +11,7 @@ from commands.bot_owner.ban_user import bot_ban_user, bot_unban_user
 from commands.bot_owner.ban_guild import bot_ban_guild, bot_unban_guild
 
 from utils.settings import prefix, lang
+get_lang = lang.get_lang
 from utils.settings.bot_ban import check_ban
 from utils.languages import get_languages_info
 
@@ -85,8 +86,6 @@ class CmdLocale:
         return ArgLocale(self._d['args'][index])
 
 
-def get_lang(interaction: nextcord.Interaction) -> str:
-    return lang.get_lang(interaction)
 
 
 def get_slash_option(cmd_or_arg, arg_index=None, locales=None, custom_choices=None):
