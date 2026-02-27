@@ -1,6 +1,15 @@
 import nextcord
-import random
+from nextcord.ext import commands, application_checks
+from nextcord.application_command import slash_command, message_command
+from utils.get_commands_locales import get_commands_locales
+from utils.locale_helpers import CmdLocale, get_slash_option
+from utils import config
+from utils.settings.bot_ban import check_ban
 from utils.languages import text
+from utils.settings import prefix, lang
+get_lang = lang.get_lang
+
+import random
 from utils.settings import ratio_emoji
 from utils.get_user_nickname import get_nickname
 
@@ -54,4 +63,42 @@ async def ratio_context(lang: str, interaction: nextcord.Interaction, original_m
         text('ratio_context_confirmation', lang),
         ephemeral=True
     )
+
+
+info = {
+    "ratio": {
+        "category": "fun",
+        "aliases": [],
+        "hidden_aliases": ["raito"],
+        "available": ["text_command", "context_command"],
+        "visibility": "everyone",
+        "user_permissions": [],
+        "name": "ratio_name",
+        "desc": "ratio_desc",
+        "args": [
+            {
+                "name": "ratio_arg_name",
+                "desc": "ratio_arg_desc",
+                "required": False
+            }
+        ]
+    },
+}
+
+cmd = CmdLocale(list(info.keys())[0], get_commands_locales(info))
+
+class RatioCog(commands.Cog):
+    def __init__(self, bot: commands.Bot):
+        self.bot = bot
     
+    @check_ban()
+    @message_command(
+        name=cmd.name,
+        name_localizations=cmd.name_localizations
+    )
+    async def ratio_context_command(self, interaction: nextcord.Interaction, message: nextcord.Message):
+        await ratio_context(get_lang(interaction), interaction, message)
+
+
+def setup(bot: commands.Bot):
+    bot.add_cog(RatioCog(bot))

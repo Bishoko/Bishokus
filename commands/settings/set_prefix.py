@@ -1,5 +1,13 @@
 import nextcord
+from nextcord.ext import commands, application_checks
+from nextcord.application_command import slash_command, message_command
+from utils.get_commands_locales import get_commands_locales
+from utils.locale_helpers import CmdLocale, get_slash_option
+from utils import config
+from utils.settings.bot_ban import check_ban
 from utils.languages import text
+from utils.settings import prefix, lang
+get_lang = lang.get_lang
 
 from utils.settings import prefix
 
@@ -55,3 +63,49 @@ async def set_prefix_slash(lang: str, interaction: nextcord.Interaction, new_pre
     await interaction.response.send_message(
         text('prefix_success', lang).replace('%prefix%', new_prefix)
     )
+
+
+info = {
+    "prefix": {
+        "category": "settings",
+        "aliases": ["setprefix", "set_prefix"],
+        "hidden_aliases": "",
+        "available": ["slash_command", "text_command"],
+        "visibility": "everyone",
+        "user_permissions": ["manage_guild"],
+        "name": "prefix_name",
+        "desc": "prefix_desc",
+        "args": [
+            {
+                "name": "prefix_arg_name",
+                "desc": "prefix_arg_desc",
+                "required": True,
+                "min_length": 1,
+                "max_length": 10
+            }
+        ]
+    },
+}
+
+cmd = CmdLocale(list(info.keys())[0], get_commands_locales(info))
+
+class PrefixCog(commands.Cog):
+    def __init__(self, bot: commands.Bot):
+        self.bot = bot
+
+    @check_ban()
+    @slash_command(
+        name=cmd.name,
+        description=cmd.description,
+        name_localizations=cmd.name_localizations,
+        description_localizations=cmd.description_localizations,
+        default_member_permissions=(nextcord.Permissions(manage_guild=True))
+    )
+    async def set_prefix_command(self, interaction: nextcord.Interaction,
+        new_prefix: str = get_slash_option(cmd.arg(0))
+    ):
+        await set_prefix_slash(get_lang(interaction), interaction, new_prefix)
+
+
+def setup(bot: commands.Bot):
+    bot.add_cog(PrefixCog(bot))

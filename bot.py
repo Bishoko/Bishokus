@@ -1,3 +1,4 @@
+import os
 import json
 import nextcord
 from nextcord.ext import commands
@@ -11,8 +12,6 @@ langs_init()
 db.init()
 
 from handlers.message_handler import handle_message
-from handlers.slash_commands import register_slash_commands
-from handlers.context_menu_commands import register_context_menu_commands
 
 
 intents = nextcord.Intents.all()
@@ -34,6 +33,7 @@ bot = commands.Bot(
 gv.set('bot', bot)
 gv.set('client', bot)
 
+
 @bot.event
 async def on_ready():
     print(f'{bot.user.name} has connected to Discord!')
@@ -42,9 +42,6 @@ async def on_ready():
 @bot.event
 async def on_message(message):
     await handle_message(bot, message)
-
-register_slash_commands(bot)
-register_context_menu_commands(bot)
 
 
 @bot.event
@@ -67,6 +64,24 @@ async def on_guild_join(guild):
     if get_ban_type(guild.id, is_guild=True) == 'instant_leave':
         await guild.leave()
         print(f"Left banned guild: {guild.name} (ID: {guild.id})")
+
+
+# Load cogs from the commands directory
+commands_info = {}
+for root, dirs, files in os.walk('commands'):
+    for filename in files:
+        if filename.endswith('.py') and filename not in ['__init__.py', 'template.py']:
+            module_path = os.path.join(root, filename)[:-3].replace(os.sep, '.')
+            bot.load_extension(module_path)
+            
+            module = __import__(module_path, fromlist=['info'])
+            info = getattr(module, 'info', None)
+            if info:
+                print(f"Loaded command: {list(info.keys())[0]} ({module_path})")
+                commands_info = {**commands_info, **info}
+                gv.set("commands_info", commands_info)
+                
+print("All cogs loaded successfully.")
 
 
 if config.get('production', False) == True:

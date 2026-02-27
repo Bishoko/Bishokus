@@ -1,4 +1,5 @@
 import nextcord
+import time
 
 from utils.get_commands_locales import get_commands_locales
 from utils.languages import text
@@ -38,9 +39,11 @@ def remove_command(content: str, prefixes: list) -> str:
     return content.strip()
 
 
-commands = get_commands_locales()
+commands = None
 
 async def handle_message(bot, message: nextcord.Message):
+    global commands
+    
     p = prefix.get(message.guild.id)
     
     if message.author == bot.user:
@@ -64,6 +67,10 @@ async def handle_message(bot, message: nextcord.Message):
         command = message.content.split()[0].lower()
         
         lang = language.get(message.guild.id, message.author.id)
+        
+        if commands is None:
+            commands = get_commands_locales()
+            print(f"Loaded commands locales")
         
         for command_name, command_data in commands.items():
             command_aliases = [command_name, *command_data.get('aliases', []), *command_data.get('hidden_aliases', [])]

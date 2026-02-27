@@ -1,8 +1,8 @@
-import json
 from utils.languages import text, get_languages_info
+import utils.global_variables as gv
 
 
-def get_commands_locales() -> dict:
+def get_commands_locales(commands: dict = None) -> dict:
     """
     Load and process command localization data from a JSON file.
 
@@ -38,33 +38,32 @@ def get_commands_locales() -> dict:
 
     lang_codes = [lang["code"] for lang in get_languages_info()]
     
-    with open('config/commands.json', 'r', encoding='utf-8') as commands_file:
-        commands = json.load(commands_file)
+    if commands is None:
+        commands = gv.get("commands_info") or {}
     
     commands_locales = {}
-    for category, category_commands in commands['categories'].items():
-        for command_name, command_data in category_commands.items():
-            
-            commands_locales[command_name] = command_data.copy()
-            
-            for param in ['name', 'desc']:
-                if isinstance(command_data.get(param), dict):
-                    commands_locales[command_name][param] = command_data[param]
-                elif isinstance(command_data.get(param), str):
-                    commands_locales[command_name][param] = {}
-                    for lang in lang_codes:
-                        commands_locales[command_name][param][lang] = text(command_data[param], lang)
-            
-            if isinstance(command_data.get('args'), list):
-                commands_locales[command_name]['args'] = command_data['args']
-                for arg in commands_locales[command_name]['args']:
-                    if isinstance(arg, dict):
-                        for param in ['name', 'desc']:
-                            if arg.get(param):
-                                if isinstance(arg.get(param), str):
-                                    arg[param] = {
-                                        lang: text(arg[param], lang)
-                                        for lang in lang_codes
-                                    }
+    for command_name, command_data in commands.items():
+        
+        commands_locales[command_name] = command_data.copy()
+        
+        for param in ['name', 'desc']:
+            if isinstance(command_data.get(param), dict):
+                commands_locales[command_name][param] = command_data[param]
+            elif isinstance(command_data.get(param), str):
+                commands_locales[command_name][param] = {}
+                for lang in lang_codes:
+                    commands_locales[command_name][param][lang] = text(command_data[param], lang)
+        
+        if isinstance(command_data.get('args'), list):
+            commands_locales[command_name]['args'] = command_data['args']
+            for arg in commands_locales[command_name]['args']:
+                if isinstance(arg, dict):
+                    for param in ['name', 'desc']:
+                        if arg.get(param):
+                            if isinstance(arg.get(param), str):
+                                arg[param] = {
+                                    lang: text(arg[param], lang)
+                                    for lang in lang_codes
+                                }
     
-    return commands_locales
+    return commands_locales if commands_locales != {} else None
