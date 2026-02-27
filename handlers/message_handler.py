@@ -36,7 +36,7 @@ def remove_command(content: str, prefixes: list) -> str:
 async def handle_message(bot, message: nextcord.Message):
     p = prefix.get(message.guild.id)
     
-    if message.author == bot.user:
+    if message.author.bot:
         return
     
     # Check if the message mentions the bot
