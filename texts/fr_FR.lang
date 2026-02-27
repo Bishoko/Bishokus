@@ -93,3 +93,16 @@ roll_arg_name=dé
 roll_arg_desc=Lancer des dés au format NdN (par exemple 2d6)
 
 roll_format_error=La commande doit être au format NdN ! \nExemple : `%prefix%roll 1d6`
+
+
+# ====  !say  ====
+say_name=say
+say_desc=Répète un message
+
+say_arg_name=message
+say_arg_desc=Message à répéter
+
+say_error_everyone=Vous ne pouvez mentionner everyone ou here ici. :/
+say_error_empty_msg=🚫 Le message ne peut pas être vide!
+
+say_success=Message envoyé :)
