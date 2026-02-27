@@ -106,3 +106,20 @@ say_error_everyone=You cannot mention everyone or here. :/
 say_error_empty_msg=🚫 The message cannot be empty!
 
 say_success=Message sent :)
+
+
+# ====  !math  ====
+math_name=math
+math_desc=Evaluates a mathematical expression
+
+math_arg_name=expression
+math_arg_desc=Expression to calculate
+
+math_problem=Problem:
+math_result=Result:
+
+math_error_empty=🚫 The calculation cannot be empty!
+math_error_name=❌ NameError | Error. Probably because a text character is present in your calculation!
+math_error_value=❌ ValueError | ...
+math_error_syntax=❌ SyntaxError | Syntax error, you may have tried to do an equation, or introduced an unknown character!
+math_error_type=❌ TypeError | Error. Probably because a text character is present in your calculation!

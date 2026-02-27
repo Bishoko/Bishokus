@@ -106,3 +106,20 @@ say_error_everyone=Vous ne pouvez mentionner everyone ou here ici. :/
 say_error_empty_msg=🚫 Le message ne peut pas être vide!
 
 say_success=Message envoyé :)
+
+
+# ====  !math  ====
+math_name=calculatrice
+math_desc=Évalue une expression mathématique
+
+math_arg_name=expression
+math_arg_desc=Expression à calculer
+
+math_problem=Calcul:
+math_result=Résultat:
+
+math_error_empty=🚫 Le calcul ne peut pas être vide!
+math_error_name=❌ NameError | Erreur. Probablement parce que un caractère texte est présent dans votre calcul!
+math_error_value=❌ ValueError | ...
+math_error_syntax=❌ SyntaxError | Erreur de syntaxe, vous avez peut-être voulu faire une équation, ou alors introduit un caractère inconnu!
+math_error_type=❌ TypeError | Erreur. Probablement parce que un caractère texte est présent dans votre calcul!
