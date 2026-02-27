@@ -6,13 +6,7 @@ from utils.languages import text
 from utils.settings import prefix
 from utils.settings import lang as language
 from utils.settings.bot_ban import check_ban_on_message
-
-from commands.settings.set_prefix import set_prefix
-from commands.settings.set_guild_lang import set_guild_lang
-from commands.settings.set_ratio_emoji import set_ratio_emoji
-
-from commands.fun.ratio import ratio
-from commands.fun.roll import roll_dice
+import utils.global_variables as gv
 
 def remove_command(content: str, prefixes: list) -> str:
     """
@@ -33,17 +27,13 @@ def remove_command(content: str, prefixes: list) -> str:
     """
     sorted_prefixes = sorted(prefixes, key=len, reverse=True)
     
-    for prefix in sorted_prefixes:
-        if content.lower().startswith(prefix):
-            return content[len(prefix):].strip()
+    for prefix_item in sorted_prefixes:
+        if content.lower().startswith(prefix_item):
+            return content[len(prefix_item):].strip()
     return content.strip()
 
 
-commands = None
-
 async def handle_message(bot, message: nextcord.Message):
-    global commands
-    
     p = prefix.get(message.guild.id)
     
     if message.author == bot.user:
@@ -68,11 +58,15 @@ async def handle_message(bot, message: nextcord.Message):
         
         lang = language.get(message.guild.id, message.author.id)
         
-        if commands is None:
-            commands = get_commands_locales()
+        # Get commands info and message handlers from global variables
+        commands_info = gv.get("commands_info")
+        message_handlers = gv.get("message_handlers") or {}
+        
+        if commands_info is None:
+            commands_info = get_commands_locales()
             print(f"Loaded commands locales")
         
-        for command_name, command_data in commands.items():
+        for command_name, command_data in commands_info.items():
             command_aliases = [command_name, *command_data.get('aliases', []), *command_data.get('hidden_aliases', [])]
             if command in command_aliases:
                 if not await check_ban_on_message(message):
@@ -80,18 +74,14 @@ async def handle_message(bot, message: nextcord.Message):
                 
                 message.content = remove_command(message.content, command_aliases)
                 
-                match command_name:
-                    case 'prefix':
-                        await set_prefix(lang, message)
-                    case 'lang':
-                        await set_guild_lang(lang, message)
-                    case 'set_ratio_emoji':
-                        await set_ratio_emoji(lang, message)
-                    case 'ratio':
-                        await ratio(bot, message)
-                    case 'roll':
-                        await roll_dice(lang, p, message)
-                    
+                # Check if there's a text command handler for this command
+                if command_name in message_handlers:
+                    handler = message_handlers[command_name]
+                    # Call the handler with standardized signature
+                    await handler(bot, message, lang, p)
+                else:
+                    print(f"No text command handler found for: {command_name}")
+                
                 break
         else:
             print(f"Unknown command: {command}")

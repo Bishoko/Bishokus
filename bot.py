@@ -68,18 +68,30 @@ async def on_guild_join(guild):
 
 # Load cogs from the commands directory
 commands_info = {}
+message_handlers = {}
 for root, dirs, files in os.walk('commands'):
     for filename in files:
         if filename.endswith('.py') and filename not in ['__init__.py', 'template.py']:
             module_path = os.path.join(root, filename)[:-3].replace(os.sep, '.')
             bot.load_extension(module_path)
             
-            module = __import__(module_path, fromlist=['info'])
+            module = __import__(module_path, fromlist=['info', '_message_handler'])
             info = getattr(module, 'info', None)
+            message_handler = getattr(module, '_message_handler', None)
+            
             if info:
-                print(f"Loaded command: {list(info.keys())[0]} ({module_path})")
+                command_name = list(info.keys())[0]
+                print(f"Loaded command: {command_name} ({module_path})")
                 commands_info = {**commands_info, **info}
                 gv.set("commands_info", commands_info)
+                
+                # Store the message handler function if available
+                if message_handler:
+                    message_handlers[command_name] = message_handler
+                    print(f"  Registered text command handler for: {command_name}")
+            
+# Store message handlers in global variables
+gv.set("message_handlers", message_handlers)
                 
 print("All cogs loaded successfully.")
 

@@ -112,3 +112,7 @@ class LangCog(commands.Cog):
 
 def setup(bot: commands.Bot):
     bot.add_cog(LangCog(bot))
+
+# Text command handler wrapper that adapts to message handler signature
+async def _message_handler(bot, message: nextcord.Message, lang_str: str, prefix_str: str):
+    await set_guild_lang(lang_str, message)

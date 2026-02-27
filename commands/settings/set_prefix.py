@@ -109,3 +109,7 @@ class PrefixCog(commands.Cog):
 
 def setup(bot: commands.Bot):
     bot.add_cog(PrefixCog(bot))
+
+# Text command handler wrapper that adapts to message handler signature
+async def _message_handler(bot, message: nextcord.Message, lang: str, prefix_str: str):
+    await set_prefix(lang, message)
