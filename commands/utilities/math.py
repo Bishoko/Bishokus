@@ -86,7 +86,7 @@ async def math(lang: str, message: nextcord.Message):
         result = _compute_result(eval_expr)
         embed = nextcord.Embed(
             title=f"{calculator_emoji} • Calculatrice",
-            colour=nextcord.Colour(0xae10ff),
+            colour=nextcord.Colour(config.get('embed-color')),
             description=f"{text('math_problem', lang)}\n"
             f"```{eval_expr.replace(' ', '')}```\n"
             f"{text('math_result', lang)}\n"
@@ -126,7 +126,7 @@ async def math_slash(lang: str, interaction: nextcord.Interaction, content: str)
         result = _compute_result(eval_expr)
         embed = nextcord.Embed(
             title=f"{calculator_emoji} • Calculatrice",
-            colour=nextcord.Colour(0xae10ff),
+            colour=nextcord.Colour(config.get('embed-color')),
             description=f"{text('math_problem', lang)}\n"
             f"```{eval_expr.replace(' ', '')}```\n"
             f"{text('math_result', lang)}\n"

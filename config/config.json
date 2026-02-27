@@ -8,6 +8,7 @@
     "default-guild-ban-type": "banned_message",
     "default-ratio-emoji-up": "👍",
     "default-ratio-emoji-down": "👎",
+    "embed-color": 11407615,
     "tokens": {
         "main": "BOT_TOKEN",
         "test": "TEST_BOT_TOKEN"

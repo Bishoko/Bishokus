@@ -38,7 +38,7 @@ async def ratio_context(lang: str, interaction: nextcord.Interaction, original_m
                          '%interaction_user%', interaction.user.mention),
                     # + '\n\n' + text('ratio_context_original_message', lang) + ':\n' +
                     # f"*[{text('ratio_context_see_original_message', lang)}]({original_message.jump_url})*",
-        color=0xae10ff
+        color=config.get('embed-color')
     )
     # embed.add_field(
     #     name=f'{get_nickname(original_message.author)}',
