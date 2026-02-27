@@ -82,7 +82,7 @@ ratio_context_original_message=Relevant message
 ratio_context_see_original_message=See original message
 ratio_context_button_label=View attachments (%attachment_count%)
 
-ratio_context_confirmation=✅ Ratio sent!
+ratio_context_success=✅ Ratio sent!
 
 
 # ====  !roll  ====

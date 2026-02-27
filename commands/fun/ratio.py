@@ -60,7 +60,7 @@ async def ratio_context(lang: str, interaction: nextcord.Interaction, original_m
     await sent_message.add_reaction(down_emoji)
     
     await interaction.response.send_message(
-        text('ratio_context_confirmation', lang),
+        text('ratio_context_success', lang),
         ephemeral=True
     )
 
