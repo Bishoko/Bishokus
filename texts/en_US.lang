@@ -115,10 +115,8 @@ ascii_desc=Converts a message into ascii
 ascii_arg_name=message
 ascii_arg_desc=Message to convert
 
-ascii_error_everyone=You cannot mention everyone or here. :/
 ascii_error_empty_msg=🚫 The message cannot be empty!
-
-ascii_success=Message converted :3
+ascii_error_length=🚫 The message cannot be longer than 13 characters. :/
 
 
 # ====  !math  ====
