@@ -108,6 +108,20 @@ say_error_empty_msg=🚫 Le message ne peut pas être vide!
 say_success=Message envoyé :)
 
 
+# ====  !ascii  ====
+ascii_name=ascii
+ascii_desc=Converti un message en Ascii
+
+ascii_arg_name=message
+ascii_arg_desc=Message à convertir
+
+ascii_error_everyone=Vous ne pouvez mentionner everyone ou here ici. :/
+ascii_error_empty_msg=🚫 Le message ne peut pas être vide!
+ascii_error_length=🚫 Désolé, votre message ne peut pas faire plus de 13 caractères.
+
+ascii_success=Message converti :3
+
+
 # ====  !math  ====
 math_name=calculatrice
 math_desc=Évalue une expression mathématique
