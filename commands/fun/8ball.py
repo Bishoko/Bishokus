@@ -37,7 +37,7 @@ async def ball(lang: str, message: nextcord.Message):
 
 
 async def ball_slash(lang: str, interaction: nextcord.Interaction, question: str):
-    if random.randint(1, 4) == 1:
+    if (random.randint(1, 4) == 1) if question else (random.randint(1, 2) == 1):
         response_type = "evasive"
     else:
         response_type = random.choice(["affirmative", "negative"])
