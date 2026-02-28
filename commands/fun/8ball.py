@@ -87,8 +87,8 @@ async def ball_slash(lang: str, interaction: nextcord.Interaction, question: str
 info = {
     "8ball": {
         "category": "fun",
-        "aliases": [],
-        "hidden_aliases": ["ball", "balls", "ball8"],
+        "aliases": ["magicball", "8b"],
+        "hidden_aliases": ["8-ball", "ball", "balls", "ball8"],
         "available": ["text_command", "context_command"],
         "visibility": "everyone",
         "user_permissions": [],
