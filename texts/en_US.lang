@@ -94,6 +94,7 @@ roll_arg_desc=Roll dice in NdN format (e.g. 2d6)
 
 roll_format_error=Format has to be in NdN! \nExample: `%prefix%roll 1d6`
 
+
 # ====  !8ball  ====
 
 # evasive_awnser
@@ -149,10 +150,8 @@ ascii_desc=Converts a message into ascii
 ascii_arg_name=message
 ascii_arg_desc=Message to convert
 
-ascii_error_everyone=You cannot mention everyone or here. :/
 ascii_error_empty_msg=🚫 The message cannot be empty!
-
-ascii_success=Message converted :3
+ascii_error_length=🚫 The message cannot be longer than 13 characters. :/
 
 
 # ====  !math  ====
@@ -170,3 +169,11 @@ math_error_name=❌ NameError | Error. Probably because a text character is pres
 math_error_value=❌ ValueError | ...
 math_error_syntax=❌ SyntaxError | Syntax error, you may have tried to do an equation, or introduced an unknown character!
 math_error_type=❌ TypeError | Error. Probably because a text character is present in your calculation!
+
+
+# ====  !avatar  ====
+avatar_name=avatar
+avatar_desc=Displays the avatar of the targeted user or yourself
+
+avatar_global=Avatar
+avatar_guild=Server Avatar

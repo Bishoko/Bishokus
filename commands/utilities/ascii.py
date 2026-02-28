@@ -1,5 +1,4 @@
 import nextcord
-import pyfiglet
 from nextcord.ext import commands, application_checks
 from nextcord.application_command import slash_command, message_command
 from utils.get_commands_locales import get_commands_locales
@@ -10,6 +9,18 @@ from utils.languages import text
 from utils.settings import prefix, lang
 get_lang = lang.get_lang
 
+import pyfiglet
+
+async def _ascii(text: str) -> nextcord.Embed:
+    ascii_art = pyfiglet.figlet_format(text)
+        
+    embed = nextcord.Embed(
+        description=f"```\n{ascii_art}```",
+        color=nextcord.Color.blurple() 
+    )
+    
+    return embed
+
 
 async def ascii_text(lang: str, message: nextcord.Message):
     if message.content == "":
@@ -19,29 +30,19 @@ async def ascii_text(lang: str, message: nextcord.Message):
     if len(message.content) > 13:
         await message.reply(text('ascii_error_length', lang), mention_author=False)
         return
-
-    ascii_art = pyfiglet.figlet_format(message.content)
-        
-    embed = nextcord.Embed(
-        description=f"```\n{ascii_art}```",
-        color=nextcord.Color.blurple() 
-    )
     
-    await message.channel.send(embed=embed)
+    await message.channel.send(
+        embed=await _ascii(message.content)
+    )
 
 async def ascii_slash(lang: str, interaction: nextcord.Interaction, content: str):
     if len(content) > 13:
         await interaction.response.send_message(text('ascii_error_length', lang), ephemeral=True)
         return
 
-    ascii_art = pyfiglet.figlet_format(content)
-
-    embed = nextcord.Embed(
-        description=f"```\n{ascii_art}```",
-        color=nextcord.Color.blurple()
+    await interaction.response.send_message(
+        embed=await _ascii(content)
     )
-
-    await interaction.channel.send(embed=embed)
 
 
 info = {

@@ -12,9 +12,9 @@ get_lang = lang.get_lang
 import random
 
 
-async def ball(message: nextcord.Message):  
+async def ball(lang: str, message: nextcord.Message):  
     if not message.content: 
-        await message.reply(text('ball_error_no_question', get_lang(message)), mention_author=False)
+        await message.reply(text('ball_error_no_question', lang), mention_author=False)
         return
 
     random_list = random.randint(1, 4)
@@ -28,17 +28,17 @@ async def ball(message: nextcord.Message):
             type = "negative"
 
     if type == "evasive":
-        response = text(f'evasive_awnser{random.randint(1, 5)}', get_lang(message))
+        response = text(f'evasive_awnser{random.randint(1, 5)}', lang)
     elif type == "affirmative":
-        response = text(f'affirmative_awnser{random.randint(1, 8)}', get_lang(message))
+        response = text(f'affirmative_awnser{random.randint(1, 8)}', lang)
     elif type == "negative":
         random_bonsoirnon = 0
-        if lang.get_lang(message) == "fr":
+        if lang == "fr":
             random_bonsoirnon = random.randint(0, 30)
         if random_bonsoirnon == 20:
             response = "Bonsoir non"
         else:
-            response = text(f'negative_awnser{random.randint(1, 8)}', get_lang(message))
+            response = text(f'negative_awnser{random.randint(1, 8)}', lang)
 
     embed = nextcord.Embed(
         title="🎱 8Ball",
@@ -126,4 +126,4 @@ def setup(bot: commands.Bot):
 
 # Text command handler wrapper that adapts to message handler signature
 async def _message_handler(bot, message: nextcord.Message, lang: str, prefix: str):
-    await ball(message)
+    await ball(lang, message)
