@@ -13,68 +13,44 @@ import random
 
 
 async def ball(lang: str, message: nextcord.Message):  
-    if not message.content: 
-        await message.reply(text('ball_error_no_question', lang), mention_author=False)
-        return
-
-    random_list = random.randint(1, 4)
-    if random_list == 1:
-        type = "evasive"
+    if random.randint(1, 4) == 1:
+        response_type = "evasive"
     else:
-        random_list_2 = random.randint(1,2)
-        if random_list_2 == 1:
-            type = "affirmative"
-        if random_list_2 == 2:
-            type = "negative"
+        response_type = random.choice(["affirmative", "negative"])
 
-    if type == "evasive":
-        response = text(f'evasive_awnser{random.randint(1, 5)}', lang)
-    elif type == "affirmative":
-        response = text(f'affirmative_awnser{random.randint(1, 8)}', lang)
-    elif type == "negative":
-        random_bonsoirnon = 0
-        if lang == "fr":
-            random_bonsoirnon = random.randint(0, 30)
-        if random_bonsoirnon == 20:
+    if response_type == "evasive":
+        response = text(f'8ball_evasive_awnser{random.randint(1, 5)}', lang)
+    elif response_type == "affirmative":
+        response = text(f'8ball_affirmative_awnser{random.randint(1, 8)}', lang)
+    elif response_type == "negative":
+        if lang == "fr" and random.randint(0, 30) == 20:
             response = "Bonsoir non"
         else:
-            response = text(f'negative_awnser{random.randint(1, 8)}', lang)
+            response = text(f'8ball_negative_awnser{random.randint(1, 8)}', lang)
 
     embed = nextcord.Embed(
         title="🎱 8Ball",
-        description=response,
+        description=response if message.content else text('8ball_no_question', lang),
         color=config.get('embed-color')
     )
     await message.channel.send(embed=embed)
 
 
 async def ball_slash(lang: str, interaction: nextcord.Interaction, question: str):
-    if not question:
-        await interaction.response.send_message(text('ball_error_no_question', lang), ephemeral=True)
-        return
-
-    random_list = random.randint(1, 4)
-    if random_list == 1:
-        type = "evasive"
+    if random.randint(1, 4) == 1:
+        response_type = "evasive"
     else:
-        random_list_2 = random.randint(1,2)
-        if random_list_2 == 1:
-            type = "affirmative"
-        if random_list_2 == 2:
-            type = "negative"
+        response_type = random.choice(["affirmative", "negative"])
 
-    if type == "evasive":
-        response = text(f'evasive_awnser{random.randint(1, 5)}', lang)
-    elif type == "affirmative":
-        response = text(f'affirmative_awnser{random.randint(1, 8)}', lang)
-    elif type == "negative":
-        random_bonsoirnon = 0
-        if lang == "fr":
-            random_bonsoirnon = random.randint(0, 30)
-        if random_bonsoirnon == 20:
+    if response_type == "evasive":
+        response = text(f'8ball_evasive_awnser{random.randint(1, 5)}', lang)
+    elif response_type == "affirmative":
+        response = text(f'8ball_affirmative_awnser{random.randint(1, 8)}', lang)
+    elif response_type == "negative":
+        if lang == "fr" and random.randint(0, 30) == 20:
             response = "Bonsoir non"
         else:
-            response = text(f'negative_awnser{random.randint(1, 8)}', lang)
+            response = text(f'8ball_negative_awnser{random.randint(1, 8)}', lang)
 
     embed = nextcord.Embed(
         title="🎱 8Ball",
@@ -98,7 +74,7 @@ info = {
             {
                 "name": "ball_arg_name",
                 "desc": "ball_arg_desc",
-                "required": False
+                "required": True
             }
         ]
     },

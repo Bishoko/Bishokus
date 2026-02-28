@@ -96,38 +96,34 @@ roll_format_error=La commande doit être au format NdN ! \nExemple : `%prefix%ro
 
 
 # ====  !8ball  ====
-
-# evasive_awnser
-evasive_awnser1=Essaye plus tard
-evasive_awnser2=Essaye encore
-evasive_awnser3=Pas d'avis
-evasive_awnser4=C'est ton destin
-evasive_awnser5=Une chance sur deux
-
-# affirmative_awnser
-affirmative_awnser1=D'après moi oui
-affirmative_awnser2=C'est certain
-affirmative_awnser3=Oui absolument
-affirmative_awnser4=Tu peux compter dessus
-affirmative_awnser5=Sans aucun doute
-affirmative_awnser6=Très probable
-affirmative_awnser7=Oui
-affirmative_awnser8=C'est bien parti
-
-# negative_awnser
-negative_awnser1=C'est non
-negative_awnser2=Peu probable
-negative_awnser3=Faut pas rêver
-negative_awnser4=n'y compte pas
-negative_awnser5=Impossible
-
-# conf 
 8ball_name=8ball
 8ball_desc= Répond à une question par une réponse aléatoire
 
 8ball_arg_name=question
 8ball_arg_desc=Question à poser à la boule magique
-8ball_error_no_question=...
+
+8ball_evasive_awnser1=Essaye plus tard
+8ball_evasive_awnser2=Essaye encore
+8ball_evasive_awnser3=Pas d'avis
+8ball_evasive_awnser4=C'est ton destin
+8ball_evasive_awnser5=Une chance sur deux
+
+8ball_affirmative_awnser1=D'après moi oui
+8ball_affirmative_awnser2=C'est certain
+8ball_affirmative_awnser3=Oui absolument
+8ball_affirmative_awnser4=Tu peux compter dessus
+8ball_affirmative_awnser5=Sans aucun doute
+8ball_affirmative_awnser6=Très probable
+8ball_affirmative_awnser7=Oui
+8ball_affirmative_awnser8=C'est bien parti
+
+8ball_negative_awnser1=C'est non
+8ball_negative_awnser2=Peu probable
+8ball_negative_awnser3=Faut pas rêver
+8ball_negative_awnser4=n'y compte pas
+8ball_negative_awnser5=Impossible
+
+8ball_no_question=Quelle est ta question?
 
 
 # ====  !say  ====

@@ -96,38 +96,34 @@ roll_format_error=Format has to be in NdN! \nExample: `%prefix%roll 1d6`
 
 
 # ====  !8ball  ====
-
-# evasive_awnser
-evasive_awnser1=Try later 
-evasive_awnser2=Try again
-evasive_awnser3=No opinion
-evasive_awnser4=It's your destiny
-evasive_awnser5=One in two chances
-
-# affirmative_awnser
-affirmative_awnser1=In my opinion, yes
-affirmative_awnser2=Definitely
-affirmative_awnser3=Absolutely
-affirmative_awnser4=You can count on it
-affirmative_awnser5=Without a doubt
-affirmative_awnser6=Very probable
-affirmative_awnser7=Yes
-affirmative_awnser8=It's starting well
-
-# negative_awnser
-negative_awnser1=no.
-negative_awnser2=Unlikely
-negative_awnser3=Don't dream about it
-negative_awnser4=Don't count on it
-negative_awnser5=Impossible
-
-# conf
 8ball_name=8ball
-8ball_desc= Awnser to a question with a random answer
+8ball_desc=Awnser to a question with a random answer
 
 8ball_arg_name=question
 8ball_arg_desc=Question to ask the magic ball
-8ball_error_no_question=...
+
+8ball_evasive_awnser1=Try later 
+8ball_evasive_awnser2=Try again
+8ball_evasive_awnser3=No opinion
+8ball_evasive_awnser4=It's your destiny
+8ball_evasive_awnser5=One in two chances
+
+8ball_affirmative_awnser1=In my opinion, yes
+8ball_affirmative_awnser2=Definitely
+8ball_affirmative_awnser3=Absolutely
+8ball_affirmative_awnser4=You can count on it
+8ball_affirmative_awnser5=Without a doubt
+8ball_affirmative_awnser6=Very probable
+8ball_affirmative_awnser7=Yes
+8ball_affirmative_awnser8=It's starting well
+
+8ball_negative_awnser1=no.
+8ball_negative_awnser2=Unlikely
+8ball_negative_awnser3=Don't dream about it
+8ball_negative_awnser4=Don't count on it
+8ball_negative_awnser5=Impossible
+
+8ball_no_question=What is your question?
 
 
 # ====  !say  ====
