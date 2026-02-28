@@ -134,3 +134,11 @@ math_error_name=❌ NameError | Erreur. Probablement parce que un caractère tex
 math_error_value=❌ ValueError | ...
 math_error_syntax=❌ SyntaxError | Erreur de syntaxe, vous avez peut-être voulu faire une équation, ou alors introduit un caractère inconnu!
 math_error_type=❌ TypeError | Erreur. Probablement parce que un caractère texte est présent dans votre calcul!
+
+
+# ====  !avatar  ====
+avatar_name=avatar
+avatar_desc=Affiche l'avatar de l'utilisateur ciblé ou de vous-même
+
+avatar_global=Avatar
+avatar_guild=Avatar serveur
