@@ -14,7 +14,8 @@
         "test": "TEST_BOT_TOKEN"
     },
     "api-keys": {
-        "openweather": ""
+        "openweather": "",
+        "blagues": ""
     },
     "owner-id": 390265556357611521,
     "bot-guild": 391919052563546112,

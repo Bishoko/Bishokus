@@ -95,6 +95,18 @@ roll_arg_desc=Roll dice in NdN format (e.g. 2d6)
 roll_format_error=Format has to be in NdN! \nExample: `%prefix%roll 1d6`
 
 
+# ====  !joke  ====
+joke_name=joke
+joke_desc=Tells a random joke
+
+joke_arg_name=category
+joke_arg_desc=Joke category (optional)
+
+joke_title=Joke
+joke_category=Category
+joke_error=⚠️ Unable to fetch a joke right now, please try again later!
+
+
 # ====  !8ball  ====
 8ball_name=8ball
 8ball_desc=Awnser to a question with a random answer

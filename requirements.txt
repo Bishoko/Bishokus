@@ -2,3 +2,5 @@ nextcord
 mysql-connector-python
 emoji==1.7.0
 pyfiglet==1.0.4
+aiohttp==3.13.3
+blagues-api==1.0.4

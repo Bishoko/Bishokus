@@ -95,6 +95,18 @@ roll_arg_desc=Lancer des dés au format NdN (par exemple 2d6)
 roll_format_error=La commande doit être au format NdN ! \nExemple : `%prefix%roll 1d6`
 
 
+# ====  !joke  ====
+joke_name=blague
+joke_desc=Raconte une blague aléatoire
+
+joke_arg_name=catégorie
+joke_arg_desc=Catégorie de blague (optionnel)
+
+joke_title=Blague
+joke_type=Type
+joke_error=⚠️ Impossible de récupérer une blague pour le moment, réessayez plus tard !
+
+
 # ====  !8ball  ====
 8ball_name=8ball
 8ball_desc= Répond à une question par une réponse aléatoire
