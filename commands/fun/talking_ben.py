@@ -13,14 +13,14 @@ import random
 
 # Ben settings
 WEBHOOK_AVATARS = {
-    "yes": 'https://github.com/Bishoko/Bishokus/blob/master/medias/yes.gif?raw=true',
-    "no": 'https://github.com/Bishoko/Bishokus/blob/master/medias/no.gif?raw=true',
-    "hohoho": 'https://github.com/Bishoko/Bishokus/blob/master/medias/hohoho.gif?raw=true',
-    "ugh": 'https://github.com/Bishoko/Bishokus/blob/master/medias/ugh.gif?raw=true',
-    "bye": 'https://github.com/Bishoko/Bishokus/blob/master/medias/ben.gif?raw=true',
-    "default": 'https://github.com/Bishoko/Bishokus/blob/master/medias/ben.gif?raw=true',
+    "yes": 'https://raw.githubusercontent.com/Bishoko/Bishokus/refs/heads/main/medias/yes.gif',
+    "no": 'https://raw.githubusercontent.com/Bishoko/Bishokus/refs/heads/main/medias/no.gif',
+    "hohoho": 'https://raw.githubusercontent.com/Bishoko/Bishokus/refs/heads/main/medias/hohoho.gif',
+    "ugh": 'https://raw.githubusercontent.com/Bishoko/Bishokus/refs/heads/main/medias/ugh.gif',
+    "bye": 'https://raw.githubusercontent.com/Bishoko/Bishokus/refs/heads/main/medias/ben.gif',
+    "default": 'https://raw.githubusercontent.com/Bishoko/Bishokus/refs/heads/main/medias/ben.gif',
 }
-HANG_UP_GIF_URL = 'https://github.com/Bishoko/Bishokus/blob/master/medias/hang_up.gif?raw=true'
+HANG_UP_GIF_URL = 'https://raw.githubusercontent.com/Bishoko/Bishokus/refs/heads/main/medias/hang_up.gif'
 MAXIMUM_WEBHOOKS_PER_GUILD = 3
 
 
