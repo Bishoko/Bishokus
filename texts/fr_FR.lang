@@ -100,7 +100,7 @@ roll_format_error=La commande doit être au format NdN ! \nExemple : `%prefix%ro
 8ball_desc= Répond à une question par une réponse aléatoire
 
 8ball_arg_name=question
-8ball_arg_desc=Question à poser à la boule magique
+8ball_arg_desc=Question à poser à la boule magique (Non requis mais recommandé)
 
 8ball_evasive_awnser1=Essaye plus tard
 8ball_evasive_awnser2=Essaye encore

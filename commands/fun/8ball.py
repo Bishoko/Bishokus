@@ -13,14 +13,14 @@ import random
 
 def _ball(lang: str, response_type: str, ask_again: bool):
     if response_type == "evasive":
-        response = text(f'8ball_evasive_awnser{random.randint(1, 5)}', lang)
+        response = text(f'8ball_evasive_awnser{random.randint(1, 5-1)}', lang)
     elif response_type == "affirmative":
-        response = text(f'8ball_affirmative_awnser{random.randint(1, 8)}', lang)
+        response = text(f'8ball_affirmative_awnser{random.randint(1, 8-1)}', lang)
     elif response_type == "negative":
         if lang == "fr" and random.randint(0, 30) == 20:
             response = "Bonsoir non"
         else:
-            response = text(f'8ball_negative_awnser{random.randint(1, 8)}', lang)
+            response = text(f'8ball_negative_awnser{random.randint(1, 5-1)}', lang)
 
     embed = nextcord.Embed(
         title="🎱 8Ball",
@@ -59,13 +59,13 @@ info = {
         "available": ["text_command", "context_command"],
         "visibility": "everyone",
         "user_permissions": [],
-        "name": "ball_name",
-        "desc": "ball_desc",
+        "name": "8ball_name",
+        "desc": "8ball_desc",
         "args": [
             {
-                "name": "ball_arg_name",
-                "desc": "ball_arg_desc",
-                "required": True
+                "name": "8ball_arg_name",
+                "desc": "8ball_arg_desc",
+                "required": False
             }
         ]
     },
@@ -78,9 +78,12 @@ class ballCog(commands.Cog):
         self.bot = bot
     
     @check_ban()
-    @message_command(
+    @application_checks.has_permissions(**{perm: True for perm in cmd.user_permissions})
+    @slash_command(
         name=cmd.name,
-        name_localizations=cmd.name_localizations
+        description=cmd.description,
+        name_localizations=cmd.name_localizations,
+        description_localizations=cmd.description_localizations
     )
     async def ball_command(self, interaction: nextcord.Interaction,
         question: str = get_slash_option(cmd.arg(0))

@@ -100,7 +100,7 @@ roll_format_error=Format has to be in NdN! \nExample: `%prefix%roll 1d6`
 8ball_desc=Awnser to a question with a random answer
 
 8ball_arg_name=question
-8ball_arg_desc=Question to ask the magic ball
+8ball_arg_desc=Question to ask the magic ball (Not required but recommended)
 
 8ball_evasive_awnser1=Try later 
 8ball_evasive_awnser2=Try again
