@@ -173,3 +173,20 @@ avatar_desc=Displays the avatar of the targeted user or yourself
 
 avatar_global=Avatar
 avatar_guild=Server Avatar
+
+
+# ====  !ben  ====
+ben_name=ben
+ben_desc=Makes Ben respond with a random reaction
+
+ben_response_yes=Yes. <a:yes:946572729782505492>
+ben_response_no=No. <a:no:946572724736765963>
+ben_response_hohoho=Hohoho! <a:hohoho:946572704406990899>
+ben_response_ugh=Ugh.. <a:berk:946572662031933440>
+ben_response_bye=https://tenor.com/view/talking-ben-ben-hang-up-bye-goodbye-gif-24987183
+ben_response_default=Ben? <a:ben:946572456028676118>
+
+ben_webhook_permission_error=🚫 Sorry, I'm missing a permission: `Manage Webhooks`
+
+ben_success_1=Ben responded! Maybe you should talk to him? :D
+ben_success_2=Ben responded :)
