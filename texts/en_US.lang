@@ -190,3 +190,28 @@ ben_webhook_permission_error=🚫 Sorry, I'm missing a permission: `Manage Webho
 
 ben_success_1=Ben responded! Maybe you should talk to him? :D
 ben_success_2=Ben responded :)
+
+
+# ====  !minesweeper  ====
+minesweeper_name=minesweeper
+minesweeper_desc=Generates a minesweeper game grid
+
+minesweeper_columns_arg_name=columns
+minesweeper_columns_arg_desc=Number of columns (1-11)
+minesweeper_rows_arg_name=rows
+minesweeper_rows_arg_desc=Number of rows (1-11)
+minesweeper_bombs_arg_name=bombs
+minesweeper_bombs_arg_desc=Number of bombs
+
+minesweeper_size_limit_error=🚫 The maximum size for columns and rows is 11 due to Discord limitations!
+minesweeper_negative_error=🚫 Columns, rows, and bombs must be positive numbers!
+minesweeper_too_many_bombs_error=🚫 There are too many bombs for this grid size!
+minesweeper_invalid_args=🚫 Invalid arguments!
+minesweeper_invalid_format=🚫 Invalid format! Use: columns, columns rows, or columns rows bombs
+
+minesweeper_columns=Columns
+minesweeper_rows=Rows
+minesweeper_total_cells=Total Cells
+minesweeper_bombs=Bombs
+minesweeper_bomb_percentage=Bomb Percentage
+minesweeper_requested_by=Requested by

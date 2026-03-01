@@ -190,3 +190,28 @@ ben_webhook_permission_error=🚫 Désolé, il me manque la permission : `Gérer
 
 ben_success_1=Ben a décroché! Peut-être que tu devrais lui parler? :D
 ben_success_2=Ben a répondu :)
+
+
+# ====  !minesweeper  ====
+minesweeper_name=démineur
+minesweeper_desc=Génère une grille de démineur
+
+minesweeper_columns_arg_name=colonnes
+minesweeper_columns_arg_desc=Nombre de colonnes (1-11)
+minesweeper_rows_arg_name=lignes
+minesweeper_rows_arg_desc=Nombre de lignes (1-11)
+minesweeper_bombs_arg_name=bombes
+minesweeper_bombs_arg_desc=Nombre de bombes
+
+minesweeper_size_limit_error=🚫 La taille maximale pour les colonnes et lignes est 11 en raison des limitations de Discord !
+minesweeper_negative_error=🚫 Les colonnes, lignes et bombes doivent être des nombres positifs !
+minesweeper_too_many_bombs_error=🚫 Il y a trop de bombes pour cette taille de grille !
+minesweeper_invalid_args=🚫 Arguments invalides !
+minesweeper_invalid_format=🚫 Format invalide ! Utilisez : colonnes, colonnes lignes, ou colonnes lignes bombes
+
+minesweeper_columns=Colonnes
+minesweeper_rows=Lignes
+minesweeper_total_cells=Cases Totales
+minesweeper_bombs=Bombes
+minesweeper_bomb_percentage=Pourcentage de Bombes
+minesweeper_requested_by=Demandé par
