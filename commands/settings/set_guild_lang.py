@@ -8,6 +8,7 @@ from utils.settings.bot_ban import check_ban
 from utils.languages import text
 from utils.settings import prefix, lang
 get_lang = lang.get_lang
+set_lang = lang.set_guild
 
 from utils.languages import get_languages_info
 
@@ -43,7 +44,7 @@ async def set_guild_lang(lang: str, message: nextcord.Message):
         )
         return
     
-    lang.set_guild(message.guild.id, new_lang.lower())
+    set_lang(message.guild.id, new_lang.lower())
     
     await message.reply(
         text('set_guild_lang_success', new_lang).replace('%new_lang%', new_lang),
@@ -62,7 +63,7 @@ async def set_guild_lang_slash(lang: str, interaction: nextcord.Interaction, new
         )
         return
     
-    lang.set_guild(interaction.guild_id, new_lang.lower())
+    set_lang(interaction.guild_id, new_lang.lower())
     
     await interaction.response.send_message(
         text('set_guild_lang_success', new_lang).replace('%new_lang%', new_lang)
