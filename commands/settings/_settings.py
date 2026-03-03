@@ -15,7 +15,7 @@ info = {
         "category": "settings",
         "has_subcommands": True,
         "aliases": ["config"],
-        "hidden_aliases": ["configuration", "setup"],
+        "hidden_aliases": ["configuration", "setup", "options", "option", "prefs", "pref", "preferences", "preference", "setting"],
         "available": ["slash_command", "text_command"],
         "visibility": "everyone",
         "user_permissions": ["manage_guild"],
