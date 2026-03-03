@@ -68,7 +68,7 @@ CREATE TABLE IF NOT EXISTS message_logs (
 );
 
 CREATE TABLE IF NOT EXISTS confess (
-    id INT PRIMARY KEY,
+    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     guild_id BIGINT,
     channel_id BIGINT,
     user_id BIGINT,
@@ -76,5 +76,5 @@ CREATE TABLE IF NOT EXISTS confess (
     channel_name TINYTEXT,
     user_name TINYTEXT,
     raw_message TEXT(10000),
-    `time` TIMESTAMP
+    `time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

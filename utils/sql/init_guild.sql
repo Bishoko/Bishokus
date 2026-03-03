@@ -30,8 +30,8 @@ INSERT INTO guilds (
     '[]',  -- sniper
     '[]',  -- antisniper_backup
     '{}',  -- command_settings
-    %s,     -- confess_cooldown
-    '{}',  -- confess_channels
+    %s,    -- confess_cooldown
+    '[]',  -- confess_channels
     '{}',  -- confess_banned
     FALSE, -- bot_logs_enabled
     FALSE, -- bot_banned

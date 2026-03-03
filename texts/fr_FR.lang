@@ -230,3 +230,25 @@ minesweeper_total_cells=Cases Totales
 minesweeper_bombs=Bombes
 minesweeper_bomb_percentage=Pourcentage de Bombes
 minesweeper_requested_by=Demandé par
+
+# ====  !confess  ====
+confess_name=confession
+confess_desc=Envoie une confession anonyme à un serveur
+
+confess_message_arg_name=message
+confess_message_arg_desc=Votre message de confession
+
+confess_title=📝 Confession Anonyme
+confess_anonymous_author=Confession Anonyme
+confess_cancelled=Confession annulée.
+confess_available_channels=**Salons disponibles :**
+confess_select_channel=Cliquez pour envoyer.
+confess_footer=Utilisez "/confession" pour envoyer une confession anonyme
+
+confess_empty_error=🚫 Votre message ne peut pas être vide !
+confess_user_banned_error=🚫 Oups ! Il semble que vous êtes banni de cette commande sur ce serveur :(
+confess_cooldown_error=🚫 Vous devez attendre %seconds% secondes pour envoyer un autre message !
+confess_no_channels_error=❌ Désolé, il n'y a aucun salon de confession disponible pour vous ! :(
+confess_send_error=❌ Une erreur est survenue lors de l'envoi de la confession.
+
+confess_sent_success=✅ Votre message anonyme a bien été envoyé sur le serveur **%guild%** !
