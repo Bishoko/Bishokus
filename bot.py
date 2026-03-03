@@ -70,8 +70,10 @@ async def on_guild_join(guild):
 commands_info = {}
 message_handlers = {}
 for root, dirs, files in os.walk('commands'):
-    for filename in files:
+    prioritized_files = sorted(files, key=lambda filename: (not filename.startswith('_'), filename.lower()))
+    for filename in prioritized_files:
         if filename.endswith('.py') and filename not in ['__init__.py', 'template.py']:
+            print(f"Processing file: {filename}")
             module_path = os.path.join(root, filename)[:-3].replace(os.sep, '.')
             bot.load_extension(module_path)
             
