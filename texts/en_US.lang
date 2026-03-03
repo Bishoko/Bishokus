@@ -25,6 +25,25 @@ manage_guild_error=🚫 Sorry, you don't have the `Manage Server` permission
 # ====  !settings  ====
 settings_name=settings
 
+# ====  !settings confess  ====
+settings_confess_name=confess
+
+
+# ====  !settings confess addchannel  ====
+settings_confess_addchannel_name=add_channel
+settings_confess_addchannel_desc=Adds a channel for anonymous confessions
+
+settings_confess_addchannel_arg_name=channel
+settings_confess_addchannel_arg_desc=Channel to add to the list for anonymous confessions
+
+settings_confess_addchannel_error=❌ Sorry, an error occurred while adding the channel, and I have no idea what went wrong..
+settings_confess_addchannel_notfound_error=❌ Sorry, I couldn't find the channel you mentioned.\nMake sure to mention a valid channel or use the channel ID.
+settings_confess_addchannel_maximum_error=🚫 The maximum number of confession channels has been reached! (5/5)
+
+settings_confess_addchannel_already_exists=🚫 This channel is already in the list! :)
+settings_confess_addchannel_success=✅ The channel %channel% has been added for anonymous confessions!
+
+
 # ====  !prefix  ====
 prefix_name=prefix
 prefix_desc=Changes the prefix for text commands

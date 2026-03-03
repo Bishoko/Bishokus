@@ -25,6 +25,25 @@ manage_guild_error=🚫 Désolé, vous n'avez pas la permission de `Gérer le se
 # ====  !settings  ====
 settings_name=paramètres
 
+# ====  !settings confess  ====
+settings_confess_name=confession
+
+
+# ====  !settings confess addchannel  ====
+settings_confess_addchannel_name=ajouter_salon
+settings_confess_addchannel_desc=Ajoute un salon pour les confessions anonymes
+
+settings_confess_addchannel_arg_name=salon
+settings_confess_addchannel_arg_desc=Salon à ajouter pour y envoyer des confessions anonymes
+
+settings_confess_addchannel_error=❌ Désolé, une erreur est survenue lors de l'ajout du salon..
+settings_confess_addchannel_notfound_error=❌ Désolé, je n'ai pas pu trouver le salon que vous avez mentionné.\nAssurez-vous de mentionner un salon valide ou d'utiliser l'ID du salon.
+settings_confess_addchannel_maximum_error=🚫 Désolé, ce serveur a atteint le nombre maximum de salons confess. (5/5)
+
+settings_confess_addchannel_already_exists=🚫 Ce salon est déjà dans la liste! :)
+settings_confess_addchannel_success=✅ Le salon %channel% a été ajouté pour les confessions anonymes!
+
+
 # ====  !prefix  ====
 prefix_name=prefixe
 prefix_desc=Modifie le préfixe pour les commandes textes

@@ -1,6 +1,6 @@
 import nextcord
-import time
 
+from utils.config import config
 from utils.get_commands_locales import get_commands_locales
 from utils.languages import text
 from utils.settings import prefix
@@ -8,33 +8,106 @@ from utils.settings import lang as language
 from utils.settings.bot_ban import check_ban_on_message
 import utils.global_variables as gv
 
-def remove_command(content: str, prefixes: list) -> str:
-    """
-    Remove command prefix from the content string.
 
-    Args:
-        content (str): The input string containing the command.
-        prefixes (list): A list of possible command prefixes.
+def _normalize_aliases(value) -> list[str]:
+    if isinstance(value, list):
+        return [str(alias).strip().lower() for alias in value if str(alias).strip()]
+    if isinstance(value, str):
+        alias = value.strip().lower()
+        return [alias] if alias else []
+    return []
 
-    Returns:
-        str: The content string with the command prefix removed, if found.
 
-    Note:
-        Prefixes are sorted by length in descending order to ensure longer prefixes
-        are checked first. This prevents shorter prefixes from being removed prematurely.
-        For example, if content='rolldice' and both 'roll' and 'r' are prefixes,
-        we want to check 'roll' before 'r' to avoid incorrectly removing just 'r'.
-    """
-    sorted_prefixes = sorted(prefixes, key=len, reverse=True)
-    
-    for prefix_item in sorted_prefixes:
-        if content.lower().startswith(prefix_item):
-            return content[len(prefix_item):].strip()
-    return content.strip()
+def _get_command_aliases(command_name: str, command_data: dict, parent_name: str = None) -> list[str]:
+    aliases = [command_name.lower().strip()]
 
+    if parent_name:
+        parent_prefix = f"{parent_name.lower().strip()} "
+        command_name_lower = command_name.lower().strip()
+        if command_name_lower.startswith(parent_prefix):
+            local_name = command_name_lower[len(parent_prefix):].strip()
+            if local_name:
+                aliases.append(local_name)
+
+    aliases.extend(_normalize_aliases(command_data.get('aliases', [])))
+    aliases.extend(_normalize_aliases(command_data.get('hidden_aliases', [])))
+
+    if parent_name is not None:
+        aliases.extend(_normalize_aliases(command_data.get('aliases_sub_only', [])))
+
+    seen = set()
+    unique_aliases = []
+    for alias in aliases:
+        if alias and alias not in seen:
+            unique_aliases.append(alias)
+            seen.add(alias)
+
+    return unique_aliases
+
+
+def _extract_matched_prefix(content: str, aliases: list[str]) -> str | None:
+    content = content.strip()
+    if not content:
+        return None
+
+    content_lower = content.lower()
+    for alias in sorted(aliases, key=len, reverse=True):
+        if not content_lower.startswith(alias):
+            continue
+
+        if len(content_lower) == len(alias) or content_lower[len(alias)] == ' ':
+            return content[:len(alias)]
+
+    return None
+
+
+def _resolve_command_from_content(content: str, commands_info: dict) -> tuple[str | None, str]:
+    children_by_parent = {}
+    standalone_candidates = []
+    for command_name, command_data in commands_info.items():
+        parent = command_data.get('parent')
+        children_by_parent.setdefault(parent, []).append((command_name, command_data))
+
+        if parent is not None:
+            standalone_candidates.append((command_name, command_data))
+
+    remaining = content.strip()
+    current_parent = None
+    resolved_command_name = None
+
+    while remaining:
+        candidates = children_by_parent.get(current_parent, [])
+
+        if current_parent is None:
+            candidates = [*candidates, *standalone_candidates]
+
+        matched = None
+
+        for command_name, command_data in candidates:
+            aliases = _get_command_aliases(command_name, command_data, current_parent)
+            matched_prefix = _extract_matched_prefix(remaining, aliases)
+            if not matched_prefix:
+                continue
+
+            if matched is None or len(matched_prefix) > len(matched[2]):
+                matched = (command_name, command_data, matched_prefix)
+
+        if matched is None:
+            break
+
+        command_name, command_data, matched_prefix = matched
+        resolved_command_name = command_name
+        remaining = remaining[len(matched_prefix):].strip()
+
+        if not command_data.get('has_subcommands', False):
+            break
+
+        current_parent = command_name
+
+    return resolved_command_name, remaining
 
 async def handle_message(bot, message: nextcord.Message):
-    p = prefix.get(message.guild.id)
+    p = prefix.get(message.guild.id) if message.guild else config.get('default-prefix')
     
     if message.author.bot:
         return
@@ -54,8 +127,6 @@ async def handle_message(bot, message: nextcord.Message):
         message.content = message.content.removeprefix(p).removeprefix(f'<@{bot.application_id}>').removeprefix(f'<@!{bot.application_id}>').strip()        
         if not len(message.content) > 0:
             return
-        command = message.content.split()[0].lower()
-        
         lang = language.get(message.guild.id, message.author.id)
         
         # Get commands info and message handlers from global variables
@@ -66,22 +137,19 @@ async def handle_message(bot, message: nextcord.Message):
             commands_info = get_commands_locales()
             print(f"Loaded commands locales")
         
-        for command_name, command_data in commands_info.items():
-            command_aliases = [command_name, *command_data.get('aliases', []), *command_data.get('hidden_aliases', [])]
-            if command in command_aliases:
-                if not await check_ban_on_message(message):
-                    return
-                
-                message.content = remove_command(message.content, command_aliases)
-                
-                # Check if there's a text command handler for this command
-                if command_name in message_handlers:
-                    handler = message_handlers[command_name]
-                    # Call the handler with standardized signature
-                    await handler(bot, message, lang, p)
-                else:
-                    print(f"No text command handler found for: {command_name}")
-                
-                break
+        resolved_command_name, remaining_content = _resolve_command_from_content(message.content, commands_info)
+
+        if resolved_command_name is None:
+            print(f"Unknown command: {message.content.split()[0].lower()}")
+            return
+
+        if not await check_ban_on_message(message):
+            return
+
+        message.content = remaining_content
+
+        if resolved_command_name in message_handlers:
+            handler = message_handlers[resolved_command_name]
+            await handler(bot, message, lang, p)
         else:
-            print(f"Unknown command: {command}")
+            print(f"No text command handler found for: {resolved_command_name}")
