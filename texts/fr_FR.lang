@@ -22,6 +22,9 @@ guild_is_bot_banned=Ce serveur est banni définitivement de ce bot.\n\nRaison: `
 manage_guild_error=🚫 Désolé, vous n'avez pas la permission de `Gérer le serveur`
 
 
+# ====  !settings  ====
+settings_name=paramètres
+
 # ====  !prefix  ====
 prefix_name=prefixe
 prefix_desc=Modifie le préfixe pour les commandes textes

@@ -8,9 +8,10 @@ from utils.settings.bot_ban import check_ban
 from utils.languages import text
 from utils.settings import prefix, lang
 get_lang = lang.get_lang
-set_lang = lang.set_guild
 
+import utils.global_variables as gv
 from utils.languages import get_languages_info
+set_lang = lang.set_guild
 
 
 async def set_guild_lang(lang: str, message: nextcord.Message):
@@ -74,6 +75,7 @@ async def set_guild_lang_slash(lang: str, interaction: nextcord.Interaction, new
 info = {
     "lang": {
         "category": "settings",
+        "parent": "settings",
         "aliases": ["language", "setlang", "setlanguage", "serverlang", "serverlanguage"],
         "hidden_aliases": ["setserverlang", "setserverlanguage", "set_serverlang", "set_server_lang", "setguildlang", "set_guildlang", "set_guild_lang", "guild_lang", "guildlang"],
         "available": ["slash_command", "text_command"],
@@ -92,18 +94,18 @@ info = {
 
 cmd = CmdLocale(list(info.keys())[0], get_commands_locales(info))
 
+parent = gv.get('bot').get_cog("SettingsCog").settings
 class LangCog(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
-
+    
     @check_ban()
     @application_checks.has_permissions(**{perm: True for perm in cmd.user_permissions})
-    @slash_command(
+    @parent.subcommand(
         name=cmd.name,
         description=cmd.description,
         name_localizations=cmd.name_localizations,
         description_localizations=cmd.description_localizations,
-        default_member_permissions=(nextcord.Permissions(manage_guild=True))
     )
     async def language_command(self, interaction: nextcord.Interaction,
         new_lang: str = get_slash_option(cmd.arg(0), custom_choices={lang["native_name"]: lang["code"] for lang in get_languages_info()})

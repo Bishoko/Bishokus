@@ -9,6 +9,7 @@ from utils.languages import text
 from utils.settings import prefix, lang
 get_lang = lang.get_lang
 
+import utils.global_variables as gv
 from utils.settings import ratio_emoji
 
 
@@ -110,6 +111,7 @@ async def set_ratio_emoji_slash(lang: str, interaction: nextcord.Interaction, up
 info = {
     "set_ratio_emoji": {
         "category": "settings",
+        "parent": "settings",
         "aliases": ["setratio", "ratio_emoji"],
         "hidden_aliases": ["set_ratio", "ratioemoji", "ratio_emoji", "setraito", "set_ratio", "setratioemoji"],
         "available": ["slash_command", "text_command"],
@@ -134,18 +136,18 @@ info = {
 
 cmd = CmdLocale(list(info.keys())[0], get_commands_locales(info))
 
+parent = gv.get('bot').get_cog("SettingsCog").settings
 class SetRatioEmojiCog(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
 
     @check_ban()
     @application_checks.has_permissions(**{perm: True for perm in cmd.user_permissions})
-    @slash_command(
+    @parent.subcommand(
         name=cmd.name,
         description=cmd.description,
         name_localizations=cmd.name_localizations,
         description_localizations=cmd.description_localizations,
-        default_member_permissions=(nextcord.Permissions(manage_guild=True))
     )
     async def set_ratio_emoji_command(self, interaction: nextcord.Interaction,
         up_emoji: str = get_slash_option(cmd.arg(0)),

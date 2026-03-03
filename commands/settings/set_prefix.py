@@ -9,6 +9,7 @@ from utils.languages import text
 from utils.settings import prefix, lang
 get_lang = lang.get_lang
 
+import utils.global_variables as gv
 from utils.settings import prefix
 
 
@@ -68,6 +69,7 @@ async def set_prefix_slash(lang: str, interaction: nextcord.Interaction, new_pre
 info = {
     "prefix": {
         "category": "settings",
+        "parent": "settings",
         "aliases": ["setprefix", "set_prefix"],
         "hidden_aliases": "",
         "available": ["slash_command", "text_command"],
@@ -89,17 +91,18 @@ info = {
 
 cmd = CmdLocale(list(info.keys())[0], get_commands_locales(info))
 
+parent = gv.get('bot').get_cog("SettingsCog").settings
 class PrefixCog(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
 
     @check_ban()
-    @slash_command(
+    @application_checks.has_permissions(**{perm: True for perm in cmd.user_permissions})
+    @parent.subcommand(
         name=cmd.name,
         description=cmd.description,
         name_localizations=cmd.name_localizations,
         description_localizations=cmd.description_localizations,
-        default_member_permissions=(nextcord.Permissions(manage_guild=True))
     )
     async def set_prefix_command(self, interaction: nextcord.Interaction,
         new_prefix: str = get_slash_option(cmd.arg(0))

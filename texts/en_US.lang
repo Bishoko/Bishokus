@@ -22,6 +22,9 @@ guild_is_bot_banned=This server is permanently banned from this bot.\n\nReason: 
 manage_guild_error=🚫 Sorry, you don't have the `Manage Server` permission
 
 
+# ====  !settings  ====
+settings_name=settings
+
 # ====  !prefix  ====
 prefix_name=prefix
 prefix_desc=Changes the prefix for text commands
@@ -49,7 +52,7 @@ set_guild_lang_success=✅ The server language has been set to `%new_lang%`
 
 
 # ====  !set_ratio_emoji  ====
-set_ratio_emoji_name=set_ratio_emoji
+set_ratio_emoji_name=ratio_emoji
 set_ratio_emoji_desc=Modifies the emojis for ratios
 
 set_ratio_emoji_up_arg_name=upvote_emoji
