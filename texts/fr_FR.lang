@@ -148,7 +148,7 @@ say_desc=Répète un message
 say_arg_name=message
 say_arg_desc=Message à répéter
 
-say_error_everyone=Vous ne pouvez mentionner everyone ou here ici. :/
+say_error_everyone=Vous ne pouvez pas mentionner everyone ou here ici. :/
 say_error_empty_msg=🚫 Le message ne peut pas être vide!
 
 say_success=Message envoyé :)
