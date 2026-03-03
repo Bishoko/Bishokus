@@ -238,8 +238,9 @@ confess_desc=Envoie une confession anonyme à un serveur
 confess_message_arg_name=message
 confess_message_arg_desc=Votre message de confession
 
-confess_title=📝 Confession Anonyme
+confess_title=Confession
 confess_anonymous_author=Confession Anonyme
+confess_channel_field=Salon
 confess_cancelled=Confession annulée.
 confess_available_channels=**Salons disponibles :**
 confess_select_channel=Cliquez pour envoyer.

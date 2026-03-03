@@ -260,11 +260,16 @@ async def _confess(bot, user: nextcord.User, message_content: str, attachments: 
                         embed = nextcord.Embed(
                             title="",
                             description=text('confess_sent_success', lang).replace('%guild%', ch_info['guild'].name),
-                            color=config.get('embed-color')
+                            color=config.get('embed-color'),
+                            timestamp=datetime.now()
                         )
                         embed.set_author(
-                            name=f"{text('confess_title', lang)} » {ch_info['guild'].name}",
+                            name=f"{("📝 " if not ch_info['guild'].icon else "")}{text('confess_title', lang)} » {ch_info['guild'].name}",
                             icon_url=ch_info['guild'].icon.url if ch_info['guild'].icon else None
+                        )
+                        embed.add_field(name=text('confess_channel_field', lang),
+                            value=ch_info['channel'].mention,
+                            inline=True
                         )
                         
                         # Set cooldown in memory
