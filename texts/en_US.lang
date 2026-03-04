@@ -44,6 +44,20 @@ settings_confess_addchannel_already_exists=🚫 This channel is already in the l
 settings_confess_addchannel_success=✅ The channel %channel% has been added for anonymous confessions!
 
 
+# ====  !settings confess removechannel  ====
+settings_confess_removechannel_name=remove_channel
+settings_confess_removechannel_desc=Removes a channel from the list for anonymous confessions
+
+settings_confess_removechannel_arg_name=channel
+settings_confess_removechannel_arg_desc=Channel to remove from the list for anonymous confessions
+
+settings_confess_removechannel_error=❌ Sorry, an error occurred while removing the channel, and I have no idea what went wrong..
+settings_confess_removechannel_notfound_error=❌ Sorry, I couldn't find the channel you mentioned.\nMake sure to mention a valid channel or use the channel ID.
+
+settings_confess_removechannel_not_found=🚫 This channel is not in the list! 
+settings_confess_removechannel_success=✅ The channel %channel% has been removed from the list for anonymous confessions!
+
+
 # ====  !prefix  ====
 prefix_name=prefix
 prefix_desc=Changes the prefix for text commands
