@@ -244,7 +244,8 @@ info = {
             {
                 "name": "joke_arg_name",
                 "desc": "joke_arg_desc",
-                "required": False
+                "required": False,
+                "autocomplete": True
             }
         ]
     }
@@ -283,14 +284,7 @@ class JokeCog(commands.Cog):
         description_localizations=cmd.description_localizations
     )
     async def joke_command(self, interaction: nextcord.Interaction,
-        category: str = nextcord.SlashOption(
-            name=cmd.arg(0).name,
-            name_localizations=cmd.arg(0).name_localizations,
-            description=cmd.arg(0).description,
-            description_localizations=cmd.arg(0).description_localizations,
-            required=False,
-            autocomplete=True
-        )
+        category: str = get_slash_option(cmd.arg(0))
     ):
         await joke_slash(get_lang(interaction), interaction, category)
     

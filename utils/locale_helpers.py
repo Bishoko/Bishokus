@@ -44,6 +44,10 @@ class ArgLocale:
         return self._d.get('required', True)
 
     @property
+    def autocomplete(self):
+        return self._d.get('autocomplete', False)
+
+    @property
     def min_length(self):
         return self._d.get('min_length')
 
@@ -106,6 +110,7 @@ def get_slash_option(cmd_or_arg, arg_index=None, locales=None, custom_choices=No
         description_localizations=arg.description_localizations,
         choices=custom_choices or arg.choices,
         required=arg.required,
+        autocomplete=arg.autocomplete,
         min_length=arg.min_length,
         max_length=arg.max_length
     )

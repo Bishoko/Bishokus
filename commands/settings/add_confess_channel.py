@@ -106,7 +106,8 @@ info = {
         "args": [
             {
                 "name": "settings_confess_addchannel_arg_name",
-                "desc": "settings_confess_addchannel_arg_desc"
+                "desc": "settings_confess_addchannel_arg_desc",
+                "required": True
             }
         ]
     },
