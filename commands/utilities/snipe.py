@@ -13,6 +13,7 @@ import json
 from datetime import datetime
 import utils.global_variables as gv
 from utils.sql import get_db_connection
+from utils.sql.get import get
 
 
 bot = gv.get("bot")
@@ -20,6 +21,9 @@ bot = gv.get("bot")
 async def on_message_delete(message: nextcord.Message):
     # Skip messages without content or from DMs
     if not message.system_content or not message.guild:
+        return
+    
+    if not get("sniper_enabled", message.guild.id):
         return
     
     connection = get_db_connection()
@@ -61,8 +65,19 @@ async def on_message_delete(message: nextcord.Message):
         connection.close()
 
 
-async def _snipe_embed(lang: str, guild_id: int, channel_id: int, maximum: int=5):
+async def _snipe_embed(lang: str, guild_id: int, channel_id: int, prefix_str: str, maximum: int=5):
     maximum = int(maximum) if maximum else 5
+    
+    if not get("sniper_enabled", guild_id):
+        if not prefix_str:
+            prefix_str = prefix.get(guild_id)
+        embed = nextcord.Embed(
+            title="Sniper",
+            description=text("snipe_disabled_error", lang).replace("%prefix%", prefix_str),
+            color=config.get("embed-color")
+        )
+        return embed
+    
     connection = get_db_connection()
     cursor = connection.cursor()
     cursor.execute("SELECT sniper FROM guilds WHERE id = %s", (guild_id,))
@@ -101,14 +116,14 @@ async def _snipe_embed(lang: str, guild_id: int, channel_id: int, maximum: int=5
         return embed
 
 
-async def snipe_text(lang: str, message: nextcord.Message):
+async def snipe_text(lang: str, message: nextcord.Message, prefix: str):
     maximum = int(message.content) if message.content.isdigit() else None
-    snipeembed = await _snipe_embed(lang, message.guild.id, message.channel.id, maximum=maximum)
+    snipeembed = await _snipe_embed(lang, message.guild.id, message.channel.id, prefix, maximum=maximum)
     if snipeembed:
         await message.reply(embed=snipeembed, mention_author=False)
 
 async def snipe_text_slash(lang: str, interaction: nextcord.Interaction, max_count: str):
-    snipeembed = await _snipe_embed(lang, interaction.guild.id, interaction.channel.id, maximum=max_count)
+    snipeembed = await _snipe_embed(lang, interaction.guild.id, interaction.channel.id, prefix=None, maximum=max_count)
     if snipeembed:
         await interaction.response.send_message(embed=snipeembed)
 
@@ -160,4 +175,4 @@ def setup(bot: commands.Bot):
 
 # Text command handler wrapper that adapts to message handler signature
 async def _message_handler(bot, message: nextcord.Message, lang: str, prefix: str):
-    await snipe_text(lang, message)
+    await snipe_text(lang, message, prefix)

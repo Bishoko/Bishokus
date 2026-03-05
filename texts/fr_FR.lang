@@ -84,6 +84,16 @@ set_guild_lang_error=La langue "`%new_lang%`" n'est pas valide. \nVeuillez chois
 set_guild_lang_success=✅ La langue pour le serveur a été définie sur `%new_lang%`
 
 
+# ====  !toggle_snipe  ====
+toggle_snipe_name=toggle_snipe
+toggle_snipe_desc=Active ou désactive la commande snipe et l'enregistrement dans le serveur
+
+toggle_snipe_error=🚫 Désolé, une erreur est survenue lors de l'activation/désactivation de snipe dans ce salon, et jsp pq lol dsl
+
+toggle_snipe_success_on=✅ Snipe a été activé dans ce salon! Les messages supprimés pourront désormais être snipés.
+toggle_snipe_success_off=🚫 Snipe a été désactivé dans ce salon! Les messages supprimés ne pourront plus être snipés.
+
+
 # ====  !set_ratio_emoji  ====
 set_ratio_emoji_name=emoji_ratio
 set_ratio_emoji_desc=Modifie les émojis pour les ratios
@@ -198,6 +208,7 @@ snipe_time_format=Supprimé le %d/%m/%Y à %H:%M %Ss
 
 snipe_empty_error=❌ Aucun message supprimé à sniper!
 snipe_unknown_error=❌ Une erreur inconnue est survenue lors de la récupération des messages.
+snipe_disabled_error=🚫 Snipe est désactivé dans ce salon! \nUn modérateur peut l'activer avec `%prefix%toggle_snipe`.
 
 
 # ====  !ascii  ====

@@ -84,6 +84,16 @@ set_guild_lang_error=The language "`%new_lang%`" is not valid. \nPlease choose a
 set_guild_lang_success=✅ The server language has been set to `%new_lang%`
 
 
+# ====  !toggle_snipe  ====
+toggle_snipe_name=toggle_snipe
+toggle_snipe_desc=Toggles the snipe command and logging in the server
+
+toggle_snipe_error=🚫 Sorry, an error occurred while toggling snipe in this channel, and I have no idea what went wrong lol
+
+toggle_snipe_success_on=✅ Snipe has been enabled in this channel! Deleted messages will now be snipable.
+toggle_snipe_success_off=🚫 Snipe has been disabled in this channel! Deleted messages will no longer be snipable.
+
+
 # ====  !set_ratio_emoji  ====
 set_ratio_emoji_name=ratio_emoji
 set_ratio_emoji_desc=Modifies the emojis for ratios
@@ -198,6 +208,7 @@ snipe_time_format=Deleted on %Y-%m-%d %H:%M:%S
 
 snipe_empty_error=❌ There are no recently deleted messages to snipe! 
 snipe_unknown_error=❌ An unknown error occurred while fetching the sniped messages. Please try again later!
+snipe_disabled_error=🚫 Snipe is disabled in this channel! \nA moderator can enable it with `%prefix%toggle_snipe`.
 
 
 # ====  !ascii  ====
