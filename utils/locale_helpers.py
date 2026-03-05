@@ -55,6 +55,14 @@ class ArgLocale:
     def max_length(self):
         return self._d.get('max_length')
 
+    @property
+    def min_value(self):
+        return self._d.get('min_value')
+
+    @property
+    def max_value(self):
+        return self._d.get('max_value')
+
 
 class CmdLocale:
     """Accessor for command-level locale information."""
@@ -112,5 +120,7 @@ def get_slash_option(cmd_or_arg, arg_index=None, locales=None, custom_choices=No
         required=arg.required,
         autocomplete=arg.autocomplete,
         min_length=arg.min_length,
-        max_length=arg.max_length
+        max_length=arg.max_length,
+        min_value=arg.min_value,
+        max_value=arg.max_value,
     )

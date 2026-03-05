@@ -187,6 +187,19 @@ say_error_empty_msg=🚫 Le message ne peut pas être vide!
 say_success=Message envoyé :)
 
 
+# ====  !snipe  ====
+snipe_name=snipe
+snipe_desc=Affiche les derniers messages supprimés
+
+snipe_arg_name=nombre_de_messages
+snipe_arg_desc=Nombre de messages à afficher
+
+snipe_time_format=Supprimé le %d/%m/%Y à %H:%M %Ss
+
+snipe_empty_error=❌ Aucun message supprimé à sniper!
+snipe_unknown_error=❌ Une erreur inconnue est survenue lors de la récupération des messages.
+
+
 # ====  !ascii  ====
 ascii_name=ascii
 ascii_desc=Converti un message en Ascii

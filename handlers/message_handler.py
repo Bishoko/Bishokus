@@ -122,6 +122,7 @@ async def handle_message(bot, message: nextcord.Message):
             mention_author=False
         )
     
+    message_content_backup = message.content
     
     if message.content.startswith(p) or message.content.lstrip('!').startswith(f'<@{bot.application_id}>'):
         message.content = message.content.removeprefix(p).removeprefix(f'<@{bot.application_id}>').removeprefix(f'<@!{bot.application_id}>').strip()        
@@ -151,5 +152,7 @@ async def handle_message(bot, message: nextcord.Message):
         if resolved_command_name in message_handlers:
             handler = message_handlers[resolved_command_name]
             await handler(bot, message, lang, p)
+            # Restore message.content after handling to preserve it for other handlers
+            message.content = message_content_backup
         else:
             print(f"No text command handler found for: {resolved_command_name}")
