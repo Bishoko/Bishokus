@@ -88,9 +88,10 @@ for root, dirs, files in os.walk('commands'):
                 gv.set("commands_info", commands_info)
                 
                 # Store the message handler function if available
-                if message_handler:
-                    message_handlers[command_name] = message_handler
-                    print(f"  Registered text command handler for: {command_name}")
+                for command_name, command in info.items():
+                    if message_handler and "text_command" in command["available"]:
+                        message_handlers[command_name] = message_handler
+                        print(f"  Registered text command handler for: {command_name}")
             
 # Store message handlers in global variables
 gv.set("message_handlers", message_handlers)
