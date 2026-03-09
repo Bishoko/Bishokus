@@ -80,6 +80,7 @@ for root, dirs, files in os.walk('commands'):
             module = __import__(module_path, fromlist=['info', '_message_handler'])
             info = getattr(module, 'info', None)
             message_handler = getattr(module, '_message_handler', None)
+            message_handler_multiple = getattr(module, '_message_handlers', None)
             
             if info:
                 command_name = list(info.keys())[0]
@@ -92,6 +93,11 @@ for root, dirs, files in os.walk('commands'):
                     if message_handler and "text_command" in command["available"]:
                         message_handlers[command_name] = message_handler
                         print(f"  Registered text command handler for: {command_name}")
+                    if message_handler_multiple and "text_command" in command["available"]:
+                        for handler_name, handler_func in message_handler_multiple.items():
+                            if handler_name == command_name:
+                                message_handlers[command_name] = handler_func
+                                print(f"  Registered text command handler for: {command_name}")
             
 # Store message handlers in global variables
 gv.set("message_handlers", message_handlers)
