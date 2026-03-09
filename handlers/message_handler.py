@@ -8,6 +8,7 @@ from utils.settings import lang as language
 from utils.settings.bot_ban import check_ban_on_message
 import utils.global_variables as gv
 
+from unidecode import unidecode
 
 def _normalize_aliases(value) -> list[str]:
     if isinstance(value, list):
@@ -137,6 +138,9 @@ async def handle_message(bot, message: nextcord.Message):
         if commands_info is None:
             commands_info = get_commands_locales()
             print(f"Loaded commands locales")
+        
+        # Remove accents from message.content
+        message.content = unidecode(message.content)
         
         resolved_command_name, remaining_content = _resolve_command_from_content(message.content, commands_info)
 
