@@ -175,7 +175,6 @@ info = {
                            ""],
         "locale_only": nextcord.Locale.fr,
         "available": ["text_command"],
-        "name": "wordplay_name",
     },
     "hein": {
         "category": "fun",
@@ -185,7 +184,6 @@ info = {
                            "heindeux", "hein2", "hin2"],
         "locale_only": nextcord.Locale.fr,
         "available": ["text_command"],
-        "name": "wordplay_name",
     },
     "oui": {
         "category": "fun",
@@ -194,7 +192,6 @@ info = {
                            "ouistiti", "wistiti", "wiistiti", "uistiti", "westiti"],
         "locale_only": nextcord.Locale.fr,
         "available": ["text_command"],
-        "name": "wordplay_name",
     },
     "ouais": {
         "category": "fun",
@@ -203,7 +200,6 @@ info = {
                            "ouaistern", "oestern", "western", "ouestern"],
         "locale_only": nextcord.Locale.fr,
         "available": ["text_command"],
-        "name": "wordplay_name",
     },
     "non": {
         "category": "fun",
@@ -212,7 +208,6 @@ info = {
                            "nombril", "nonbril"],
         "locale_only": nextcord.Locale.fr,
         "available": ["text_command"],
-        "name": "wordplay_name",
     },
     "chaud": {
         "category": "fun",
@@ -221,7 +216,6 @@ info = {
                            "chauffage", "chaufage", "chofage", "choffage"],
         "locale_only": nextcord.Locale.fr,
         "available": ["text_command"],
-        "name": "wordplay_name",
     },
     "tulasvu": {
         "category": "fun",
@@ -230,7 +224,6 @@ info = {
                            "mon cul", "mon q", "mon c", "monq"],
         "locale_only": nextcord.Locale.fr,
         "available": ["text_command"],
-        "name": "wordplay_name",
     },
     "ah": {
         "category": "fun",
@@ -238,7 +231,6 @@ info = {
         "hidden_aliases": ["a", "abricot"],
         "locale_only": nextcord.Locale.fr,
         "available": ["text_command"],
-        "name": "wordplay_name",
     },
     "re": {
         "category": "fun",
@@ -246,9 +238,7 @@ info = {
         "hidden_aliases": ["r", "renard"],
         "locale_only": nextcord.Locale.fr,
         "available": ["text_command"],
-        "name": "wordplay_name",
     },
-    
 }
 
 cmd = CmdLocale(list(info.keys())[0], get_commands_locales(info))

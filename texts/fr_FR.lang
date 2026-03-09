@@ -184,6 +184,14 @@ joke_error=⚠️ Impossible de récupérer une blague pour le moment, réessaye
 8ball_no_question=Quelle est ta question?
 
 
+# ====  /wordplay  ====
+wordplay_name=jeu_de_mots
+wordplay_desc=Envoie un résultat de jeu de mots
+
+wordplay_arg_name=type
+wordplay_arg_desc=Type de jeu de mots aléatoire
+
+
 # ====  !say  ====
 say_name=say
 say_desc=Répète un message

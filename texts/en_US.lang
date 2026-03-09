@@ -184,6 +184,14 @@ joke_error=⚠️ Unable to fetch a joke right now, please try again later!
 8ball_no_question=What is your question?
 
 
+# ====  /wordplay  ====
+wordplay_name=wordplay
+wordplay_desc=[French] Sends a wordplay result
+
+wordplay_arg_name=type
+wordplay_arg_desc=Type of random wordplay
+
+
 # ====  !say  ====
 say_name=say
 say_desc=Repeats a message
