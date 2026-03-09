@@ -151,8 +151,8 @@ async def wordplay_slash(interaction: nextcord.Interaction, wordplay_type: str):
 info = {
     "wordplay": {
         "category": "fun",
-        "aliases": ["jdm"],
-        "hidden_aliases": ["jeudemot", "jeuxdemot", "jeudemots", "jeuxdemots"],
+        "aliases": [],
+        "hidden_aliases": ["jeudemot", "jeuxdemot", "jeudemots", "jeuxdemots"], # unused since it's not a text command
         "locale_only": nextcord.Locale.fr,
         "available": ["slash_command"],
         "visibility": "everyone",
