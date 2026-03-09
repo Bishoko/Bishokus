@@ -9,6 +9,7 @@ from utils.languages import text
 from utils.settings import prefix, lang
 get_lang = lang.get_lang
 
+import utils.global_variables as gv
 import random
 
 
@@ -134,6 +135,7 @@ def get_wordplay(type: str) -> str:
         ]
         return random.choice(choices)
 
+gv.set("get_wordplay", get_wordplay)
 
 async def wordplay(message, wordplay_type: str):
     await message.channel.send(

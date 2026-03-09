@@ -6,6 +6,8 @@ from utils.languages import text
 from utils.settings import prefix
 from utils.settings import lang as language
 from utils.settings.bot_ban import check_ban_on_message
+from utils.normalize_wordplay import normalize_wordplay
+from utils.sql.get import get
 import utils.global_variables as gv
 
 from unidecode import unidecode
@@ -121,7 +123,15 @@ def _resolve_command_from_content(content: str, commands_info: dict) -> tuple[st
 
     return resolved_command_name, remaining
 
+_get_wordplay = None
+
 async def handle_message(bot, message: nextcord.Message):
+    global _get_wordplay
+    
+    # Initialize lazy-loaded function references
+    if _get_wordplay is None:
+        _get_wordplay = gv.get("get_wordplay")
+    
     p = prefix.get(message.guild.id) if message.guild else config.get('default-prefix')
     
     if message.author.bot:
@@ -178,3 +188,13 @@ async def handle_message(bot, message: nextcord.Message):
             message.content = message_content_backup
         else:
             print(f"No text command handler found for: {resolved_command_name}")
+
+
+    # Wordplay handling
+    if not _get_wordplay:
+        return
+    
+    normalized = normalize_wordplay(message.content)
+    if normalized and get("wordplay_enabled", message.guild.id):
+        await message.reply(_get_wordplay(normalized), mention_author=False)
+
