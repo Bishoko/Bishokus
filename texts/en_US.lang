@@ -94,6 +94,16 @@ toggle_snipe_success_on=✅ Snipe has been enabled in this channel! Deleted mess
 toggle_snipe_success_off=🚫 Snipe has been disabled in this channel! Deleted messages will no longer be snipable.
 
 
+# ====  !toggle_wordplay  ====
+toggle_wordplay_name=toggle_wordplay
+toggle_wordplay_desc=Toggles the wordplays in the server
+
+toggle_wordplay_error=🚫 Sorry, an error occurred while toggling wordplay in this server, no idea what went wrong lol
+
+toggle_wordplay_success_on=✅ Wordplay has been enabled in this server!\nPlease set the bot language to French (`/settings language`) because this command only works in French for now.
+toggle_wordplay_success_off=🚫 Wordplay has been disabled in this server! I will now shut up if I have something to joke about, even if the bot lang is set to French :)
+
+
 # ====  !set_ratio_emoji  ====
 set_ratio_emoji_name=ratio_emoji
 set_ratio_emoji_desc=Modifies the emojis for ratios

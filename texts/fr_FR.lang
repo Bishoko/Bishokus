@@ -94,6 +94,16 @@ toggle_snipe_success_on=✅ Snipe a été activé dans ce salon! Les messages su
 toggle_snipe_success_off=🚫 Snipe a été désactivé dans ce salon! Les messages supprimés ne pourront plus être snipés.
 
 
+# ====  !toggle_wordplay  ====
+toggle_wordplay_name=toggle_wordplay
+toggle_wordplay_desc=Active ou désactive les jeux de mots dans le serveur
+
+toggle_wordplay_error=🚫 Désolé, une erreur est survenue lors de l'activation/désactivation des jeux de mots dans ce serveur, et jsp pq lol dsl
+
+toggle_wordplay_success_on=✅ Les jeux de mots ont été activés dans ce serveur!
+toggle_wordplay_success_off=🚫 Les jeux de mots ont été désactivés dans ce serveur!
+
+
 # ====  !set_ratio_emoji  ====
 set_ratio_emoji_name=emoji_ratio
 set_ratio_emoji_desc=Modifie les émojis pour les ratios
