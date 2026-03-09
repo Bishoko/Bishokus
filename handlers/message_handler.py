@@ -62,6 +62,20 @@ def _extract_matched_prefix(content: str, aliases: list[str]) -> str | None:
     return None
 
 
+def _is_locale_allowed(command_data: dict, current_locale: str) -> bool:
+    locale_only = command_data.get('locale_only')
+    if not locale_only:
+        return True
+
+    allowed_locales = locale_only if isinstance(locale_only, (list, tuple, set)) else [locale_only]
+
+    for allowed_locale in allowed_locales:
+        if allowed_locale == current_locale:
+            return True
+
+    return False
+
+
 def _resolve_command_from_content(content: str, commands_info: dict) -> tuple[str | None, str]:
     children_by_parent = {}
     standalone_candidates = []
@@ -146,6 +160,10 @@ async def handle_message(bot, message: nextcord.Message):
 
         if resolved_command_name is None:
             print(f"Unknown command: {message.content.split()[0].lower()}")
+            return
+
+        command_info = commands_info.get(resolved_command_name, {})
+        if not _is_locale_allowed(command_info, lang):
             return
 
         if not await check_ban_on_message(message):
