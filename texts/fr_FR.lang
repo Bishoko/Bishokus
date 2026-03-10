@@ -64,6 +64,16 @@ invite_support_server=Serveur support
 invite_bot_page=Page du bot
 
 
+# ====  !support  ====
+support_name=support
+support_desc=Affiche les informations de support et de contact pour le bot
+
+support_embed_title=Besoin d'aide? Contactez-nous!
+support_server=**Serveur Discord:** %support_server_url%
+support_owner_dm=**MP Discord:** %owner_contact_discord%
+support_owner_email=**Email:** %owner_contact_email%
+
+
 # ====  !settings  ====
 settings_name=paramètres
 

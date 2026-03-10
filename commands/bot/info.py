@@ -11,7 +11,7 @@ from utils.settings import prefix
 from utils.settings.lang import get_lang
 
 BOT_NAME = "Bishokus"
-BOT_CREATOR = "lenochj"
+BOT_OWNER = config.get("owner-contact-username")
 BOT_CREATION_DATE = "17 Sep 2021"
 BOT_LIBRARY = "nextcord"
 BOT_VERSION = "rewrite" # TODO: add versioning system
@@ -48,7 +48,7 @@ def _build_info_embed(bot: commands.Bot, lang: str) -> nextcord.Embed:
     embed = nextcord.Embed(title=BOT_NAME, color=config.get("embed-color"))
     embed.set_thumbnail(url=BOT_THUMBNAIL_URL)
 
-    embed.add_field(name=text("info_creator", lang), value=BOT_CREATOR, inline=True)
+    embed.add_field(name=text("info_creator", lang), value=BOT_OWNER, inline=True)
     embed.add_field(name=text("info_creation_date", lang), value=BOT_CREATION_DATE, inline=True)
     # embed.add_field(name=text("info_library", lang), value=BOT_LIBRARY, inline=True)
     embed.add_field(name=text("info_version", lang), value=BOT_VERSION, inline=True)
