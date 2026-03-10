@@ -261,6 +261,9 @@ math_error_type=❌ TypeError | Erreur. Probablement parce que un caractère tex
 avatar_name=avatar
 avatar_desc=Affiche l'avatar de l'utilisateur ciblé ou de vous-même
 
+avatar_arg_name=membre
+avatar_arg_desc=Membre dont vous voulez afficher l'avatar
+
 avatar_global=Avatar
 avatar_guild=Avatar serveur
 

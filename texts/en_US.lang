@@ -261,6 +261,9 @@ math_error_type=❌ TypeError | Error. Probably because a text character is pres
 avatar_name=avatar
 avatar_desc=Displays the avatar of the targeted user or yourself
 
+avatar_arg_name=member
+avatar_arg_desc=Member whose avatar you want to display
+
 avatar_global=Avatar
 avatar_guild=Server Avatar
 
