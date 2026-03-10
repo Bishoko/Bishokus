@@ -13,6 +13,7 @@
     "support-server-url": "https://discord.gg/uZhDuyWyRh",
     "bot-avatar-url": "https://cdn.discordapp.com/avatars/888484118852145182/1720decdb60d00751b44e7c28c1a14b0.webp?size=1024",
     "bot-page-url": "https://discord.com/discovery/applications/854081099638112256",
+    "bot-vote-url": "https://top.gg/bot/854081099638112256/vote",
     "tokens": {
         "main": "BOT_TOKEN",
         "test": "TEST_BOT_TOKEN"

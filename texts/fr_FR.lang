@@ -40,6 +40,30 @@ info_support_server=Serveur support
 info_invite_link=Inviter
 
 
+# ====  !invite  ====
+invite_name=inviter
+invite_desc=Affiche les informations et statistiques du bot
+
+invite_embed_title=Inviter Bishokus
+invite_embed_desc=[Cliquez ici](%invite_url%) pour ajouter ce merveilleux ami robot!\nVous ne le regretterez pas :D
+
+invite_field1_title=Pourquoi l'ajouter?
+invite_field1_desc=vous aidera à animer votre serveur comme avec par exemple des jeux de mots (quoi? FEUR XDDDD %laugh_emoji%)
+invite_field1_desc_l2=Mais aussi des commandes **fun** codées par lenochj avec son grand coeur! 🥰
+
+invite_field2_title=UpVote
+invite_field2_desc=Vous aimez Bishokus? Vous pouvez [voter pour Bishokus](%vote_url%)!
+invite_field2_desc_l2=Cela permettra de promouvoir le bot et aider à le populariser!
+
+invite_field3_title=Support ^^
+invite_field3_desc=N'hésite pas à rejoindre notre [serveur support](%support_server_url%)!
+invite_field3_desc_l2=Une grande et aimable communauté vous attend! Venez nombreux! %joy_emoji% (On est %member_count% là)
+
+invite_invite_link=Ajouter Bishokus!
+invite_support_server=Serveur support
+invite_bot_page=Page du bot
+
+
 # ====  !settings  ====
 settings_name=paramètres
 
