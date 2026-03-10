@@ -26,7 +26,7 @@ async def set_prefix(lang: str, message: nextcord.Message):
         return
     
     if len(message.content) > 20:
-        await message.reply(text('prefix_length_error', lang))
+        await message.reply(text('prefix_length_error', lang), mention_author=False)
         return
     
     if len(message.content) == 0:
@@ -46,16 +46,17 @@ async def set_prefix_slash(lang: str, interaction: nextcord.Interaction, new_pre
     
     if '`' in new_prefix:
         await interaction.response.send_message(
-            text('prefix_wrong_char_error', lang).replace('%prefix%', new_prefix)
+            text('prefix_wrong_char_error', lang).replace('%prefix%', new_prefix),
+            ephemeral=True
         )
         return
     
     if len(new_prefix) > 20:
-        await interaction.response.send_message(text('prefix_length_error', lang))
+        await interaction.response.send_message(text('prefix_length_error', lang), ephemeral=True)
         return
     
     if len(new_prefix) == 0:
-        await interaction.response.send_message(text('prefix_empty_error', lang))
+        await interaction.response.send_message(text('prefix_empty_error', lang), ephemeral=True)
         return
     
     
