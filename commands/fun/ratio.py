@@ -49,7 +49,7 @@ async def ratio_context(lang: str, interaction: nextcord.Interaction, original_m
     if original_message.attachments:
         view = nextcord.ui.View()
         view.add_item(nextcord.ui.Button(
-            label=text('ratio_context_button_label', lang).replace('%attachment_count%', len(original_message.attachments)),
+            label=text('ratio_context_button_label', lang).replace('%attachment_count%', str(len(original_message.attachments))),
             url=original_message.jump_url
         ))
         sent_message = await original_message.reply(embed=embed, view=view, mention_author=False)
