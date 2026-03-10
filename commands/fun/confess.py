@@ -1,6 +1,7 @@
 import nextcord
 from nextcord.ext import commands, application_checks
-from nextcord.application_command import slash_command
+from nextcord.application_command import slash_command, message_command
+from utils.logger import log
 from utils.get_commands_locales import get_commands_locales
 from utils.locale_helpers import CmdLocale, get_slash_option
 from utils import config
@@ -112,7 +113,7 @@ async def _log_confession(user: nextcord.User, guild_id: int, channel_id: int, g
         )
         connection.commit()
     except Exception as e:
-        print(f"Error logging confession: {e}")
+        log.exception(e, "Error logging confession")
     finally:
         cursor.close()
         connection.close()
@@ -153,7 +154,7 @@ async def _send_confession(bot, channel_info: dict, user: nextcord.User, message
         
         return True
     except Exception as e:
-        print(f"Error sending confession: {e}")
+        log.exception(e, "Error sending confession")
         return False
 
 

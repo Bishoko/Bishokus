@@ -3,6 +3,7 @@ from .convert_old_data import convert_data
 import mysql.connector
 import json
 import os
+from utils.logger import log
 
 with open('config/config.json', encoding='utf-8') as f:
     config = json.load(f)
@@ -54,9 +55,9 @@ def create_database(cursor, db_name):
     """
     try:
         cursor.execute(f"CREATE DATABASE IF NOT EXISTS {db_name} DEFAULT CHARACTER SET 'utf8'")
-        print(f"Database {db_name} created or already exists.")
+        log.info(f"Database {db_name} created or already exists.")
     except mysql.connector.Error as err:
-        print(f"Failed to create database {db_name}: {err}")
+        log.exception(err, f"Failed to create database {db_name}")
         exit(1)
 
 def execute_sql_file(cursor, sql_file_path, replacements=None):
@@ -114,9 +115,9 @@ def init():
     
     cursor.execute("SELECT COUNT(*) FROM guilds")
     guilds_count = cursor.fetchone()[0]
-    print('Database | guilds_count:', guilds_count)
+    log.info(f'Database | guilds_count: {guilds_count}')
     if guilds_count < 1:
-        print('The database is new.')
+        log.debug('The database is new.')
         convert_data()
     
     conn.commit()

@@ -8,6 +8,7 @@ from utils.languages import text
 from utils.sql import get_db_connection
 from utils.sql.create_guild import guild_db
 from utils.sql.create_user import user_db
+from utils.logger import log
 
 import json
 
@@ -49,7 +50,7 @@ def ban_user(user_id: int, ban_type: str, reason: str):
         cursor.execute(query, (ban_type, reason, ban_type, reason, user_id))
         conn.commit()
     except mysql.connector.Error as err:
-        print(f'Error: {err}')
+        log.exception(err, f'Error banning user: {user_id}')
         conn.rollback()
     finally:
         cursor.close()
@@ -88,7 +89,7 @@ def ban_guild(guild_id: int, ban_type: str, reason: str):
         cursor.execute(query, (ban_type, reason, ban_type, reason, guild_id))
         conn.commit()
     except mysql.connector.Error as err:
-        print(f'Error: {err}')
+        log.exception(err, f'Error banning guild: {guild_id}')
         conn.rollback()
     finally:
         cursor.close()
@@ -126,7 +127,7 @@ def unban_user(user_id: int):
         cursor.execute(query, (user_id,))
         conn.commit()
     except mysql.connector.Error as err:
-        print(f'Error: {err}')
+        log.exception(err, f'Error unbanning user: {user_id}')
         conn.rollback()
     finally:
         cursor.close()
@@ -164,7 +165,7 @@ def unban_guild(guild_id: int):
         cursor.execute(query, (guild_id,))
         conn.commit()
     except mysql.connector.Error as err:
-        print(f'Error: {err}')
+        log.exception(err, f'Error unbanning guild: {guild_id}')
         conn.rollback()
     finally:
         cursor.close()
@@ -198,7 +199,7 @@ def is_banned(id: int, is_guild: bool = False) -> bool:
         
         return result[0] if result else False
     except mysql.connector.Error as err:
-        print(f'Error: {err}')
+        log.exception(err, f'Error checking ban status for {"guild" if is_guild else "user"}: {id}')
         return False
     finally:
         cursor.close()
@@ -232,7 +233,7 @@ def get_ban_reason(id: int, is_guild: bool = False) -> str:
         
         return result[0] if result else None
     except mysql.connector.Error as err:
-        print(f'Error: {err}')
+        log.exception(err, f'Error getting ban reason for {"guild" if is_guild else "user"}: {id}')
         return None
     finally:
         cursor.close()
@@ -275,7 +276,7 @@ def get_ban_type(id: int, is_guild: bool = False) -> str:
         return result
 
     except mysql.connector.Error as err:
-        print(f'Error: {err}')
+        log.exception(err, f'Error getting ban type for {"guild" if is_guild else "user"}: {id}')
         return None
     finally:
         cursor.close()

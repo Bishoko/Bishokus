@@ -1,6 +1,7 @@
 import nextcord
 from nextcord.ext import commands, application_checks
 from nextcord.application_command import slash_command, message_command
+from utils.logger import log
 from utils.get_commands_locales import get_commands_locales
 from utils.locale_helpers import CmdLocale, get_slash_option
 from utils import config, guild_only
@@ -65,7 +66,7 @@ async def _add_confess_channel_to_db(guild_id: int, channel_id: int, lang: str):
         return text('settings_confess_addchannel_success', lang).replace('%channel%', f"<#{channel_id}>")
         
     except Exception as e:
-        print(f"Error updating confess channel in database: {e}")
+        log.exception(e, "Error updating confess channel in database")
         conn.rollback()
         cursor.close()
         conn.close()

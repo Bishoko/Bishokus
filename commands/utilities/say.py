@@ -1,6 +1,7 @@
 import nextcord
 from nextcord.ext import commands, application_checks
 from nextcord.application_command import slash_command, message_command
+from utils.logger import log
 from utils.get_commands_locales import get_commands_locales
 from utils.locale_helpers import CmdLocale, get_slash_option
 from utils import config
@@ -27,9 +28,9 @@ async def say_text(lang: str, message: nextcord.Message):
     if message.reference:
         base_reply = await message.channel.fetch_message(message.reference.message_id)
         if base_reply:
-            print(base_reply.author.id)
-            print([m.id for m in message.mentions])
-            print(base_reply.author.id in [m.id for m in message.mentions])
+            log.debug(base_reply.author.id)
+            log.debug([m.id for m in message.mentions])
+            log.debug(base_reply.author.id in [m.id for m in message.mentions])
             await base_reply.reply(
                 message.content,
                 mention_author=(base_reply.author.id in [m.id for m in message.mentions])

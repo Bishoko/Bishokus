@@ -8,6 +8,7 @@ from utils.settings import lang as language
 from utils.settings.bot_ban import check_ban_on_message
 from utils.normalize_wordplay import normalize_wordplay
 from utils.sql.get import get
+from utils.logger import log
 import utils.global_variables as gv
 
 from unidecode import unidecode
@@ -161,7 +162,7 @@ async def handle_message(bot, message: nextcord.Message):
         
         if commands_info is None:
             commands_info = get_commands_locales()
-            print(f"Loaded commands locales")
+            log.info(f"Loaded commands locales")
         
         # Remove accents from message.content
         message.content = unidecode(message.content)
@@ -169,7 +170,7 @@ async def handle_message(bot, message: nextcord.Message):
         resolved_command_name, remaining_content = _resolve_command_from_content(message.content, commands_info)
 
         if resolved_command_name is None:
-            print(f"Unknown command: {message.content.split()[0].lower()}")
+            log.warning(f"Unknown command: {message.content.split()[0].lower()}")
             return
 
         command_info = commands_info.get(resolved_command_name, {})
@@ -187,7 +188,7 @@ async def handle_message(bot, message: nextcord.Message):
             # Restore message.content after handling to preserve it for other handlers
             message.content = message_content_backup
         else:
-            print(f"No text command handler found for: {resolved_command_name}")
+            log.warning(f"No text command handler found for: {resolved_command_name}")
 
 
     # Wordplay handling

@@ -1,6 +1,7 @@
 import mysql.connector
 from utils.sql import get_db_connection
 from utils.sql.create_guild import guild_db
+from utils.logger import log
 
 import json
 
@@ -35,7 +36,7 @@ def set(guild_id: int, new_prefix: str):
         cursor.execute(query, (new_prefix, guild_id))
         conn.commit()
     except mysql.connector.Error as err:
-        print(f'Error: {err}')
+        log.exception(err, f'Error setting prefix for guild: {guild_id}')
         conn.rollback()
     finally:
         cursor.close()
@@ -69,7 +70,7 @@ def get(guild_id: int) -> str:
             set(guild_id, default_prefix)
             return default_prefix
     except mysql.connector.Error as err:
-        print(f'Error: {err}')
+        log.exception(err, f'Error getting prefix for guild: {guild_id}')
         set(guild_id, default_prefix)
         return default_prefix
     finally:

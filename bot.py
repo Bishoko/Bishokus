@@ -6,6 +6,7 @@ from nextcord.ext import commands
 import utils.global_variables as gv
 from utils.languages import init as langs_init
 from utils.settings.bot_ban import get_ban_type
+from utils.logger import log
 import utils.sql as db
 
 langs_init()
@@ -36,7 +37,7 @@ gv.set('client', bot)
 
 @bot.event
 async def on_ready():
-    print(f'{bot.user.name} has connected to Discord!')
+    log.info(f'{bot.user.name} has connected to Discord!')
 
 
 @bot.event
@@ -63,7 +64,7 @@ async def on_application_command_error(interaction: nextcord.Interaction, error:
 async def on_guild_join(guild):
     if get_ban_type(guild.id, is_guild=True) == 'instant_leave':
         await guild.leave()
-        print(f"Left banned guild: {guild.name} (ID: {guild.id})")
+        log.info(f"Left banned guild: {guild.name} (ID: {guild.id})")
 
 
 # Load cogs from the commands directory
@@ -73,7 +74,7 @@ for root, dirs, files in os.walk('commands'):
     prioritized_files = sorted(files, key=lambda filename: (not filename.startswith('_'), filename.lower()))
     for filename in prioritized_files:
         if filename.endswith('.py') and filename not in ['__init__.py', 'template.py']:
-            print(f"Processing file: {filename}")
+            log.info(f"Processing file: {filename}")
             module_path = os.path.join(root, filename)[:-3].replace(os.sep, '.')
             bot.load_extension(module_path)
             
@@ -84,7 +85,7 @@ for root, dirs, files in os.walk('commands'):
             
             if info:
                 command_name = list(info.keys())[0]
-                print(f"Loaded command: {command_name} ({module_path})")
+                log.info(f"Loaded command: {command_name} ({module_path})")
                 commands_info = {**commands_info, **info}
                 gv.set("commands_info", commands_info)
                 
@@ -92,17 +93,17 @@ for root, dirs, files in os.walk('commands'):
                 for command_name, command in info.items():
                     if message_handler and "text_command" in command["available"]:
                         message_handlers[command_name] = message_handler
-                        print(f"  Registered text command handler for: {command_name}")
+                        log.info(f"  Registered text command handler for: {command_name}")
                     if message_handler_multiple and "text_command" in command["available"]:
                         for handler_name, handler_func in message_handler_multiple.items():
                             if handler_name == command_name:
                                 message_handlers[command_name] = handler_func
-                                print(f"  Registered text command handler for: {command_name}")
+                                log.info(f"  Registered text command handler for: {command_name}")
             
 # Store message handlers in global variables
 gv.set("message_handlers", message_handlers)
                 
-print("All cogs loaded successfully.")
+log.success("All cogs loaded successfully.")
 
 
 if config.get('production', False) == True:

@@ -5,6 +5,7 @@ import utils.global_variables as gv
 from utils.sql import get_db_connection
 from utils.sql.create_guild import guild_db
 from utils.is_emoji import is_emoji
+from utils.logger import log
 
 import json
 
@@ -73,7 +74,7 @@ def set(guild_id: int, client: nextcord.Client = None, up_emoji: str = None, dow
             cursor.execute(query, tuple(params))
             conn.commit()
     except mysql.connector.Error as err:
-        print(f'Error: {err}')
+        log.exception(err, f'Error setting ratio emojis for guild: {guild_id}')
         conn.rollback()
     finally:
         cursor.close()
@@ -154,7 +155,7 @@ def get(guild_id: int, client: nextcord.Client = None, emoji_type: str = 'both')
                 down_emoji = get_emoji(decode_if_needed(default_ratio_emoji_down))
                 return (up_emoji, down_emoji)
     except mysql.connector.Error as err:
-        print(f'Error: {err}')
+        log.exception(err, f'Error getting ratio emojis for guild: {guild_id}')
         up_emoji = get_emoji(decode_if_needed(default_ratio_emoji_up))
         down_emoji = get_emoji(decode_if_needed(default_ratio_emoji_down))
         return (up_emoji, down_emoji)

@@ -5,6 +5,7 @@ from utils.sql import get_db_connection
 from utils.sql.create_guild import guild_db
 from utils.sql.create_user import user_db
 from utils.get_mutual_guilds import get_mutual_guilds
+from utils.logger import log
 import utils.global_variables as gv
 
 import json
@@ -40,7 +41,7 @@ def set_guild(guild_id: int, new_language: str):
         cursor.execute(query, (new_language, guild_id))
         conn.commit()
     except mysql.connector.Error as err:
-        print(f'Error: {err}')
+        log.exception(err, f'Error setting guild language for guild: {guild_id}')
         conn.rollback()
     finally:
         cursor.close()
@@ -72,7 +73,7 @@ def set_user(user_id: int, new_language: str):
         cursor.execute(query, (new_language, user_id))
         conn.commit()
     except mysql.connector.Error as err:
-        print(f'Error: {err}')
+        log.exception(err, f'Error setting user language for user: {user_id}')
         conn.rollback()
     finally:
         cursor.close()
@@ -130,7 +131,7 @@ def get(guild_id: int, user_id: int) -> str:
         # If no language is set, return default
         return default_language
     except mysql.connector.Error as err:
-        print(f'Error: {err}')
+        log.exception(err, f'Error getting language for guild: {guild_id} and user: {user_id}')
         return default_language
     finally:
         cursor.close()

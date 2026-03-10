@@ -1,6 +1,7 @@
 import nextcord
 import re
 from difflib import SequenceMatcher
+from utils.logger import log
 
 async def get_member(guild: nextcord.Guild, user_id: int) -> nextcord.Member:
     """Fetches a member from the guild by their user ID."""
@@ -16,7 +17,7 @@ async def _get_user(message: nextcord.Message) -> nextcord.Member:
     
     # If the message is in DMs, return the message author
     if not message.guild:
-        print(f"Message is in DMs, returning message author: {message.author}")
+        log.debug(f"Message is in DMs, returning message author: {message.author}")
         return message.author
     
     # If the message content is empty, return the message author
@@ -71,7 +72,7 @@ async def _get_user(message: nextcord.Message) -> nextcord.Member:
                      matches_display_name[0] if matches_display_name else (None, 0),
                      matches_global_name[0] if matches_global_name else (None, 0),
                      key=lambda x: x[1])
-    print(f"Best match for user '{message.content}' is '{best_match[0]}' with ratio {best_match[1]:.2f}")
+    log.debug(f"Best match for user '{message.content}' is '{best_match[0]}' with ratio {best_match[1]:.2f}")
     if best_match:
         return best_match[0] 
     # TODO: if there are multiple matches, lower the ratio if: 
@@ -91,12 +92,12 @@ async def get_user(message: nextcord.Message) -> nextcord.Member:
     """Tries to get a mentioned user from a message, or returns the message author if no user is found."""
     try:
         member = await _get_user(message)
-        print(f"Trying to get user from message: {message.content} ; found member: {str(member)}")
+        log.debug(f"Trying to get user from message: {message.content} ; found member: {str(member)}")
         if member:
             return member
     except Exception as e:
-        print(f"Error getting user: {e}")
+        log.exception(e, f"Error getting user from message: {message.content}")
         pass
     
-    print(f"Falling back to message author for message: {message.content}")
+    log.debug(f"Falling back to message author for message: {message.content}")
     return await get_member(message.guild, message.author.id)

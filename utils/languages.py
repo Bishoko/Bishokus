@@ -1,3 +1,4 @@
+from utils.logger import log
 import os
 
 lang_files = {}
@@ -28,7 +29,7 @@ def load_lang_file(lang: str) -> dict:
                                             '\\r', '\r')
                 except Exception as e:
                     line = line.replace("\n", "")
-                    print(f'\nLANG FILE ERROR:\nLine: {line}\nError: {e}\n')
+                    log.exception(e, f'\nLANG FILE ERROR:\nLine: {line}\n')
     return lang_dictionary
 
 def language_exists(lang: str='en') -> bool:
@@ -102,5 +103,5 @@ if __name__ == '__main__':
         user_input = input("Enter text to translate (or 'exit' to quit): ")
         if user_input.lower() == 'exit':
             break
-        print(text(user_input, 'en'))
+        log.debug(text(user_input, 'en'))
         

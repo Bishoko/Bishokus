@@ -1,6 +1,7 @@
 import nextcord
 from nextcord.ext import commands, application_checks
 from nextcord.application_command import slash_command, message_command
+from utils.logger import log
 from utils.get_commands_locales import get_commands_locales
 from utils.locale_helpers import CmdLocale, get_slash_option
 from utils import config, guild_only
@@ -83,7 +84,7 @@ async def _remove_confess_channel_from_db(guild_id: int, channel_id: int, lang: 
         return text('settings_confess_removechannel_success', lang).replace('%channel%', f"<#{channel_id}>")
         
     except Exception as e:
-        print(f"Error removing confess channel from database: {e}")
+        log.exception(e, "Error removing confess channel from database")
         conn.rollback()
         cursor.close()
         conn.close()

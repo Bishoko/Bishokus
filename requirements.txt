@@ -5,3 +5,4 @@ pyfiglet==1.0.4
 aiohttp==3.13.3
 blagues-api==1.0.4
 Unidecode==1.4.0
+colorama==0.4.6
