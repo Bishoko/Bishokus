@@ -14,6 +14,11 @@ async def _get_user(message: nextcord.Message) -> nextcord.Member:
     
     message.content = message.content.strip().lower()
     
+    # If the message is in DMs, return the message author
+    if not message.guild:
+        print(f"Message is in DMs, returning message author: {message.author}")
+        return message.author
+    
     # If the message content is empty, return the message author
     if len(message.content) < 2:
         # Try to get the reply user if the message is a reply

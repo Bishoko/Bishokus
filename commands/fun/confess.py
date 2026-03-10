@@ -6,8 +6,8 @@ from utils.locale_helpers import CmdLocale, get_slash_option
 from utils import config
 from utils.settings.bot_ban import check_ban
 from utils.languages import text
-from utils.settings import prefix, lang
-get_lang = lang.get_lang
+from utils.settings import prefix
+from utils.settings.lang import get_lang
 
 import json
 from datetime import datetime
@@ -350,7 +350,8 @@ async def confess_slash(lang: str, interaction: nextcord.Interaction, message: s
     embed, view = await _confess(bot=interaction.client, user=interaction.user, message_content=message, attachments=[], lang=lang)
     
     await interaction.response.send_message(
-        embed=embed, ephemeral=True,
+        embed=embed,
+        ephemeral=True if interaction.guild else False,
         view=view if view else nextcord.utils.MISSING
     )
 
@@ -382,7 +383,6 @@ class confessCog(commands.Cog):
         self.bot = bot
     
     @check_ban()
-    @application_checks.has_permissions(**{perm: True for perm in cmd.user_permissions})
     @slash_command(
         name=cmd.name,
         description=cmd.description,

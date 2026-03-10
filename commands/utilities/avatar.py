@@ -6,8 +6,8 @@ from utils.locale_helpers import CmdLocale, get_slash_option
 from utils import config
 from utils.settings.bot_ban import check_ban
 from utils.languages import text
-from utils.settings import prefix, lang
-get_lang = lang.get_lang
+from utils.settings import prefix
+from utils.settings.lang import get_lang
 
 from utils.get_user import get_user
 
@@ -35,11 +35,14 @@ class AvatarView(nextcord.ui.View):
 
 
 def _avatar(lang: str, member: nextcord.Member):
+    # Note: nextcord.Member will be nextcord.User is the command is used in DMs,
+    # so we need to check the type before accessing guild-specific attributes
+    
     # member.avatar and member.default_avatar are Asset objects; convert to str
     global_asset = member.avatar or member.default_avatar
     global_avatar = str(global_asset)
 
-    guild_asset = member.guild_avatar
+    guild_asset = member.guild_avatar if isinstance(member, nextcord.Member) else None
     guild_avatar = str(guild_asset) if guild_asset else None 
     
     description = f"[{text('avatar_global', lang)}]({global_avatar})"
@@ -100,7 +103,6 @@ class AvatarCog(commands.Cog):
         self.bot = bot
     
     @check_ban()
-    @application_checks.has_permissions(**{perm: True for perm in cmd.user_permissions})
     @slash_command(
         name=cmd.name,
         description=cmd.description,

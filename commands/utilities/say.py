@@ -6,8 +6,8 @@ from utils.locale_helpers import CmdLocale, get_slash_option
 from utils import config
 from utils.settings.bot_ban import check_ban
 from utils.languages import text
-from utils.settings import prefix, lang
-get_lang = lang.get_lang
+from utils.settings import prefix
+from utils.settings.lang import get_lang
 
 # TODO: check for role mentions too in the message content, not just everyone and here
 # TODO: Add logging for mentions and content of the message for moderation purposes (can be disabled in config)
@@ -73,7 +73,6 @@ class SayCog(commands.Cog):
         self.bot = bot
     
     @check_ban()
-    @application_checks.has_permissions(**{perm: True for perm in cmd.user_permissions})
     @slash_command(
         name=cmd.name,
         description=cmd.description,

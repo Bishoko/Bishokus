@@ -3,11 +3,11 @@ from nextcord.ext import commands, application_checks
 from nextcord.application_command import slash_command, message_command
 from utils.get_commands_locales import get_commands_locales
 from utils.locale_helpers import CmdLocale, get_slash_option
-from utils import config
+from utils import config, guild_only
 from utils.settings.bot_ban import check_ban
 from utils.languages import text
-from utils.settings import prefix, lang
-get_lang = lang.get_lang
+from utils.settings import prefix
+from utils.settings.lang import get_lang
 
 import utils.global_variables as gv
 from utils.settings import ratio_emoji
@@ -115,6 +115,7 @@ info = {
         "aliases": ["setratio", "ratio_emoji"],
         "hidden_aliases": ["set_ratio", "ratioemoji", "ratio_emoji", "setraito", "set_ratio", "setratioemoji"],
         "available": ["slash_command", "text_command"],
+        "dm_available": False,
         "visibility": "everyone",
         "user_permissions": ["manage_guild"],
         "name": "set_ratio_emoji_name",
@@ -142,7 +143,7 @@ class SetRatioEmojiCog(commands.Cog):
         self.bot = bot
 
     @check_ban()
-    @application_checks.has_permissions(**{perm: True for perm in cmd.user_permissions})
+    @guild_only()
     @parent.subcommand(
         name=cmd.name,
         description=cmd.description,
@@ -160,5 +161,6 @@ def setup(bot: commands.Bot):
     bot.add_cog(SetRatioEmojiCog(bot))
 
 # Text command handler wrapper that adapts to message handler signature
+@guild_only()
 async def _message_handler(bot, message: nextcord.Message, lang: str, prefix_str: str):
     await set_ratio_emoji(lang, message)

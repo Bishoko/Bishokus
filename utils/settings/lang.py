@@ -4,6 +4,8 @@ import nextcord
 from utils.sql import get_db_connection
 from utils.sql.create_guild import guild_db
 from utils.sql.create_user import user_db
+from utils.get_mutual_guilds import get_mutual_guilds
+import utils.global_variables as gv
 
 import json
 
@@ -98,6 +100,15 @@ def get(guild_id: int, user_id: int) -> str:
     cursor = conn.cursor()
 
     try:
+        # Check guild language
+        query = 'SELECT bot_language FROM guilds WHERE id = %s'
+        cursor.execute(query, (guild_id,))
+        guild_result = cursor.fetchone()
+        
+        if guild_result and guild_result[0]:
+            return guild_result[0]
+        
+        
         # Check user language
         query = 'SELECT bot_language FROM users WHERE id = %s'
         cursor.execute(query, (user_id,))
@@ -106,13 +117,15 @@ def get(guild_id: int, user_id: int) -> str:
         if user_result and user_result[0]:
             return user_result[0]
         
-        # Check guild language
-        query = 'SELECT bot_language FROM guilds WHERE id = %s'
-        cursor.execute(query, (guild_id,))
-        guild_result = cursor.fetchone()
         
-        if guild_result and guild_result[0]:
-            return guild_result[0]
+        # If no language is set for both guild and user, estimate the language based on the mutual guilds locale
+        mutual_guilds = get_mutual_guilds(user_id, gv.get("bot"))
+        if mutual_guilds:
+            locales = [get(guild.id, 0) for guild in mutual_guilds]
+            if locales:
+                most_common_locale = max(set(locales), key=locales.count)
+                if most_common_locale:
+                    return most_common_locale
         
         # If no language is set, return default
         return default_language

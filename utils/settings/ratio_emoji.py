@@ -120,7 +120,7 @@ def get(guild_id: int, client: nextcord.Client = None, emoji_type: str = 'both')
         query += ' FROM guilds WHERE id = %s'
 
         cursor.execute(query, (guild_id,))
-        result = cursor.fetchone()
+        result = cursor.fetchone() or [config.get('default-ratio-emoji-up'), config.get('default-ratio-emoji-down')]
 
         def decode_if_needed(value):
             if isinstance(value, str):

@@ -6,8 +6,8 @@ from utils.locale_helpers import CmdLocale, get_slash_option
 from utils import config
 from utils.settings.bot_ban import check_ban
 from utils.languages import text
-from utils.settings import prefix, lang
-get_lang = lang.get_lang
+from utils.settings import prefix
+from utils.settings.lang import get_lang
 
 import aiohttp
 from blagues_api import BlaguesAPI, BlagueType
@@ -276,7 +276,6 @@ class JokeCog(commands.Cog):
         return categories
     
     @check_ban()
-    @application_checks.has_permissions(**{perm: True for perm in cmd.user_permissions})
     @slash_command(
         name=cmd.name,
         description=cmd.description,

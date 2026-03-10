@@ -153,7 +153,7 @@ async def handle_message(bot, message: nextcord.Message):
         message.content = message.content.removeprefix(p).removeprefix(f'<@{bot.application_id}>').removeprefix(f'<@!{bot.application_id}>').strip()        
         if not len(message.content) > 0:
             return
-        lang = language.get(message.guild.id, message.author.id)
+        lang = language.get(message.guild.id if message.guild else 0, message.author.id)
         
         # Get commands info and message handlers from global variables
         commands_info = gv.get("commands_info")
@@ -195,6 +195,6 @@ async def handle_message(bot, message: nextcord.Message):
         return
     
     normalized = normalize_wordplay(message.content)
-    if normalized and get("wordplay_enabled", message.guild.id):
+    if normalized and message.guild and get("wordplay_enabled", message.guild.id):
         await message.reply(_get_wordplay(normalized), mention_author=False)
 

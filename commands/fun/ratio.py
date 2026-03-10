@@ -6,8 +6,8 @@ from utils.locale_helpers import CmdLocale, get_slash_option
 from utils import config
 from utils.settings.bot_ban import check_ban
 from utils.languages import text
-from utils.settings import prefix, lang
-get_lang = lang.get_lang
+from utils.settings import prefix
+from utils.settings.lang import get_lang
 
 import random
 from utils.settings import ratio_emoji
@@ -15,7 +15,7 @@ from utils.get_user_nickname import get_nickname
 
 
 async def ratio(client, message: nextcord.Message):
-    up_emoji = ratio_emoji.get(message.guild.id, client, 'up')[0]
+    up_emoji = ratio_emoji.get(message.guild.id if message.guild else 0, client, 'up')[0]
     await message.add_reaction(up_emoji)
     
     try:
@@ -56,13 +56,22 @@ async def ratio_context(lang: str, interaction: nextcord.Interaction, original_m
     else:
         sent_message = await original_message.reply(embed=embed, mention_author=False)
     
+    if not interaction.guild_id:
+        # If this is a DM, sending the response before the reactions works better,
+        # otherwise, it can cause an error 50% of the time
+        await interaction.response.send_message(
+            text('ratio_context_success', lang),
+            ephemeral=True
+        )
+    
     await sent_message.add_reaction(up_emoji)
     await sent_message.add_reaction(down_emoji)
     
-    await interaction.response.send_message(
-        text('ratio_context_success', lang),
-        ephemeral=True
-    )
+    if interaction.guild_id:
+        await interaction.response.send_message(
+            text('ratio_context_success', lang),
+            ephemeral=True
+        )
 
 
 info = {
