@@ -9,6 +9,10 @@
     "default-ratio-emoji-up": "👍",
     "default-ratio-emoji-down": "👎",
     "embed-color": 11407615,
+    "invite-url": "https://discord.com/api/oauth2/authorize?client_id=854081099638112256&permissions=277582703681&scope=bot%20applications.commands",
+    "support-server-url": "https://discord.gg/uZhDuyWyRh",
+    "bot-avatar-url": "https://cdn.discordapp.com/avatars/888484118852145182/1720decdb60d00751b44e7c28c1a14b0.webp?size=1024",
+    "bot-page-url": "https://discord.com/discovery/applications/854081099638112256",
     "tokens": {
         "main": "BOT_TOKEN",
         "test": "TEST_BOT_TOKEN"

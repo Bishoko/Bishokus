@@ -23,6 +23,23 @@ guild_only_error=🚫 Désolé, cette commande ne peut être utilisée que dans 
 manage_guild_error=🚫 Désolé, vous n'avez pas la permission de `Gérer le serveur`
 
 
+# ====  !info  ====
+info_name=info
+info_desc=Affiche les informations et statistiques du bot
+
+info_creator=Dev
+info_creation_date=Date de création
+info_library=Librairie
+info_version=Version
+info_lines_of_code=Lignes de code
+info_server_count=Nombre de serveurs
+info_channel_count=Nombre de salons
+info_user_count=Nombre d'utilisateurs
+info_bot_page=Page du bot
+info_support_server=Serveur support
+info_invite_link=Inviter
+
+
 # ====  !settings  ====
 settings_name=paramètres
 

@@ -23,6 +23,23 @@ guild_only_error=🚫 Sorry, this command can only be used in servers!
 manage_guild_error=🚫 Sorry, you don't have the `Manage Server` permission
 
 
+# ====  !info  ====
+info_name=info
+info_desc=Displays information and stats about the bot
+
+info_creator=Developer
+info_creation_date=Creation date
+info_library=Library
+info_version=Version
+info_lines_of_code=Lines of code
+info_server_count=Servers
+info_channel_count=Channels
+info_user_count=Users
+info_bot_page=Bot page
+info_support_server=Support server
+info_invite_link=Invite
+
+
 # ====  !settings  ====
 settings_name=settings
 
