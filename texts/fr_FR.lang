@@ -157,6 +157,16 @@ toggle_wordplay_success_on=✅ Les jeux de mots ont été activés dans ce serve
 toggle_wordplay_success_off=🚫 Les jeux de mots ont été désactivés dans ce serveur!
 
 
+# ====  !toggle_wordplay  ====
+toggle_self_wordplay_name=toggle_self_wordplay
+toggle_self_wordplay_desc=Active ou désactive les jeux de mots pour vous-même
+
+toggle_self_wordplay_error=🚫 Désolé, une erreur est survenue lors de l'activation/désactivation des jeux de mots pour vous-même, et jsp pq lol dsl
+
+toggle_self_wordplay_success_on=✅ Les jeux de mots ont été activés pour vous-même!
+toggle_self_wordplay_success_off=🚫 Les jeux de mots ont été désactivés pour vous-même!
+
+
 # ====  !set_ratio_emoji  ====
 set_ratio_emoji_name=emoji_ratio
 set_ratio_emoji_desc=Modifie les émojis pour les ratios

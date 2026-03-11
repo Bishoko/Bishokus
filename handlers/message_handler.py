@@ -197,5 +197,7 @@ async def handle_message(bot, message: nextcord.Message):
     
     normalized = normalize_wordplay(message.content)
     if normalized and message.guild and get("wordplay_enabled", message.guild.id):
+        if not get("wordplay_enabled", user_id=message.author.id):
+            return
         await message.reply(_get_wordplay(normalized), mention_author=False)
 

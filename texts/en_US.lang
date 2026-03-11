@@ -157,6 +157,16 @@ toggle_wordplay_success_on=✅ Wordplay has been enabled in this server!\nPlease
 toggle_wordplay_success_off=🚫 Wordplay has been disabled in this server! I will now shut up if I have something to joke about, even if the bot lang is set to French :)
 
 
+# ====  !toggle_wordplay  ====
+toggle_self_wordplay_name=toggle_self_wordplay
+toggle_self_wordplay_desc=Toggles the wordplays for yourself
+
+toggle_self_wordplay_error=🚫 Sorry, an error occurred while toggling wordplay for yourself, no idea what went wrong lol
+
+toggle_self_wordplay_success_on=✅ Wordplay has been enabled for yourself!\nPlease set the bot language to French (`/settings language`) because this command only works in French for now.
+toggle_self_wordplay_success_off=🚫 Wordplay has been disabled for yourself! I will now shut up if I have something to joke about you, even if the bot lang is set to French :)
+
+
 # ====  !set_ratio_emoji  ====
 set_ratio_emoji_name=ratio_emoji
 set_ratio_emoji_desc=Modifies the emojis for ratios

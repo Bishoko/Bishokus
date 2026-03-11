@@ -23,13 +23,13 @@ INSERT INTO users (
     FALSE, -- is_oomf
     FALSE, -- is_vip
     NULL,  -- vip_end
-    NULL,   -- bot_language
+    NULL,  -- bot_language
     TRUE,  -- bot_reply
     FALSE, -- first_dm_received
     TRUE,  -- dms_accepted
     TRUE,  -- dms_anon_accepted
     TRUE,  -- dms_pub_accepted
-    FALSE, -- wordplay_enabled
+    TRUE,  -- wordplay_enabled
     TRUE,  -- howgay_enabled
     0,     -- howgay_min
     100,   -- howgay_max
