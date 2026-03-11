@@ -45,7 +45,14 @@ def remove(user_id: int):
 
 def is_vip(user_id: int):
     vip_state = bool(get("is_vip", user_id=user_id))
-    vip_end: datetime = parser.parse(get("vip_end", user_id=user_id))
+    if not vip_state:
+        return False
+    
+    vip_end_str = get("vip_end", user_id=user_id)
+    if not vip_end_str:
+        return False
+    
+    vip_end: datetime = parser.parse(vip_end_str)
     
     if vip_state and vip_end:
         if vip_end > datetime.now():
