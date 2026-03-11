@@ -15,9 +15,9 @@ from utils.languages import get_languages_info
 set_lang = lang.set_guild
 
 
-async def set_guild_lang(lang: str, message: nextcord.Message):
+async def set_guild_lang(actual_lang: str, message: nextcord.Message):
     if message.author.guild_permissions.manage_guild == False:
-        await message.reply(text('manage_guild_error', lang), mention_author=False)
+        await message.reply(text('manage_guild_error', actual_lang), mention_author=False)
         return
     
     lang_codes = [lang["code"] for lang in get_languages_info()]
@@ -30,7 +30,7 @@ async def set_guild_lang(lang: str, message: nextcord.Message):
         current_lang = lang.get_guild(message.guild.id)
         p = prefix.get(message.guild.id)
         await message.reply(
-            text('set_guild_lang_empty_error', lang).replace('%current_lang%', current_lang).replace('%prefix%', p),
+            text('set_guild_lang_empty_error', actual_lang).replace('%current_lang%', current_lang).replace('%prefix%', p),
             mention_author=False
         )
         return
@@ -38,9 +38,9 @@ async def set_guild_lang(lang: str, message: nextcord.Message):
     
     if new_lang not in lang_codes:
         await message.reply(
-            text('set_guild_lang_error', lang).replace(
+            text('set_guild_lang_error', actual_lang).replace(
                 '%new_lang%', message.content.lower()).replace(
-                '%available_langs%', '`'+f'` {text("or", lang).strip()} `'.join(lang_codes)+'`'
+                '%available_langs%', '`'+f'` {text("or", actual_lang).strip()} `'.join(lang_codes)+'`'
             ),
             mention_author=False
         )
