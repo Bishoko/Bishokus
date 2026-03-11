@@ -66,8 +66,8 @@ async def on_message_delete(message: nextcord.Message):
         connection.close()
 
 
-async def _snipe_embed(lang: str, guild_id: int, channel_id: int, prefix_str: str, maximum: int=5):
-    maximum = int(maximum) if maximum else 5
+async def _snipe_embed(lang: str, guild_id: int, channel_id: int, prefix_str: str, maximum: int=1):
+    maximum = int(maximum) if maximum else 1
     
     if not get("sniper_enabled", guild_id):
         if not prefix_str:
@@ -119,12 +119,12 @@ async def _snipe_embed(lang: str, guild_id: int, channel_id: int, prefix_str: st
 
 async def snipe_text(lang: str, message: nextcord.Message, prefix: str):
     maximum = int(message.content) if message.content.isdigit() else None
-    snipeembed = await _snipe_embed(lang, message.guild.id, message.channel.id, prefix, maximum=maximum)
+    snipeembed = await _snipe_embed(lang, message.guild.id, message.channel.id, prefix_str=prefix, maximum=maximum)
     if snipeembed:
         await message.reply(embed=snipeembed, mention_author=False)
 
 async def snipe_text_slash(lang: str, interaction: nextcord.Interaction, max_count: str):
-    snipeembed = await _snipe_embed(lang, interaction.guild.id, interaction.channel.id, prefix=None, maximum=max_count)
+    snipeembed = await _snipe_embed(lang, interaction.guild.id, interaction.channel.id, prefix_str=None, maximum=max_count)
     if snipeembed:
         await interaction.response.send_message(embed=snipeembed)
 
