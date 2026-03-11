@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS users (
     id BIGINT PRIMARY KEY,
     is_oomf BOOL,
     is_vip BOOL,
-    vip_end DATE,
+    vip_end TINYTEXT,
     bot_language TINYTEXT,
     bot_reply BOOL,
     first_dm_received BOOL,

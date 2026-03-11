@@ -17,6 +17,7 @@ bot_mention=Hey :D  My prefix is: `%prefix%`! \n\n**%prefix%help** to see the co
 user_is_bot_banned=You are permanently banned from this bot.\n\nReason: `%ban_reason%`
 guild_is_bot_banned=This server is permanently banned from this bot.\n\nReason: `%ban_reason%`
 guild_only_error=🚫 Sorry, this command can only be used in servers!
+vip_only_error=🚫 Sorry, this command is only available for VIP users!
 
 
 # ====  Discord Permissions  ====

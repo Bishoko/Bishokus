@@ -17,6 +17,7 @@ bot_mention=Salut :D  Mon prefixe est : `%prefix%` ! \n\n**%prefix%help** pour v
 user_is_bot_banned=Vous êtes banni définitivement de ce bot.\n\nRaison: `%ban_reason%`
 guild_is_bot_banned=Ce serveur est banni définitivement de ce bot.\n\nRaison: `%ban_reason%`
 guild_only_error=🚫 Désolé, cette commande ne peut être utilisée que dans les serveurs!
+vip_only_error=🚫 Désolé, cette commande est uniquement disponible pour les utilisateurs VIP!
 
 
 # ====  Discord Permissions  ====
