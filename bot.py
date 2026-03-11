@@ -57,6 +57,7 @@ async def on_application_command_error(interaction: nextcord.Interaction, error:
         ),
     ):
         # Handle other types of errors or re-raise them
+        log.exception(error)
         raise error
 
 
