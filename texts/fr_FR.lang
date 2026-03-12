@@ -292,6 +292,16 @@ snipe_unknown_error=❌ Une erreur inconnue est survenue lors de la récupérati
 snipe_disabled_error=🚫 Snipe est désactivé dans ce salon! \nUn modérateur peut l'activer avec `%prefix%toggle_snipe`.
 
 
+# ====  !snipe  ====
+antisnipe_name=antisnipe
+antisnipe_desc=Retire votre dernier message enregistré dans le sniper
+
+antisnipe_unknown_error=❌ Une erreur inconnue est survenue lors de la récupération des messages.
+antisnipe_notfound_error=🚫 Aucun message snipé à retirer dans ce salon !
+antisnipe_author_notfound_error=🚫 Aucun message snipé de votre part dans ce salon !
+antisnipe_success=✅ Votre dernier message enregistré a bien été supprimé!
+
+
 # ====  !ascii  ====
 ascii_name=ascii
 ascii_desc=Converti un message en Ascii

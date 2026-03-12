@@ -292,6 +292,16 @@ snipe_unknown_error=❌ An unknown error occurred while fetching the sniped mess
 snipe_disabled_error=🚫 Snipe is disabled in this channel! \nA moderator can enable it with `%prefix%toggle_snipe`.
 
 
+# ====  !snipe  ====
+antisnipe_name=antisnipe
+antisnipe_desc=Removes your last message recorded in the sniper
+
+antisnipe_unknown_error=❌ An unknown error occurred while fetching the sniped messages. Please try again later!
+antisnipe_notfound_error=🚫 There are no sniped messages to remove in this channel!
+antisnipe_author_notfound_error=🚫 There are no sniped messages from you in this channel!
+antisnipe_success=✅ Your last recorded message has been removed from the sniper!
+
+
 # ====  !ascii  ====
 ascii_name=ascii
 ascii_desc=Converts a message into ascii

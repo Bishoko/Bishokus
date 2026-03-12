@@ -46,6 +46,7 @@ async def on_message_delete(message: nextcord.Message):
         sniper_data[channel_id].append({
             "message": message.system_content,
             "author": message.author.display_name,
+            "author_id": str(message.author.id),
             "date_sent": message.created_at.isoformat(),
             "date_removed": datetime.now().isoformat()
         })
