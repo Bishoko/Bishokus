@@ -19,6 +19,12 @@ guild_is_bot_banned=This server is permanently banned from this bot.\n\nReason: 
 guild_only_error=🚫 Sorry, this command can only be used in servers!
 vip_only_error=🚫 Sorry, this command is only available for VIP users!
 
+arg_ephemeral_name=ephemeral
+arg_ephemeral_desc=Attempt to respond as an ephemeral/temporary response
+arg_ephemeral_true=True
+arg_ephemeral_false=False
+
+
 # ====  !help  ====
 help_name=help
 help_desc=Displays all available commands or details about one command

@@ -2,6 +2,7 @@ import json
 import nextcord
 
 from utils.get_commands_locales import get_commands_locales
+from utils.languages import text
 
 # pull default language for labels from config; used by ArgLocale/CmdLocale
 with open('config/config.json', 'r', encoding='utf-8') as config_file:
@@ -36,8 +37,38 @@ class ArgLocale:
         return self._d['desc']
 
     @property
+    def default(self):
+        # When required is not True and the user doesn't provide a value for this Option, this value is given instead.
+        return self._d.get('default') or nextcord.utils.MISSING
+    
+    @property
     def choices(self):
-        return self._d.get('choices')
+        raw_choices = self._d.get('choices')
+        if not isinstance(raw_choices, dict):
+            return raw_choices
+
+        return {
+            text(str(choice_key), default_locale): value
+            for choice_key, value in raw_choices.items()
+        }
+
+    @property
+    def choice_localizations(self):
+        raw_choices = self._d.get('choices')
+        if not isinstance(raw_choices, dict):
+            return None
+
+        lang_codes = list(self.name_localizations.keys())
+        if default_locale not in lang_codes:
+            lang_codes.append(default_locale)
+
+        return {
+            text(str(choice_key), default_locale): {
+                lang: text(str(choice_key), lang)
+                for lang in lang_codes
+            }
+            for choice_key in raw_choices
+        }
 
     @property
     def required(self):
@@ -111,12 +142,15 @@ def get_slash_option(cmd_or_arg, arg_index=None, locales=None, custom_choices=No
             locales = get_commands_locales()
         arg = ArgLocale(locales[cmd_or_arg]['args'][arg_index])
 
+    use_custom_choices = custom_choices is not None
     return nextcord.SlashOption(
         name=arg.name,
         name_localizations=arg.name_localizations,
         description=arg.description,
         description_localizations=arg.description_localizations,
-        choices=custom_choices or arg.choices,
+        default=arg.default,
+        choices=custom_choices if use_custom_choices else arg.choices,
+        choice_localizations=None if use_custom_choices else arg.choice_localizations,
         required=arg.required,
         autocomplete=arg.autocomplete,
         min_length=arg.min_length,

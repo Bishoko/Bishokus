@@ -578,7 +578,7 @@ async def help_text(bot: commands.Bot, lang: str, message: nextcord.Message, com
     await message.reply(view=view, flags=flags, mention_author=False)
 
 
-async def help_slash(bot: commands.Bot, lang: str, interaction: nextcord.Interaction, command_query: str = None):
+async def help_slash(bot: commands.Bot, lang: str, interaction: nextcord.Interaction, command_query: str = None, ephemeral: bool=True):
     commands_info = gv.get("commands_info") or {}
     command_prefix = prefix.get(interaction.guild.id) if interaction.guild else config.get("default-prefix")
 
@@ -590,13 +590,13 @@ async def help_slash(bot: commands.Bot, lang: str, interaction: nextcord.Interac
             embed.set_field_at(2, name=text("help_command_usage", lang), value=usage, inline=False)
             await interaction.response.send_message(
                 embed=embed,
-                ephemeral=True
+                ephemeral=ephemeral
             )
             return
 
         await interaction.response.send_message(
             text("help_command_not_found", lang).replace("%command%", command_query),
-            ephemeral=True
+            ephemeral=ephemeral
         )
         return
 
@@ -604,7 +604,7 @@ async def help_slash(bot: commands.Bot, lang: str, interaction: nextcord.Interac
     view = HelpView(bot, lang, interaction.user.id, pages)
     flags = nextcord.MessageFlags()
     flags.is_components_v2 = True
-    await interaction.response.send_message(view=view, flags=flags, ephemeral=True)
+    await interaction.response.send_message(view=view, flags=flags, ephemeral=ephemeral)
 
 
 info = {
@@ -623,6 +623,16 @@ info = {
                 "desc": "help_arg_desc",
                 "required": False,
                 "autocomplete": True,
+            },
+            { # TODO: make this modular using locale_helpers so we can add it to other commands if needed
+                "name": "arg_ephemeral_name",
+                "desc": "arg_ephemeral_desc",
+                "required": False,
+                "default": "1",
+                "choices": {
+                    "arg_ephemeral_true": "1",
+                    "arg_ephemeral_false": "0",
+                }
             },
         ]
     }
@@ -666,8 +676,9 @@ class HelpCog(commands.Cog):
     )
     async def help_command(self, interaction: nextcord.Interaction,
         command: str = get_slash_option(cmd.arg(0)),
+        ephemeral: str = get_slash_option(cmd.arg(1)),
     ):
-        await help_slash(self.bot, get_lang(interaction), interaction, command)
+        await help_slash(self.bot, get_lang(interaction), interaction, command, bool(int(ephemeral)))
     
     @help_command.on_autocomplete("command")
     async def on_command_autocomplete(self, interaction: nextcord.Interaction, command: str):
