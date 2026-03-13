@@ -448,7 +448,7 @@ def _help_command_embed(bot: commands.Bot, lang: str, command_name: str, command
 
 class HelpView(nextcord.ui.View):
     def __init__(self, bot: commands.Bot, lang: str, requester_id: int, pages: list[dict]):
-        super().__init__(timeout=180)
+        super().__init__(timeout=None)
         self.bot = bot
         self.lang = lang
         self.requester_id = requester_id
