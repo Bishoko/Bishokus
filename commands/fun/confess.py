@@ -187,7 +187,7 @@ async def _confess(bot, user: nextcord.User, message_content: str, attachments: 
     # Create selection view
     class ConfessView(nextcord.ui.View):
         def __init__(self, parent_self):
-            super().__init__()
+            super().__init__(timeout=None)
             self.value = None
             self.parent_self = parent_self
         
