@@ -14,7 +14,7 @@ from utils.get_user import get_user
 
 class AvatarView(nextcord.ui.View):
     def __init__(self, description: str, global_avatar: str, guild_avatar: str):
-        super().__init__()
+        super().__init__(timeout=None)
         self.value = None
         self.description = description
         self.global_avatar = global_avatar
