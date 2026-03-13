@@ -53,6 +53,12 @@ To add the old version of Bishokus, which includes all existing commands, click 
      ```
 
 3. **Install Requirements:**
+   - Install nextcord:
+     ```sh
+      git clone -b components_v2 https://github.com/alentoghostflame/nextcord
+      cd nextcord
+      POETRY_DYNAMIC_VERSIONING_BYPASS=0.0.1 pip install .
+     ```
    - Install the necessary Python packages:
      ```sh
      pip install -r requirements.txt
@@ -110,8 +116,15 @@ To add the old version of Bishokus, which includes all existing commands, click 
      ```
 
 3. **Install Requirements:**
+   - Install nextcord:
+     ```pwsh
+      git clone -b components_v2 https://github.com/alentoghostflame/nextcord
+      cd nextcord
+      $env:POETRY_DYNAMIC_VERSIONING_BYPASS="0.0.1"
+      pip install .
+     ```
    - Install the necessary Python packages:
-     ```sh
+     ```pwsh
      pip install -r requirements.txt
      ```
 

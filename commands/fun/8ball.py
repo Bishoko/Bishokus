@@ -57,7 +57,7 @@ info = {
         "category": "fun",
         "aliases": ["magicball", "8b"],
         "hidden_aliases": ["8-ball", "ball", "balls", "ball8"],
-        "available": ["text_command", "context_command"],
+        "available": ["text_command", "slash_command"],
         "visibility": "everyone",
         "user_permissions": [],
         "name": "8ball_name",

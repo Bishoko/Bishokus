@@ -176,6 +176,7 @@ info = {
                            ""],
         "locale_only": nextcord.Locale.fr,
         "available": ["text_command"],
+        "visibility": "hidden",
     },
     "hein": {
         "category": "fun",
@@ -185,6 +186,7 @@ info = {
                            "heindeux", "hein2", "hin2"],
         "locale_only": nextcord.Locale.fr,
         "available": ["text_command"],
+        "visibility": "hidden",
     },
     "oui": {
         "category": "fun",
@@ -193,6 +195,7 @@ info = {
                            "ouistiti", "wistiti", "wiistiti", "uistiti", "westiti"],
         "locale_only": nextcord.Locale.fr,
         "available": ["text_command"],
+        "visibility": "hidden",
     },
     "ouais": {
         "category": "fun",
@@ -201,6 +204,7 @@ info = {
                            "ouaistern", "oestern", "western", "ouestern"],
         "locale_only": nextcord.Locale.fr,
         "available": ["text_command"],
+        "visibility": "hidden",
     },
     "non": {
         "category": "fun",
@@ -209,6 +213,7 @@ info = {
                            "nombril", "nonbril"],
         "locale_only": nextcord.Locale.fr,
         "available": ["text_command"],
+        "visibility": "hidden",
     },
     "chaud": {
         "category": "fun",
@@ -217,6 +222,7 @@ info = {
                            "chauffage", "chaufage", "chofage", "choffage"],
         "locale_only": nextcord.Locale.fr,
         "available": ["text_command"],
+        "visibility": "hidden",
     },
     "tulasvu": {
         "category": "fun",
@@ -225,6 +231,7 @@ info = {
                            "mon cul", "mon q", "mon c", "monq"],
         "locale_only": nextcord.Locale.fr,
         "available": ["text_command"],
+        "visibility": "hidden",
     },
     "ah": {
         "category": "fun",
@@ -232,6 +239,7 @@ info = {
         "hidden_aliases": ["a", "abricot"],
         "locale_only": nextcord.Locale.fr,
         "available": ["text_command"],
+        "visibility": "hidden",
     },
     "re": {
         "category": "fun",
@@ -239,6 +247,7 @@ info = {
         "hidden_aliases": ["r", "renard"],
         "locale_only": nextcord.Locale.fr,
         "available": ["text_command"],
+        "visibility": "hidden",
     },
 }
 

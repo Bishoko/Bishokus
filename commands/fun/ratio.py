@@ -85,13 +85,7 @@ info = {
         "user_permissions": [],
         "name": "ratio_name",
         "desc": "ratio_desc",
-        "args": [
-            {
-                "name": "ratio_arg_name",
-                "desc": "ratio_arg_desc",
-                "required": False
-            }
-        ]
+        "args": []
     },
 }
 

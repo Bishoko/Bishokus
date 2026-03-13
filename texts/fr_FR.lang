@@ -19,6 +19,40 @@ guild_is_bot_banned=Ce serveur est banni définitivement de ce bot.\n\nRaison: `
 guild_only_error=🚫 Désolé, cette commande ne peut être utilisée que dans les serveurs!
 vip_only_error=🚫 Désolé, cette commande est uniquement disponible pour les utilisateurs VIP!
 
+# ====  !help  ====
+help_name=aide
+help_desc=Affiche toutes les commandes disponibles ou les détails d'une commande
+
+help_arg_name=commande
+help_arg_desc=Nom de la commande pour afficher les détails (optionnel)
+
+help_embed_title=Menu d'aide
+help_embed_desc=Utilisez les boutons ci-dessous pour parcourir les catégories de commandes.
+help_select_placeholder=Sélectionnez une catégorie
+help_page_footer=Page %current%/%total%
+help_no_commands=Aucune commande n'est actuellement disponible.
+help_not_for_you=🚫 Ces boutons ne sont pas pour vous :p
+
+help_command_embed_title=Commande : %command%
+help_command_category=Catégorie
+help_command_availability=Disponible en
+help_command_availability_text=Commande texte
+help_command_availability_slash=Commande slash
+help_command_availability_context=Clic droit
+help_command_availability_both=Commande texte/slash
+help_command_availability_both_text_and_context=Commande texte/clic droit
+help_command_right_click_instructions=Clic droit > Bishokus >
+help_command_usage=Utilisation
+help_command_aliases=Alias textes
+help_command_hidden_aliases=Autres alias
+help_command_not_found=❌ Je n'ai pas trouvé la commande `%command%`.
+
+category_bot=Bot
+category_bot_owner=Propriétaire du bot
+category_fun=Fun
+category_settings=Paramètres
+category_utilities=Utilitaires
+
 
 # ====  Discord Permissions  ====
 manage_guild_error=🚫 Désolé, vous n'avez pas la permission de `Gérer le serveur`
