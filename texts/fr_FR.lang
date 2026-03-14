@@ -305,6 +305,16 @@ wordplay_arg_name=type
 wordplay_arg_desc=Type de jeu de mots aléatoire
 
 
+# ====  !raw  ====
+raw_name=brut
+raw_desc=Renvoie un message brut
+
+raw_arg_name=texte
+raw_arg_desc=Texte à répéter
+
+raw_error_empty_msg=🚫 Le message ne peut pas être vide!
+
+
 # ====  !say  ====
 say_name=say
 say_desc=Répète un message

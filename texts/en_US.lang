@@ -305,6 +305,16 @@ wordplay_arg_name=type
 wordplay_arg_desc=Type of random wordplay
 
 
+# ====  !raw  ====
+raw_name=raw
+raw_desc=Returns a raw message
+
+raw_arg_name=input
+raw_arg_desc=Input to repeat
+
+raw_error_empty_msg=🚫 The message cannot be empty!
+
+
 # ====  !say  ====
 say_name=say
 say_desc=Repeats a message

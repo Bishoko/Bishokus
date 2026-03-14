@@ -165,7 +165,7 @@ async def handle_message(bot, message: nextcord.Message):
             log.info(f"Loaded commands locales")
         
         # Remove accents from message.content
-        message.content = unidecode(message.content)
+        message.content = unidecode(message.content, errors="preserve")
         
         resolved_command_name, remaining_content = _resolve_command_from_content(message.content, commands_info)
 
