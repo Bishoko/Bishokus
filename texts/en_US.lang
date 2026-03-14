@@ -315,6 +315,20 @@ raw_arg_desc=Input to repeat
 raw_error_empty_msg=🚫 The message cannot be empty!
 
 
+# ====  !length  ====
+length_name=length
+length_desc=Returns the length of a message
+
+length_arg_name=input
+length_arg_desc=Input to measure
+
+length_output_l1=Length of:
+length_output_l2=```%string%```
+length_output_l3=`%length%` - full count (including spaces)
+length_output_l4=`%length_no_spaces%` - without spaces
+length_output_l5=`%space_length%` - spaces only
+
+
 # ====  !say  ====
 say_name=say
 say_desc=Repeats a message

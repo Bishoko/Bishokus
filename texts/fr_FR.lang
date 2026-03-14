@@ -315,6 +315,20 @@ raw_arg_desc=Texte à répéter
 raw_error_empty_msg=🚫 Le message ne peut pas être vide!
 
 
+# ====  !length  ====
+length_name=longueur
+length_desc=Renvoie la longueur d'un message
+
+length_arg_name=texte
+length_arg_desc=Texte à mesurer
+
+length_output_l1=Longueur de:
+length_output_l2=```%string%```
+length_output_l3=`%length%` - compte complet (espaces inclus)
+length_output_l4=`%length_no_spaces%` - sans espaces
+length_output_l5=`%space_length%` - espaces uniquement
+
+
 # ====  !say  ====
 say_name=dire
 say_desc=Répète un message
