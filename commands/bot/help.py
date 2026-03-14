@@ -26,6 +26,10 @@ CATEGORIES = {
         "emoji": "🎲",
         "locale_key": "category_fun"
     },
+    "moderation": {
+        "emoji": "🛡️",
+        "locale_key": "category_moderation"
+    },
     "utilities": {
         "emoji": "🧩",
         "locale_key": "category_utilities"

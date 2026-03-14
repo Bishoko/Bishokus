@@ -56,6 +56,7 @@ help_command_not_found=❌ I couldn't find the command `%command%`.
 category_bot=Bot
 category_bot_owner=Bot Owner
 category_fun=Fun
+category_moderation=Moderation
 category_settings=Settings
 category_utilities=Utilities
 
@@ -468,3 +469,18 @@ confess_no_channels_error=❌ Sorry, there are no confession channels available 
 confess_send_error=❌ An error occurred while sending the confession.
 
 confess_sent_success=✅ Your anonymous message has been successfully sent on the **%guild%** server!
+
+
+# ====  !clear  ====
+clear_name=clear
+clear_desc=Clears a specified number of messages from a channel
+
+clear_arg_name=count
+clear_arg_desc=Number of messages to clear
+
+clear_unknown_error=🚫 An unknown error occurred while trying to clear messages, sry
+
+clear_error_invalid_count=🚫 Invalid number of messages!
+clear_error_too_many=🚫 You cannot clear more than 1000 messages at once!
+clear_success=✅ %moderator% just successfully cleared **%count%** message%s%!
+clear_success_slash=✅ Successfully cleared **%count%** message%s%!
