@@ -316,7 +316,7 @@ raw_error_empty_msg=🚫 Le message ne peut pas être vide!
 
 
 # ====  !say  ====
-say_name=say
+say_name=dire
 say_desc=Répète un message
 
 say_arg_name=message

@@ -52,7 +52,7 @@ info = {
     "say": {
         "category": "utilities",
         "aliases": ["repeat", "echo"],
-        "hidden_aliases": ["dire"],
+        "hidden_aliases": ["dire", "envoyer", "parler", "parle", "dis", "dit"],
         "available": ["slash_command", "text_command"],
         "visibility": "everyone",
         "user_permissions": [],
