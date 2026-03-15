@@ -57,6 +57,7 @@ info = {
                            "supprimer", "supprime", "suppr", "effacer", "purger"],
         "available": ["slash_command", "text_command"],
         "visibility": "everyone",
+        "bot_permissions": ["manage_messages"],
         "user_permissions": ["manage_messages"],
         "name": "clear_name",
         "desc": "clear_desc",
