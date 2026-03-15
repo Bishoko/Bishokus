@@ -25,6 +25,31 @@ arg_ephemeral_true=Oui
 arg_ephemeral_false=Non
 
 
+# ====  Discord Permissions  ====
+perm_add_reactions=Ajouter des réactions
+perm_attach_files=Joindre des fichiers
+perm_connect=Se connecter
+perm_speak=Parler
+perm_create_instant_invite=Créer une invitation instantanée
+perm_embed_links=Intégrer des liens
+perm_manage_server=Gérer le serveur
+perm_manage_messages=Gérer les messages
+perm_manage_webhooks=Gérer les webhooks
+perm_mention_everyone=Mentionner tout le monde
+perm_move_members=Déplacer des membres
+perm_read_message_history=Lire l'historique des messages
+perm_send_messages=Envoyer des messages
+perm_send_messages_in_threads=Envoyer des messages dans les threads
+perm_use_external_emojis=Utiliser des emojis externes
+perm_use_slash_commands=Utiliser des commandes slash
+perm_view_channels=Voir les salons
+
+user_missing_permission=🚫 Désolé, vous n'avez pas la permission de %permissions%
+user_missing_permissions=🚫 Désolé, vous n'avez pas ces permissions: %permissions%
+bot_missing_permission=🚫 Désolé, je n'ai pas la permission de %permissions%!
+bot_missing_permissions=🚫 Désolé, je n'ai pas les permissions: %permissions%
+
+
 # ====  !help  ====
 help_name=aide
 help_desc=Affiche toutes les commandes disponibles ou les détails d'une commande
@@ -59,10 +84,6 @@ category_fun=Fun
 category_moderation=Modération
 category_settings=Paramètres
 category_utilities=Utilitaires
-
-
-# ====  Discord Permissions  ====
-manage_guild_error=🚫 Désolé, vous n'avez pas la permission de `Gérer le serveur`
 
 
 # ====  !info  ====

@@ -4,7 +4,7 @@ from nextcord.application_command import slash_command, message_command
 from utils.logger import log
 from utils.get_commands_locales import get_commands_locales
 from utils.locale_helpers import CmdLocale, get_slash_option
-from utils import config
+from utils import config, checks
 from utils.settings.bot_ban import check_ban
 from utils.languages import text
 from utils.settings import prefix
@@ -79,6 +79,9 @@ class ClearCog(commands.Cog):
         self.bot = bot
     
     @check_ban()
+    @checks.guild_only()
+    @checks.bot_permissions(manage_messages=True)
+    @checks.user_permissions(manage_messages=True)
     @slash_command(
         name=cmd.name,
         description=cmd.description,
@@ -96,5 +99,8 @@ def setup(bot: commands.Bot):
     bot.add_cog(ClearCog(bot))
 
 # Text command handler wrapper that adapts to message handler signature
+@checks.guild_only()
+@checks.bot_permissions(manage_messages=True)
+@checks.user_permissions(manage_messages=True)
 async def _message_handler(bot, message: nextcord.Message, lang: str, prefix: str):
     await clear_text(lang, message)

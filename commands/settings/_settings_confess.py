@@ -4,7 +4,7 @@ from nextcord.application_command import slash_command, message_command
 from utils.logger import log
 from utils.get_commands_locales import get_commands_locales
 from utils.locale_helpers import CmdLocale, get_slash_option
-from utils import config, guild_only
+from utils import config, checks
 from utils.settings.bot_ban import check_ban
 from utils.languages import text
 from utils.settings import prefix
@@ -38,7 +38,8 @@ class SettingsConfessCog(commands.Cog):
         self.bot = bot
 
     @check_ban()
-    @guild_only()
+    @checks.guild_only()
+    @checks.user_permissions(manage_guild=True)
     @parent.subcommand(
         name=cmd.name,
         name_localizations=cmd.name_localizations,

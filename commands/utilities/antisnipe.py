@@ -4,7 +4,7 @@ from nextcord.application_command import slash_command, message_command
 from utils.logger import log
 from utils.get_commands_locales import get_commands_locales
 from utils.locale_helpers import CmdLocale, get_slash_option
-from utils import config, guild_only
+from utils import config, checks
 from utils.settings.bot_ban import check_ban
 from utils.languages import text
 from utils.settings import prefix
@@ -112,7 +112,7 @@ class AntiSnipeCog(commands.Cog):
         self.bot = bot
     
     @check_ban()
-    @guild_only()
+    @checks.guild_only()
     @slash_command(
         name=cmd.name,
         description=cmd.description,
@@ -127,6 +127,6 @@ def setup(bot: commands.Bot):
     bot.add_cog(AntiSnipeCog(bot))
 
 # Text command handler wrapper that adapts to message handler signature
-@guild_only()
+@checks.guild_only()
 async def _message_handler(bot, message: nextcord.Message, lang: str, prefix: str):
     await antisnipe_text(lang, message)

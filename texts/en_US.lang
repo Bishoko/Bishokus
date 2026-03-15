@@ -25,6 +25,31 @@ arg_ephemeral_true=True
 arg_ephemeral_false=False
 
 
+# ====  Discord Permissions  ====
+perm_add_reactions=Add Reactions
+perm_attach_files=Attach Files
+perm_connect=Connect
+perm_speak=Speak
+perm_create_instant_invite=Create Instant Invite
+perm_embed_links=Embed Links
+perm_manage_server=Manage Server
+perm_manage_messages=Manage Messages
+perm_manage_webhooks=Manage Webhooks
+perm_mention_everyone=Mention Everyone
+perm_move_members=Move Members
+perm_read_message_history=Read Message History
+perm_send_messages=Send Messages
+perm_send_messages_in_threads=Send Messages in Threads
+perm_use_external_emojis=Use External Emojis
+perm_use_slash_commands=Use Slash Commands
+perm_view_channels=View Channels
+
+user_missing_permission=🚫 Sorry, you don't have the %permissions% permission
+user_missing_permissions=🚫 Sorry, you don't have these permissions: %permissions%
+bot_missing_permission=🚫 Sorry, I don't have the %permissions% permission!
+bot_missing_permissions=🚫 Sorry, I don't have these permissions: %permissions%
+
+
 # ====  !help  ====
 help_name=help
 help_desc=Displays all available commands or details about one command
@@ -59,10 +84,6 @@ category_fun=Fun
 category_moderation=Moderation
 category_settings=Settings
 category_utilities=Utilities
-
-
-# ====  Discord Permissions  ====
-manage_guild_error=🚫 Sorry, you don't have the `Manage Server` permission
 
 
 # ====  !info  ====
