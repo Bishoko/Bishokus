@@ -98,7 +98,7 @@ info = {
                     "setconfesschannel", "setconfessionchannel", "set_confession_channel", "setconfess", "setconfession"],
         "aliases_sub_only": ["add", "addchannel", "add_channel",
                              "set", "setchannel", "set_channel"],
-        "hidden_aliases": ["setserverlang", "setserverlanguage", "set_serverlang", "set_server_lang", "setguildlang", "set_guildlang", "set_guild_lang", "guild_lang", "guildlang"],
+        "hidden_aliases": [],
         "available": ["slash_command", "text_command"],
         "dm_available": False,
         "visibility": "everyone",
