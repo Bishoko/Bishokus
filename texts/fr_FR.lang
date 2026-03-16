@@ -399,6 +399,23 @@ ascii_error_empty_msg=🚫 Le message ne peut pas être vide!
 ascii_error_length=🚫 Désolé, votre message ne peut pas faire plus de 13 caractères. :/
 
 
+# ====  !definition  ====
+definition_name=definition
+definition_desc=Affiche la définition d'un mot
+
+definition_word_arg_name=mot
+definition_word_arg_desc=Mot à définir
+
+definition_embed_author=Définition du dictionnaire
+definition_not_found=Ce mot n'a pas été trouvé 🤷
+definition_language_label=Langue
+definition_source_label=Source
+definition_lang_french=Français
+definition_lang_english=Anglais
+
+definition_empty_error=🚫 Le mot ne peut pas être vide!
+
+
 # ====  !math  ====
 math_name=calculatrice
 math_desc=Évalue une expression mathématique

@@ -6,3 +6,4 @@ blagues-api==1.0.4
 Unidecode==1.4.0
 colorama==0.4.6
 dateparser==1.3.0
+larousse-api-sunbro==0.0.5

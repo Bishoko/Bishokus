@@ -399,6 +399,23 @@ ascii_error_empty_msg=🚫 The message cannot be empty!
 ascii_error_length=🚫 The message cannot be longer than 13 characters. :/
 
 
+# ====  !definition  ====
+definition_name=definition
+definition_desc=Shows the definition of a word
+
+definition_word_arg_name=word
+definition_word_arg_desc=Word to define
+
+definition_embed_author=Dictionary Definition
+definition_not_found=This word was not found 🤷
+definition_language_label=Language
+definition_source_label=Source
+definition_lang_french=French
+definition_lang_english=English
+
+definition_empty_error=🚫 The word cannot be empty!
+
+
 # ====  !math  ====
 math_name=math
 math_desc=Evaluates a mathematical expression
