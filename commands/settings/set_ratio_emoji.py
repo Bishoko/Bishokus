@@ -50,7 +50,7 @@ async def set_ratio_emoji(lang: str, message: nextcord.Message):
             ratio_emoji.set(message.guild.id, up_emoji=content[0])
             await success(message)
             return
-        except TypeError:
+        except (TypeError, ValueError) as e:
             await handle_error(e, lang, message)
             return
     
@@ -70,7 +70,7 @@ async def set_ratio_emoji(lang: str, message: nextcord.Message):
             ratio_emoji.set(message.guild.id, down_emoji=emoji)
         else:
             ratio_emoji.set(message.guild.id, up_emoji=content[0], down_emoji=content[1])
-    except ValueError as e:
+    except (TypeError, ValueError) as e:
         await handle_error(e, lang, message)
         return
     
