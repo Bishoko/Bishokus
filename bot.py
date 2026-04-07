@@ -1,7 +1,7 @@
 import os
 import json
 import nextcord
-from nextcord.ext import commands
+from nextcord.ext import commands, tasks
 
 import utils.global_variables as gv
 from utils.languages import init as langs_init
@@ -35,9 +35,36 @@ gv.set('bot', bot)
 gv.set('client', bot)
 
 
+
+@tasks.loop(seconds=45)
+async def status_loop():
+    """Cycle through bot status messages."""
+    if bot.latency == 0:
+        return
+    
+    statuses = [
+        nextcord.Activity(
+            type=nextcord.ActivityType.watching,
+            name="!help | !invite"
+        ),
+        nextcord.Activity(
+            type=nextcord.ActivityType.watching,
+            name=f"{len(bot.guilds)} servers!"
+        ),
+    ]
+    
+    current_status = statuses[status_loop.current_index % len(statuses)]
+    await bot.change_presence(activity=current_status)
+    
+    status_loop.current_index = (status_loop.current_index + 1) % len(statuses)
+
+
 @bot.event
 async def on_ready():
     log.info(f'{bot.user.name} has connected to Discord!')
+    
+    status_loop.current_index = 0
+    status_loop.start()
 
 
 @bot.event
@@ -103,7 +130,6 @@ for root, dirs, files in os.walk('commands'):
             
 # Store message handlers in global variables
 gv.set("message_handlers", message_handlers)
-                
 log.success("All cogs loaded successfully.")
 
 
