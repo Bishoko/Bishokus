@@ -80,15 +80,20 @@ To add the old version of Bishokus, which includes all existing commands, click 
      ```
 
 3. **Create Database:**
-   - Log into MySQL and create the database:
-     ```sh
-     sudo mysql -u root -p
-     CREATE DATABASE your_database_name;
-     CREATE USER 'your_username'@'localhost' IDENTIFIED BY 'your_password';
-     GRANT ALL PRIVILEGES ON your_database_name.* TO 'your_username'@'localhost';
-     FLUSH PRIVILEGES;
-     EXIT;
-     ```
+   1. Open a terminal and log into MySQL:
+      ```sh
+      sudo mysql -u root -p
+      ```
+
+   2. Create the database and user:
+      ```sql
+      sudo mysql -u root -p
+      CREATE DATABASE your_database_name;
+      CREATE USER 'your_username'@'localhost' IDENTIFIED WITH mysql_native_password BY 'your_password';
+      GRANT ALL PRIVILEGES ON your_database_name.* TO 'your_username'@'localhost';
+      FLUSH PRIVILEGES;
+      EXIT;
+      ```
 
 #### Configure Application
 
@@ -134,7 +139,21 @@ To add the old version of Bishokus, which includes all existing commands, click 
    - Download and install MySQL from [MySQL Installer - Community](https://dev.mysql.com/get/Downloads/MySQLInstaller/mysql-installer-community-8.0.37.0.msi).
 
 2. **Create Database:**
-   - Use `MySQL Installer - Community` to create a database and set up a password.
+   - Option 1: Use `MySQL Installer - Community` to create a database and set up a password.
+   - Option 2: Log into MySQL and create the database:
+      1. Open Command Prompt and log into MySQL:
+         ```sh
+         sudo mysql -u root -p --port 3306
+         ```
+         
+      2. Create the database and user:
+         ```sql
+         CREATE DATABASE your_database_name;
+         CREATE USER 'your_username'@'localhost' IDENTIFIED WITH mysql_native_password BY 'your_password';
+         GRANT ALL PRIVILEGES ON your_database_name.* TO 'your_username'@'localhost';
+         FLUSH PRIVILEGES;
+         EXIT;
+         ```
 
 #### Configure Application
 
