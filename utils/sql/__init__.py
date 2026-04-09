@@ -103,16 +103,6 @@ def init():
     
     execute_sql_file(cursor, 'utils/sql/init_db.sql')
     
-    #   CONFESS BAN JSON STRUCTURE:
-    #
-    # {
-    #     "admin_id": message.author.id,
-    #     "type": "confess_id",
-    #     "reason": ban_reason,
-    #     "message_banned": confess_message_banned,
-    #     "confess_id": 000
-    # }
-    
     cursor.execute("SELECT COUNT(*) FROM guilds")
     guilds_count = cursor.fetchone()[0]
     log.info(f'Database | guilds_count: {guilds_count}')

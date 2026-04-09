@@ -54,12 +54,14 @@ CREATE TABLE IF NOT EXISTS guilds (
 );
 
 CREATE TABLE IF NOT EXISTS guild_count (
-    `time` TIMESTAMP PRIMARY KEY,
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    `time` TIMESTAMP,
     count INT
 );
 
 CREATE TABLE IF NOT EXISTS message_logs (
-    `time` TIMESTAMP PRIMARY KEY,
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    `time` TIMESTAMP,
     guild_id BIGINT,
     user_id BIGINT,
     guild_name TINYTEXT,
