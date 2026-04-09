@@ -65,7 +65,7 @@ def _build_welcome_embed(guild: nextcord.Guild, lang: str) -> nextcord.Embed:
     return embed
 
 
-def _log_guild_count(bot: nextcord.Client):
+def log_guild_count(bot: nextcord.Client):
     conn = get_db_connection()
     cursor = conn.cursor()
     cursor.execute('INSERT INTO guild_count (`time`, count) VALUES (CURRENT_TIMESTAMP, %s)', (len(bot.guilds),))
@@ -100,7 +100,7 @@ async def handle_guild_join(bot, guild: nextcord.Guild):
     
     log.info(f"Joined guild: {guild.name} (ID: {guild.id})")
     
-    _log_guild_count(bot)
+    log_guild_count(bot)
     
     welcome_channel = _get_welcome_channel(guild)
     

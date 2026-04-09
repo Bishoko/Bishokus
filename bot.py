@@ -13,6 +13,7 @@ db.init()
 
 from handlers.message_handler import handle_message
 from handlers.on_guild_join import handle_guild_join
+from handlers.on_guild_remove import handle_guild_remove
 
 
 intents = nextcord.Intents.all()
@@ -75,6 +76,10 @@ async def on_message(message):
 @bot.event
 async def on_guild_join(guild):
     await handle_guild_join(bot, guild)
+
+@bot.event
+async def on_guild_remove(guild):
+    await handle_guild_remove(bot, guild)
 
 
 @bot.event
