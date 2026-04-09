@@ -50,6 +50,19 @@ bot_missing_permission=🚫 Désolé, je n'ai pas la permission de %permissions%
 bot_missing_permissions=🚫 Désolé, je n'ai pas les permissions: %permissions%
 
 
+# ====  Guild Join  ====
+on_guild_join_embed_title=Merci beaucoup d'avoir ajouté Bishokus sur __%guild_name%__!
+on_guild_join_embed_desc=Mon préfixe est pour l'instant `%prefix%` ou `@Bishokus 🧎#1363`.
+on_guild_join_embed_field_title=A savoir
+on_guild_join_embed_field_value_l1=- **/aide** pour voir les commandes
+on_guild_join_embed_field_value_l2=- **/paramètres langue** pour changer la langue
+on_guild_join_embed_field_value_l3=- **/paramètres préfixe** pour changer le préfixe
+on_guild_join_embed_field_value_l4=- **!jdm** pour activer les jeux de mots
+on_guild_join_embed_field_value_link_text=Ajouter Bishokus
+on_guild_join_embed_footer=Utilisez /support pour plus d'aide :)
+on_guild_join_switch_lang_button=Passer au français 🇫🇷
+
+
 # ====  !help  ====
 help_name=aide
 help_desc=Affiche toutes les commandes disponibles ou les détails d'une commande

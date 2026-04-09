@@ -50,6 +50,19 @@ bot_missing_permission=🚫 Sorry, I don't have the %permissions% permission!
 bot_missing_permissions=🚫 Sorry, I don't have these permissions: %permissions%
 
 
+# ====  Guild Join  ====
+on_guild_join_embed_title=Thank you for adding Bishokus to __%guild_name%__!
+on_guild_join_embed_desc=My prefix is currently `%prefix%` or `@Bishokus 🧎#1363`.
+on_guild_join_embed_field_title=Things to know
+on_guild_join_embed_field_value_l1=- **/help** to see the commands
+on_guild_join_embed_field_value_l2=- **/settings language** to change the language
+on_guild_join_embed_field_value_l3=- **/settings prefix** to change the prefix
+on_guild_join_embed_field_value_l4=
+on_guild_join_embed_field_value_link_text=Add Bishokus
+on_guild_join_embed_footer=Use /support for more help :)
+on_guild_join_switch_lang_button=Switch to English 🇬🇧
+
+
 # ====  !help  ====
 help_name=help
 help_desc=Displays all available commands or details about one command
