@@ -134,7 +134,7 @@ def get(guild_id: int, client: nextcord.Client = None, emoji_type: str = 'both')
         def get_emoji(emoji):
             if emoji and not emoji.startswith('<'):
                 try:
-                    return client.get_emoji(int(emoji))
+                    return str(client.get_emoji(int(emoji)))
                 except ValueError:
                     return emoji
             return emoji
