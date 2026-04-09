@@ -5,7 +5,6 @@ from nextcord.ext import commands, tasks
 
 import utils.global_variables as gv
 from utils.languages import init as langs_init
-from utils.settings.bot_ban import get_ban_type
 from utils.logger import log
 import utils.sql as db
 
@@ -13,6 +12,7 @@ langs_init()
 db.init()
 
 from handlers.message_handler import handle_message
+from handlers.on_guild_join import handle_guild_join
 
 
 intents = nextcord.Intents.all()
@@ -73,6 +73,11 @@ async def on_message(message):
 
 
 @bot.event
+async def on_guild_join(guild):
+    await handle_guild_join(bot, guild)
+
+
+@bot.event
 async def on_application_command_error(interaction: nextcord.Interaction, error: Exception):
     # This function is used to ignore errors that occur when preventing commands for banned users or guilds
 
@@ -86,13 +91,6 @@ async def on_application_command_error(interaction: nextcord.Interaction, error:
         # Handle other types of errors or re-raise them
         log.exception(error)
         raise error
-
-
-@bot.event
-async def on_guild_join(guild):
-    if get_ban_type(guild.id, is_guild=True) == 'instant_leave':
-        await guild.leave()
-        log.info(f"Left banned guild: {guild.name} (ID: {guild.id})")
 
 
 # Load cogs from the commands directory
