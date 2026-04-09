@@ -270,10 +270,8 @@ def get_ban_type(id: int, is_guild: bool = False) -> str:
             result = result[0].lower()
             if result == 'default':
                 result = default
-        else:
-            result = default
-            
-        return result
+        
+        return None
 
     except mysql.connector.Error as err:
         log.exception(err, f'Error getting ban type for {"guild" if is_guild else "user"}: {id}')
