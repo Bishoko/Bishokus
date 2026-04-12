@@ -568,7 +568,13 @@ async def help_text(bot: commands.Bot, lang: str, message: nextcord.Message, com
         if command_data:
             embed = _help_command_embed(bot, lang, command_name, command_data)
             usage = _get_command_usage(command_name, command_data, commands_info, lang, command_prefix)
-            embed.set_field_at(2, name=text("help_command_usage", lang), value=usage, inline=False)
+            if lang == "fr":
+                usage += "\n" + _get_command_usage(command_name, command_data, commands_info, "en_US", command_prefix) + " :flag_gb:"
+            embed.set_field_at(2,
+                name=text("help_command_usage", lang),
+                value=usage,
+                inline=False
+            )
             await message.reply(embed=embed, mention_author=False)
             return
 
