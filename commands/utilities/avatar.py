@@ -70,6 +70,7 @@ async def avatar_text(lang: str, message: nextcord.Message):
     )
 
 async def avatar_slash(lang: str, interaction: nextcord.Interaction, member: nextcord.Member):
+    member = member or interaction.user
     embed, global_avatar, guild_avatar, description = _avatar(lang, member)
     
     await interaction.response.send_message(
@@ -91,7 +92,8 @@ info = {
         "args": [
             {
                 "name": "avatar_arg_name",
-                "desc": "avatar_arg_desc"
+                "desc": "avatar_arg_desc",
+                "required": False,
             }
         ]
     }
