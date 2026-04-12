@@ -10,6 +10,7 @@ from utils.normalize_wordplay import normalize_wordplay
 from utils.sql.get import get
 from utils.logger import log
 import utils.global_variables as gv
+from handlers.command_usage_logger import log_command_usage
 
 from unidecode import unidecode
 
@@ -79,7 +80,7 @@ def _is_locale_allowed(command_data: dict, current_locale: str) -> bool:
     return False
 
 
-def _resolve_command_from_content(content: str, commands_info: dict) -> tuple[str | None, str]:
+def _resolve_command_from_content(content: str, commands_info: dict) -> tuple[str | None, str, str | None]:
     children_by_parent = {}
     standalone_candidates = []
     for command_name, command_data in commands_info.items():
@@ -92,6 +93,7 @@ def _resolve_command_from_content(content: str, commands_info: dict) -> tuple[st
     remaining = content.strip()
     current_parent = None
     resolved_command_name = None
+    matched_aliases: list[str] = []
 
     while remaining:
         candidates = children_by_parent.get(current_parent, [])
@@ -115,6 +117,7 @@ def _resolve_command_from_content(content: str, commands_info: dict) -> tuple[st
 
         command_name, command_data, matched_prefix = matched
         resolved_command_name = command_name
+        matched_aliases.append(matched_prefix)
         remaining = remaining[len(matched_prefix):].strip()
 
         if not command_data.get('has_subcommands', False):
@@ -122,7 +125,8 @@ def _resolve_command_from_content(content: str, commands_info: dict) -> tuple[st
 
         current_parent = command_name
 
-    return resolved_command_name, remaining
+    used_alias = " ".join(matched_aliases).strip() if matched_aliases else None
+    return resolved_command_name, remaining, used_alias
 
 _get_wordplay = None
 
@@ -167,7 +171,7 @@ async def handle_message(bot, message: nextcord.Message):
         # Remove accents from message.content
         message.content = unidecode(message.content, errors="preserve")
         
-        resolved_command_name, remaining_content = _resolve_command_from_content(message.content, commands_info)
+        resolved_command_name, remaining_content, used_alias = _resolve_command_from_content(message.content, commands_info)
 
         if resolved_command_name is None:
             log.warning(f"Unknown command: {message.content.split()[0].lower()}")
@@ -184,6 +188,16 @@ async def handle_message(bot, message: nextcord.Message):
 
         if resolved_command_name in message_handlers:
             handler = message_handlers[resolved_command_name]
+
+            log_command_usage(
+                command_name=resolved_command_name,
+                command_args_str=remaining_content,
+                user_id=message.author.id,
+                guild_id=message.guild.id if message.guild else None,
+                slash_command=False,
+                text_command_alias=used_alias.lower() if used_alias else None,
+            )
+
             await handler(bot, message, lang, p)
             # Restore message.content after handling to preserve it for other handlers
             message.content = message_content_backup

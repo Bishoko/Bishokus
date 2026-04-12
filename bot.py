@@ -14,6 +14,7 @@ db.init()
 from handlers.message_handler import handle_message
 from handlers.on_guild_join import handle_guild_join
 from handlers.on_guild_remove import handle_guild_remove
+from handlers.command_usage_logger import handle_application_command_completion
 
 
 intents = nextcord.Intents.all()
@@ -80,6 +81,12 @@ async def on_guild_join(guild):
 @bot.event
 async def on_guild_remove(guild):
     await handle_guild_remove(bot, guild)
+
+
+@bot.listen()
+async def on_application_command_completion(interaction):
+    """Log when a slash command is completed by a user to get statistics on command usage."""
+    await handle_application_command_completion(interaction)
 
 
 @bot.event

@@ -80,3 +80,23 @@ CREATE TABLE IF NOT EXISTS confess (
     raw_message TEXT(10000),
     `time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE IF NOT EXISTS command_usage_counters (
+    command_name VARCHAR(256) PRIMARY KEY,
+    usage_count INT,
+    usage_count_slash INT,
+    usage_count_text INT,
+    last_used TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS command_usage_logs (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    command_name TINYTEXT,
+    command_args JSON DEFAULT NULL,
+    command_args_str TEXT(10000) DEFAULT NULL,
+    user_id BIGINT,
+    guild_id BIGINT,
+    slash_command BOOL,
+    text_command_alias TINYTEXT DEFAULT NULL,
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
