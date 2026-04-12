@@ -360,8 +360,8 @@ async def confess_slash(lang: str, interaction: nextcord.Interaction, message: s
 info = {
     "confess": {
         "category": "fun",
-        "aliases": [],
-        "hidden_aliases": [],
+        "aliases": ["confession"],
+        "hidden_aliases": ["confesser", "javoue"],
         "available": ["text_command", "slash_command"],
         "visibility": "everyone",
         "user_permissions": [],
