@@ -425,7 +425,7 @@ def _build_command_pages(commands_info: dict, lang: str, requester_id: int, comm
     }]
 
 
-def _help_command_embed(bot: commands.Bot, lang: str, command_name: str, command_data: dict) -> nextcord.Embed:
+def _help_command_embed(bot: commands.Bot, lang: str, command_name: str, command_data: dict, requester_id: int = None) -> nextcord.Embed:
     display_name = _get_display_name(command_name, command_data, lang)
     description = _resolve_localized_value(command_data.get("desc", ""), lang, "")
     aliases = _normalize_aliases(command_data.get("aliases", []))
@@ -446,6 +446,31 @@ def _help_command_embed(bot: commands.Bot, lang: str, command_name: str, command
     embed.add_field(name=text("help_command_usage", lang), value=usage, inline=False)
     embed.add_field(name=text("help_command_aliases", lang), value=", ".join(aliases) if aliases else "-", inline=False)
     embed.add_field(name=text("help_command_hidden_aliases", lang), value=", ".join(hidden_aliases) if hidden_aliases else "-", inline=False)
+
+    if command_data.get("has_subcommands", False):
+        commands_info = gv.get("commands_info") or {}
+        subcommands = []
+        for child_name, child_data in commands_info.items():
+            if child_data.get("parent") != command_name:
+                continue
+            if requester_id is not None and not _can_view_command(requester_id, child_data):
+                continue
+            if not _is_locale_allowed(child_data, lang):
+                continue
+
+            sub_name = _get_local_name(child_name, child_data, lang)
+            sub_desc = _resolve_localized_value(child_data.get("desc", ""), lang, "")
+            line = f"`{sub_name}`"
+            if sub_desc:
+                line += f" - {sub_desc}"
+            subcommands.append(line)
+
+        if subcommands:
+            embed.add_field(
+                name=text("help_command_subcommands", lang),
+                value="\n".join(sorted(subcommands, key=str.lower)),
+                inline=False
+            )
 
     return embed
 
@@ -566,7 +591,7 @@ async def help_text(bot: commands.Bot, lang: str, message: nextcord.Message, com
             min_ratio=COMMAND_MATCH_MIN_RATIO,
         )
         if command_data:
-            embed = _help_command_embed(bot, lang, command_name, command_data)
+            embed = _help_command_embed(bot, lang, command_name, command_data, requester_id=message.author.id)
             usage = _get_command_usage(command_name, command_data, commands_info, lang, command_prefix)
             if lang == "fr":
                 usage += "\n" + _get_command_usage(command_name, command_data, commands_info, "en_US", command_prefix) + " :flag_gb:"
@@ -595,7 +620,7 @@ async def help_slash(bot: commands.Bot, lang: str, interaction: nextcord.Interac
     if command_query:
         command_name, command_data = _resolve_command(command_query, commands_info, lang, interaction.user.id)
         if command_data:
-            embed = _help_command_embed(bot, lang, command_name, command_data)
+            embed = _help_command_embed(bot, lang, command_name, command_data, requester_id=interaction.user.id)
             usage = _get_command_usage(command_name, command_data, commands_info, lang, command_prefix)
             embed.set_field_at(2, name=text("help_command_usage", lang), value=usage, inline=False)
             await interaction.response.send_message(

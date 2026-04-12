@@ -89,6 +89,7 @@ help_command_right_click_instructions=Clic droit > Bishokus >
 help_command_usage=Utilisation
 help_command_aliases=Alias textes
 help_command_hidden_aliases=Autres alias
+help_command_subcommands=Sous-commandes
 help_command_not_found=❌ Je n'ai pas trouvé la commande `%command%`.
 
 category_bot=Bot
