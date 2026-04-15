@@ -5,6 +5,7 @@ INSERT INTO guilds (
     bot_language,
     ratio_emoji_up,
     ratio_emoji_down,
+    gif_ratios_enabled,
     wordplay_enabled,
     sniper_enabled,
     sniper,
@@ -25,6 +26,7 @@ INSERT INTO guilds (
     %s,    -- bot_language
     NULL,  -- ratio_emoji_up
     NULL,  -- ratio_emoji_down
+    TRUE,  -- gif_ratios_enabled
     FALSE, -- wordplay_enabled
     TRUE,  -- sniper_enabled
     '{}',  -- sniper

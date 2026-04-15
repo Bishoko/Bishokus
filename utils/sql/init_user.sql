@@ -9,6 +9,7 @@ INSERT INTO users (
     dms_accepted,
     dms_anon_accepted,
     dms_pub_accepted,
+    gif_ratios_enabled,
     wordplay_enabled,
     howgay_enabled,
     howgay_min,
@@ -29,6 +30,7 @@ INSERT INTO users (
     TRUE,  -- dms_accepted
     TRUE,  -- dms_anon_accepted
     TRUE,  -- dms_pub_accepted
+    TRUE,  -- gif_ratios_enabled
     TRUE,  -- wordplay_enabled
     TRUE,  -- howgay_enabled
     0,     -- howgay_min

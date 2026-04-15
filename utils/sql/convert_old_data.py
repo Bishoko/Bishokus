@@ -159,6 +159,7 @@ INSERT INTO guilds (
     bot_language,
     ratio_emoji_up,
     ratio_emoji_down,
+    gif_ratios_enabled,
     wordplay_enabled,
     sniper_enabled,
     sniper,
@@ -179,6 +180,7 @@ INSERT INTO guilds (
     "fr",    -- bot_language
     {get_ratio_emoji(guild_id)},  -- ratio_emoji_up
     NULL,  -- ratio_emoji_down
+    TRUE,  -- gif_ratios_enabled
     {str(get_guild_json(guild_id).get("jdm_switch", False)).upper()}, -- wordplay_enabled
     {str(get_guild_json(guild_id).get("snipe_switch", True)).upper()},  -- sniper_enabled
     '{empty_dict}',  -- sniper

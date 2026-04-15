@@ -13,6 +13,7 @@ import utils.global_variables as gv
 from handlers.command_usage_logger import log_command_usage
 
 from unidecode import unidecode
+import re
 
 def _normalize_aliases(value) -> list[str]:
     if isinstance(value, list):
@@ -214,4 +215,31 @@ async def handle_message(bot, message: nextcord.Message):
         if not get("wordplay_enabled", user_id=message.author.id):
             return
         await message.reply(_get_wordplay(normalized), mention_author=False)
-
+    
+    
+    # ratio gifs handling
+    if message.guild and get("gif_ratios_enabled", message.guild.id):
+        if not get("gif_ratios_enabled", user_id=message.author.id):
+            return
+        
+        gif_providers = ["tenor.com", "giphy.com", "imgur.com"]
+        
+        url_regex = r'(https?://[^\s]+)'
+        urls = re.findall(url_regex, message.content.lower())
+        
+        for url in urls:
+            if (url.endswith("gif") or any(provider in url for provider in gif_providers)) \
+                    and "ratio" in url:
+                
+                log_command_usage(
+                    command_name="ratio",
+                    user_id=message.author.id,
+                    guild_id=message.guild.id if message.guild else None,
+                    slash_command=False,
+                    text_command_alias="ratio gif",
+                )
+                
+                message_handlers = gv.get("message_handlers") or {}
+                handler = message_handlers["ratio"]
+                await handler(bot, message, "en", p)  # lang is not relevant here
+                return

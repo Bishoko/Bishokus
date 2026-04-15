@@ -60,6 +60,7 @@ async def ratio_context(lang: str, interaction: nextcord.Interaction, original_m
     if not interaction.guild_id:
         # If this is a DM, sending the response before the reactions works better,
         # otherwise, it can cause an error 50% of the time
+        # FIXME: this still causes an error sometimes, maybe it's a rate limit issue?
         await interaction.response.send_message(
             text('ratio_context_success', lang),
             ephemeral=True
