@@ -184,7 +184,7 @@ INSERT INTO guilds (
     '{empty_dict}',  -- sniper
     '{empty_dict}',  -- antisniper_backup
     '{empty_dict}',  -- command_settings
-    {int(get_guild_json(guild_id).get("confess", {}).get("cooldown", 3))},    -- confess_cooldown
+    {min(int(get_guild_json(guild_id).get("confess", {}).get("cooldown", 3)), 3)},    -- confess_cooldown
     '{str(get_confess_channels(guild_id))}',  -- confess_channels
     '{empty_dict}',  -- confess_banned
     FALSE, -- bot_logs_enabled
