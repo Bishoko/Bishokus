@@ -72,6 +72,17 @@ To add the old version of Bishokus, which includes all existing commands, click 
      sudo apt update
      sudo apt install mysql-server
      ```
+   Fedora systems:
+       ```sh
+       sudo dnf install mysql-server
+       ```
+
+2. **Start MySQL Service:**
+   - Start and enable the MySQL service:
+     ```sh
+     sudo systemctl start mysql
+     sudo systemctl enable mysqld
+     ```
 
 2. **Secure MySQL Installation:**
    - Run the security script to set up MySQL:
@@ -89,7 +100,7 @@ To add the old version of Bishokus, which includes all existing commands, click 
       ```sql
       sudo mysql -u root -p
       CREATE DATABASE your_database_name;
-      CREATE USER 'your_username'@'localhost' IDENTIFIED WITH mysql_native_password BY 'your_password';
+      CREATE USER 'your_username'@'localhost' IDENTIFIED WITH caching_sha2_password BY 'your_password';
       GRANT ALL PRIVILEGES ON your_database_name.* TO 'your_username'@'localhost';
       FLUSH PRIVILEGES;
       EXIT;
@@ -149,7 +160,7 @@ To add the old version of Bishokus, which includes all existing commands, click 
       2. Create the database and user:
          ```sql
          CREATE DATABASE your_database_name;
-         CREATE USER 'your_username'@'localhost' IDENTIFIED WITH mysql_native_password BY 'your_password';
+         CREATE USER 'your_username'@'localhost' IDENTIFIED WITH caching_sha2_password BY 'your_password';
          GRANT ALL PRIVILEGES ON your_database_name.* TO 'your_username'@'localhost';
          FLUSH PRIVILEGES;
          EXIT;
