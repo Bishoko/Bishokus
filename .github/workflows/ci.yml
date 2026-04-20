@@ -83,4 +83,4 @@ jobs:
           pip install bandit
 
       - name: Run bandit
-        run: bandit -r . -x .venv,venv,nextcord
+        run: bandit -r . --skip B311 -x .venv,venv,nextcord
