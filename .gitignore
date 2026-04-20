@@ -2,6 +2,9 @@
 *copy.*
 nextcord/
 
+# Local runtime configuration (use config/config.example.json as template)
+config/config.json
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

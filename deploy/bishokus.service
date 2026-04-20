@@ -1,0 +1,17 @@
+[Unit]
+Description=Bishokus Discord Bot
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=bishokus
+Group=bishokus
+WorkingDirectory=/opt/bishokus
+Environment=PYTHONUNBUFFERED=1
+ExecStart=/opt/bishokus/.venv/bin/python bot.py
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

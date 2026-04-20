@@ -1,5 +1,5 @@
 {
-    "production": false,
+    "production": true,
     "default-language": "fr",
     "default-slash-locale": "en-US",
     "default-prefix": "!",
@@ -29,10 +29,10 @@
     "testing-guild": 934123189548752946,
     "new-guild-notification-channel": 1491910728884420766,
     "mysql": {
-        "user": "bish",
+        "user": "DB_USER",
         "password": "PASSWORD_HERE",
         "host": "localhost",
         "port": 3306,
-        "database": "bishokus"
+        "database": "DB_NAME"
     }
 }

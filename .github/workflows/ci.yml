@@ -1,0 +1,86 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - "**"
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          git clone --depth 1 --branch components_v2 https://github.com/alentoghostflame/nextcord.git /tmp/nextcord
+          POETRY_DYNAMIC_VERSIONING_BYPASS=0.0.1 pip install /tmp/nextcord
+          pip install -r requirements.txt
+          pip install flake8
+
+      - name: Run flake8
+        run: flake8 bot.py commands handlers utils
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          git clone --depth 1 --branch components_v2 https://github.com/alentoghostflame/nextcord.git /tmp/nextcord
+          POETRY_DYNAMIC_VERSIONING_BYPASS=0.0.1 pip install /tmp/nextcord
+          pip install -r requirements.txt
+          pip install pytest
+
+      - name: Run pytest
+        run: |
+          set +e
+          pytest -q
+          code=$?
+          set -e
+          if [ "$code" -eq 5 ]; then
+            echo "No tests were collected."
+            exit 0
+          fi
+          exit "$code"
+
+  security:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          git clone --depth 1 --branch components_v2 https://github.com/alentoghostflame/nextcord.git /tmp/nextcord
+          POETRY_DYNAMIC_VERSIONING_BYPASS=0.0.1 pip install /tmp/nextcord
+          pip install -r requirements.txt
+          pip install bandit
+
+      - name: Run bandit
+        run: bandit -r . -x .venv,venv,nextcord
