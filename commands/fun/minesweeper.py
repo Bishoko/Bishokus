@@ -39,8 +39,8 @@ def _generate_minesweeper_grid(columns: int, rows: int, bombs: int) -> tuple[lis
                     try:
                         if grid[adj_y + pos_y][adj_x + pos_x] == 'B':
                             adjacent_bomb_count += 1
-                    except IndexError:
-                        pass
+                    except IndexError as e:
+                        log.warning(f"IndexError while calculating adjacent bombs at ({pos_x}, {pos_y}): {e}")
                 grid[pos_y][pos_x] = adjacent_bomb_count
 
     # Calculate bomb percentage

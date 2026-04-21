@@ -122,8 +122,8 @@ async def _fetch_english_joke(category: str = None):
                                 'setup': None,
                                 'category': data['category']
                             }
-    except Exception:
-        pass
+    except Exception as e:
+        log.warning(f"Failed to fetch English joke: {e}")
     
     return None
 
@@ -151,7 +151,8 @@ async def _fetch_french_joke(category: str = None):
             'answer': blague.answer,
             'type': joke_type
         }
-    except Exception:
+    except Exception as e:
+        log.exception(e, "Failed to fetch French joke")
         return None
 
 

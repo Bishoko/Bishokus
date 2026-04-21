@@ -97,7 +97,6 @@ async def get_user(message: nextcord.Message) -> nextcord.Member:
             return member
     except Exception as e:
         log.exception(e, f"Error getting user from message: {message.content}")
-        pass
     
     log.debug(f"Falling back to message author for message: {message.content}")
     return await get_member(message.guild, message.author.id)

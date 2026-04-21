@@ -34,8 +34,8 @@ async def _get_channels(bot, guild_id: int) -> list[tuple[str, int]]:
                     channels[f"#{channel.name} - ({channel.category})"] = str(channel_id)
                 else:
                     channels[f"Unknown Channel ({channel_id})"] = str(channel_id)
-        except (json.JSONDecodeError, TypeError):
-            pass
+        except (json.JSONDecodeError, TypeError) as e:
+            log.warning(f"Failed to parse confess channels for guild {guild_id}: {e}")
 
     cursor.close()
     conn.close()

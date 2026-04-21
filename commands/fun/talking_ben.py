@@ -40,8 +40,8 @@ async def _cleanup_excess_webhooks(bot: commands.Bot, guild: nextcord.Guild, cur
             if current_webhook is None or webhook.id != current_webhook.id:
                 try:
                     await webhook.delete()
-                except:
-                    pass
+                except Exception as e:
+                    log.warning(f"Failed to delete excess webhook {webhook.id} in guild {guild.id}: {e}")
 
 async def _get_or_create_webhook(bot: commands.Bot, message: nextcord.Message) -> nextcord.Webhook:
     """Get or create a webhook for the Ben command in the current channel."""
@@ -120,8 +120,8 @@ async def ben_slash(bot: commands.Bot, lang: str, interaction: nextcord.Interact
                 else:
                     try:
                         await webhook.delete()
-                    except:
-                        pass
+                    except Exception as e:
+                        log.warning(f"Failed to delete excess webhook {webhook.id} in guild {interaction.guild.id}: {e}")
         
         if not finalwebhook:
             finalwebhook = await interaction.channel.create_webhook(name='Bishokus Webhook (ben)')

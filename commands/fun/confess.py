@@ -218,8 +218,8 @@ async def _confess(bot, user: nextcord.User, message_content: str, attachments: 
                         )
                         try:
                             await interaction.edit_original_message(embed=embed, view=None)
-                        except:
-                            pass
+                        except Exception as e:
+                            log.warning(f"Failed to edit original message for interaction {interaction.id} in guild {interaction.guild.id}: {e}")
                         return
                     
                     # Check cooldown
@@ -250,8 +250,8 @@ async def _confess(bot, user: nextcord.User, message_content: str, attachments: 
                         )
                         try:
                             await interaction.edit_original_message(embed=embed, view=None)
-                        except:
-                            pass
+                        except Exception as e:
+                            log.warning(f"Failed to edit original message for interaction {interaction.id} in guild {interaction.guild.id}: {e}")
                         return
                     
                     # Send confession
@@ -285,8 +285,8 @@ async def _confess(bot, user: nextcord.User, message_content: str, attachments: 
                     
                     try:
                         await interaction.edit_original_message(embed=embed, view=None)
-                    except:
-                        pass
+                    except Exception as e:
+                        log.warning(f"Failed to edit original message for interaction {interaction.id} in guild {interaction.guild.id}: {e}")
                     
                     self.value = True
                     self.stop()
@@ -316,8 +316,8 @@ async def _confess(bot, user: nextcord.User, message_content: str, attachments: 
             
             try:
                 await interaction.edit_original_message(embed=embed, view=None)
-            except:
-                pass
+            except Exception as e:
+                log.warning(f"Failed to edit original message for interaction {interaction.id} in guild {interaction.guild.id}: {e}")
             
             self.value = True
             self.stop()
