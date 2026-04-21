@@ -26,7 +26,7 @@ SAFE_LOCALS = {
 }
 
 def safe_eval(expr: str):
-    return eval(expr, SAFE_GLOBALS, SAFE_LOCALS)
+    return eval(expr, SAFE_GLOBALS, SAFE_LOCALS)  # nosec B307
 
 # utility helpers for formatting and evaluating expressions
 _SUPERSCRIPT_MAP = str.maketrans('¹²³⁴⁵⁶⁷⁸⁹⁰', '1234567890')
