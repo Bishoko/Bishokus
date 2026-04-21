@@ -34,6 +34,8 @@ jobs:
             "VPS_APP_DIR='$VPS_APP_DIR' BOT_CONFIG_JSON_B64='$BOT_CONFIG_JSON_B64' BOT_SERVICE_NAME='$BOT_SERVICE_NAME' TARGET_BRANCH='$TARGET_BRANCH' REPO_URL='$REPO_URL' bash -s" <<'EOF'
           set -euo pipefail
 
+          git config --global --add safe.directory "$VPS_APP_DIR"
+
           if [ ! -d "$VPS_APP_DIR/.git" ]; then
             git clone --branch "$TARGET_BRANCH" "$REPO_URL" "$VPS_APP_DIR"
           fi
