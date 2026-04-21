@@ -59,6 +59,10 @@ jobs:
           sudo chown bishokus:bishokus "$VPS_APP_DIR/config/config.json"
           sudo chmod 640 "$VPS_APP_DIR/config/config.json"
 
+          sudo mkdir -p "$VPS_APP_DIR/.logs"
+          sudo chown -R bishokus:bishokus "$VPS_APP_DIR/.logs"
+          sudo chmod 755 "$VPS_APP_DIR/.logs"
+
           sudo systemctl daemon-reload
           sudo systemctl restart "$BOT_SERVICE_NAME"
           sudo systemctl is-active --quiet "$BOT_SERVICE_NAME"
