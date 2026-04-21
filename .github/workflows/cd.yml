@@ -54,9 +54,10 @@ jobs:
           POETRY_DYNAMIC_VERSIONING_BYPASS=0.0.1 pip install /tmp/nextcord
           pip install -r requirements.txt
 
-          mkdir -p config
-          printf '%s' "$BOT_CONFIG_JSON_B64" | base64 --decode > config/config.json
-          chmod 600 config/config.json
+          sudo mkdir -p "$VPS_APP_DIR/config"
+          printf '%s' "$BOT_CONFIG_JSON_B64" | base64 --decode | sudo tee "$VPS_APP_DIR/config/config.json" >/dev/null
+          sudo chown bishokus:bishokus "$VPS_APP_DIR/config/config.json"
+          sudo chmod 640 "$VPS_APP_DIR/config/config.json"
 
           sudo systemctl daemon-reload
           sudo systemctl restart "$BOT_SERVICE_NAME"
