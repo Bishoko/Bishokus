@@ -56,7 +56,8 @@ jobs:
 
           mkdir -p config
           printf '%s' "$BOT_CONFIG_JSON_B64" | base64 --decode > config/config.json
-          chmod 600 config/config.json
+          sudo chmod 640 config/config.json
+          sudo chown bishokus:bishokus "$VPS_APP_DIR/config/config.json"
 
           sudo systemctl daemon-reload
           sudo systemctl restart "$BOT_SERVICE_NAME"
