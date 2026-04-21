@@ -81,5 +81,5 @@ class SupportCog(commands.Cog):
 def setup(bot: commands.Bot):
     bot.add_cog(SupportCog(bot))
 
-async def _message_handler(bot, message: nextcord.Message, lang: str, prefix: str):
+async def _message_handler(bot, message: nextcord.Message, lang: str, guild_prefix: str):
     await support_text(lang, message)

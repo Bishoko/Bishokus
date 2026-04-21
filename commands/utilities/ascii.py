@@ -17,7 +17,7 @@ async def _ascii(text: str) -> nextcord.Embed:
         
     embed = nextcord.Embed(
         description=f"```\n{ascii_art}```",
-        color=nextcord.Color.blurple() 
+        color=nextcord.Color.blurple()
     )
     
     return embed
@@ -88,5 +88,5 @@ def setup(bot: commands.Bot):
     bot.add_cog(AsciiCog(bot))
 
 # Text command handler wrapper that adapts to message handler signature
-async def _message_handler(bot, message: nextcord.Message, lang: str, prefix: str):
+async def _message_handler(bot, message: nextcord.Message, lang: str, guild_prefix: str):
     await ascii_text(lang, message)

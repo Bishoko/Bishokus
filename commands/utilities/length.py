@@ -81,5 +81,5 @@ def setup(bot: commands.Bot):
     bot.add_cog(LengthCog(bot))
 
 # Text command handler wrapper that adapts to message handler signature
-async def _message_handler(bot, message: nextcord.Message, lang: str, prefix: str):
+async def _message_handler(bot, message: nextcord.Message, lang: str, guild_prefix: str):
     await length_text(lang, message)

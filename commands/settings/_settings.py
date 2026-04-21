@@ -39,7 +39,7 @@ class SettingsCog(commands.Cog):
     @slash_command(
         name=cmd.name,
         name_localizations=cmd.name_localizations,
-        default_member_permissions=(nextcord.Permissions(manage_guild=True)) # Only for parent command
+        default_member_permissions=(nextcord.Permissions(manage_guild=True))  # Only for parent command
     )
     async def settings(self, interaction: nextcord.Interaction):
         pass

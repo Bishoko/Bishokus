@@ -113,12 +113,13 @@ def vip_command():
                 
                 if not is_vip(message.author.id):
                     await message.reply(
-                        text('vip_only_error', get_lang_text_command(
-                                message.guild.id if message.guild else 0,
-                                message.author.id
-                            )
+                        text(
+                            "vip_only_error",
+                            get_lang_text_command(
+                                message.guild.id if message.guild else 0, message.author.id
+                            ),
                         ),
-                        mention_author=False
+                        mention_author=False,
                     )
                     return
                 

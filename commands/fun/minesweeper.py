@@ -230,5 +230,5 @@ def setup(bot: commands.Bot):
     bot.add_cog(MinesweeperCog(bot))
 
 # Text command handler wrapper that adapts to message handler signature
-async def _message_handler(bot, message: nextcord.Message, lang: str, prefix: str):
-    await minesweeper_text(lang, prefix, message)
+async def _message_handler(bot, message: nextcord.Message, lang: str, guild_prefix: str):
+    await minesweeper_text(lang, guild_prefix, message)

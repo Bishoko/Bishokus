@@ -399,5 +399,5 @@ class confessCog(commands.Cog):
 def setup(bot: commands.Bot):
     bot.add_cog(confessCog(bot))
         
-async def _message_handler(bot, message: nextcord.Message, lang: str, prefix: str):
+async def _message_handler(bot, message: nextcord.Message, lang: str, guild_prefix: str):
     await confess_text(lang, bot, message)

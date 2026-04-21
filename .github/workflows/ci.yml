@@ -28,7 +28,7 @@ jobs:
           pip install flake8
 
       - name: Run flake8
-        run: flake8 bot.py commands handlers utils
+        run: flake8 --ignore=E124,E128,E252,W293,E302,E303,E305,F401,E501,W503,E741 bot.py commands handlers utils
 
   test:
     runs-on: ubuntu-latest

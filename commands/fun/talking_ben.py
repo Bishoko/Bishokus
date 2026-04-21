@@ -184,5 +184,5 @@ def setup(bot: commands.Bot):
 # Text command handler wrapper that adapts to message handler signature
 @checks.guild_only()
 @checks.bot_permissions(manage_webhooks=True)
-async def _message_handler(bot, message: nextcord.Message, lang: str, prefix: str):
+async def _message_handler(bot, message: nextcord.Message, lang: str, guild_prefix: str):
     await ben(bot, lang, message)

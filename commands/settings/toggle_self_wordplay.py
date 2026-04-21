@@ -39,7 +39,8 @@ async def _toggle_self_wordplay(user_id: int, lang: str):
         else:
             return text("toggle_self_wordplay_success_off", lang)
 
-    except:
+    except Exception as e:
+        log.exception(e, f"Error toggling self wordplay for user {user_id}", expected=False)
         return text("toggle_self_wordplay_error", lang)
     
     finally:
@@ -111,5 +112,5 @@ def setup(bot: commands.Bot):
 # Text command handler wrapper that adapts to message handler signature
 @checks.guild_only()
 @checks.vip_only()
-async def _message_handler(bot, message: nextcord.Message, lang: str, prefix: str):
+async def _message_handler(bot, message: nextcord.Message, lang: str, guild_prefix: str):
     await toggle_self_wordplay(lang, message)

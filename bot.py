@@ -8,13 +8,13 @@ from utils.languages import init as langs_init
 from utils.logger import log
 import utils.sql as db
 
-langs_init()
-db.init()
-
 from handlers.message_handler import handle_message
 from handlers.on_guild_join import handle_guild_join
 from handlers.on_guild_remove import handle_guild_remove
 from handlers.command_usage_logger import handle_application_command_completion
+
+langs_init()
+db.init()
 
 
 intents = nextcord.Intents.all()
@@ -143,7 +143,7 @@ gv.set("message_handlers", message_handlers)
 log.success("All cogs loaded successfully.")
 
 
-if config.get('production', False) == True:
+if config.get('production', False) is True:
     bot.run(config['tokens']['main'])
 else:
     bot.run(config['tokens']['test'])

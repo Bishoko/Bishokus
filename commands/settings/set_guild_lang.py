@@ -8,10 +8,10 @@ from utils import config, checks
 from utils.settings.bot_ban import check_ban
 from utils.languages import text
 from utils.settings import prefix, lang
-get_lang = lang.get_lang
 
 import utils.global_variables as gv
 from utils.languages import get_languages_info
+get_lang = lang.get_lang
 set_lang = lang.set_guild
 
 
@@ -22,7 +22,7 @@ async def set_guild_lang(actual_lang: str, message: nextcord.Message):
     new_lang = next((l for l in lang_codes if l.lower().startswith(new_lang[:2])), '')
     
     # Check if the user provided a new language
-    if not message.content.replace('-','').replace('_',''):
+    if not message.content.replace('-', '').replace('_', ''):
         current_lang = lang.get_guild(message.guild.id)
         p = prefix.get(message.guild.id)
         await message.reply(
@@ -36,7 +36,7 @@ async def set_guild_lang(actual_lang: str, message: nextcord.Message):
         await message.reply(
             text('set_guild_lang_error', actual_lang).replace(
                 '%new_lang%', message.content.lower()).replace(
-                '%available_langs%', '`'+f'` {text("or", actual_lang).strip()} `'.join(lang_codes)+'`'
+                '%available_langs%', '`' + f'` {text("or", actual_lang).strip()} `'.join(lang_codes) + '`'
             ),
             mention_author=False
         )
@@ -56,7 +56,7 @@ async def set_guild_lang_slash(lang: str, interaction: nextcord.Interaction, new
     if new_lang not in lang_codes:
         await interaction.response.send_message(
             text('set_guild_lang_error', lang).replace('%new_lang%', new_lang).replace(
-                '%available_langs%', '`'+f'` {text("or", lang).strip()} `'.join(lang_codes)+'`'
+                '%available_langs%', '`' + f'` {text("or", lang).strip()} `'.join(lang_codes) + '`'
             )
         )
         return

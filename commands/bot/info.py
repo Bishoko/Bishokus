@@ -14,7 +14,7 @@ BOT_NAME = "Bishokus"
 BOT_OWNER = config.get("owner-contact-username")
 BOT_CREATION_DATE = "17 Sep 2021"
 BOT_LIBRARY = "nextcord"
-BOT_VERSION = "rewrite" # TODO: add versioning system
+BOT_VERSION = "rewrite"  # TODO: add versioning system
 BOT_THUMBNAIL_URL = config.get("bot-avatar-url")
 BOT_PAGE_URL = config.get("bot-page-url")
 SUPPORT_SERVER_URL = config.get("support-server-url")
@@ -112,5 +112,5 @@ class InfoCog(commands.Cog):
 def setup(bot: commands.Bot):
     bot.add_cog(InfoCog(bot))
 
-async def _message_handler(bot, message: nextcord.Message, lang: str, prefix: str):
+async def _message_handler(bot, message: nextcord.Message, lang: str, guild_prefix: str):
     await info_text(bot, lang, message)

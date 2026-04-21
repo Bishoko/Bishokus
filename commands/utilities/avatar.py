@@ -20,14 +20,14 @@ class AvatarView(nextcord.ui.View):
         self.global_avatar = global_avatar
         self.guild_avatar = guild_avatar
     
-    @nextcord.ui.button(label=f"Globale", style=nextcord.ButtonStyle.green, )
+    @nextcord.ui.button(label="Globale", style=nextcord.ButtonStyle.green, )
     async def set_global_avatar(self, button: nextcord.ui.Button, interaction: nextcord.Interaction):
         embed = nextcord.Embed(description=f"{self.description}", color=config.get("embed-color"))
         embed.set_image(url=f"{self.global_avatar}")
         await interaction.message.edit(embed=embed)
         await interaction.response.defer()
 
-    @nextcord.ui.button(label=f"Serveur", style=nextcord.ButtonStyle.green, )
+    @nextcord.ui.button(label="Serveur", style=nextcord.ButtonStyle.green, )
     async def set_guild_avatar(self, button: nextcord.ui.Button, interaction: nextcord.Interaction):
         embed = nextcord.Embed(description=f"{self.description}", color=config.get("embed-color"))
         embed.set_image(url=f"{self.guild_avatar}")
@@ -44,13 +44,13 @@ def _avatar(lang: str, member: nextcord.Member):
     global_avatar = str(global_asset)
 
     guild_asset = member.guild_avatar if isinstance(member, nextcord.Member) else None
-    guild_avatar = str(guild_asset) if guild_asset else None 
+    guild_avatar = str(guild_asset) if guild_asset else None
     
     description = f"[{text('avatar_global', lang)}]({global_avatar})"
     if guild_avatar:
         description += f" • [{text('avatar_guild', lang)}]({guild_avatar})"
     
-    embed = nextcord.Embed(description=f"{description}",color=config.get("embed-color"))
+    embed = nextcord.Embed(description=f"{description}", color=config.get("embed-color"))
     # embed.set_image expects a URL string, not an Asset
     if guild_avatar:
         embed.set_image(url=guild_avatar)
@@ -122,5 +122,5 @@ def setup(bot: commands.Bot):
     bot.add_cog(AvatarCog(bot))
 
 # Text command handler wrapper that adapts to message handler signature
-async def _message_handler(bot, message: nextcord.Message, lang: str, prefix: str):
+async def _message_handler(bot, message: nextcord.Message, lang: str, pguild_prefixrefix: str):
     await avatar_text(lang, message)

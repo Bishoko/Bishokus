@@ -11,7 +11,6 @@ from utils.settings import prefix
 from utils.settings.lang import get_lang
 
 import utils.global_variables as gv
-from utils.settings import prefix
 
 
 async def set_prefix(lang: str, message: nextcord.Message):

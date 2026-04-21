@@ -103,5 +103,5 @@ def setup(bot: commands.Bot):
 @checks.guild_only()
 @checks.bot_permissions(manage_messages=True)
 @checks.user_permissions(manage_messages=True)
-async def _message_handler(bot, message: nextcord.Message, lang: str, prefix: str):
+async def _message_handler(bot, message: nextcord.Message, lang: str, guild_prefix: str):
     await clear_text(lang, message)

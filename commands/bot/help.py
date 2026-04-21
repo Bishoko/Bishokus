@@ -348,7 +348,7 @@ def _render_command_tree(command_name: str, commands_info: dict, children_by_par
     availability_label = _get_availability_label(command_data, lang)
     availability_label = "" if availability_label == text('help_command_availability_both', lang) else availability_label
     command_desc = _resolve_localized_value(command_data.get("desc", ""), lang, "")
-    indent = "" * level # can't find a great character for this so it's unused for now
+    indent = "" * level  # can't find a great character for this so it's unused for now
     
     if availability_label == text('help_command_availability_both_text_and_context', lang):
         line = f"{indent}**{command_usage.lower()} | {command_usage.replace(command_prefix, text('help_command_right_click_instructions', lang))}"
@@ -659,7 +659,7 @@ info = {
                 "required": False,
                 "autocomplete": True,
             },
-            { # TODO: make this modular using locale_helpers so we can add it to other commands if needed
+            {  # TODO: make this modular using locale_helpers so we can add it to other commands if needed
                 "name": "arg_ephemeral_name",
                 "desc": "arg_ephemeral_desc",
                 "required": False,
@@ -723,5 +723,5 @@ class HelpCog(commands.Cog):
 def setup(bot: commands.Bot):
     bot.add_cog(HelpCog(bot))
 
-async def _message_handler(bot, message: nextcord.Message, lang: str, prefix: str):
-    await help_text(bot, lang, message, message.content.strip(), prefix)
+async def _message_handler(bot, message: nextcord.Message, lang: str, guild_prefix: str):
+    await help_text(bot, lang, message, message.content.strip(), guild_prefix)

@@ -24,9 +24,7 @@ def load_lang_file(lang: str) -> dict:
             ):
                 try:
                     key, value = line.strip().replace("\n", "").split("=", 1)
-                    lang_dictionary[key] = value.strip().replace(
-                                            '\\n', '\n').replace(
-                                            '\\r', '\r')
+                    lang_dictionary[key] = value.strip().replace("\\n", "\n").replace("\\r", "\r")
                 except Exception as e:
                     line = line.replace("\n", "")
                     log.exception(e, f'\nLANG FILE ERROR:\nLine: {line}\n')
@@ -104,4 +102,3 @@ if __name__ == '__main__':
         if user_input.lower() == 'exit':
             break
         log.debug(text(user_input, 'en'))
-        

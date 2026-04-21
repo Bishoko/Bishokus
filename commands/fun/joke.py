@@ -29,10 +29,10 @@ FRENCH_TYPE_TRANSLATIONS = {
 # Mapping of joke categories to BlagueType for French
 FRENCH_CATEGORY_MAP = {
     BlagueType.DARK: [BlagueType.DARK, 'noir', 'humour_noir', 'humournoir', 'hn', 'nwar', 'n'],
-    BlagueType.DEV: [BlagueType.DEV, 'developeurs', 'developement', 'developeur', 'code', 'coding', 'codage', 'programation', 'programeur', 'programer', 'd'], # misspellings
+    BlagueType.DEV: [BlagueType.DEV, 'developeurs', 'developement', 'developeur', 'code', 'coding', 'codage', 'programation', 'programeur', 'programer', 'd'],  # misspellings
     BlagueType.GLOBAL: [BlagueType.GLOBAL, 'normal', 'normale', 'g'],
     BlagueType.BEAUF: [BlagueType.BEAUF, 'beaf', 'bauf', 'bauf', 'bæuf', 'b'],
-    BlagueType.BLONDES: [BlagueType.BLONDES,'blond', 'blonde', 'bl', 'bld'],
+    BlagueType.BLONDES: [BlagueType.BLONDES, 'blond', 'blonde', 'bl', 'bld'],
     BlagueType.LIMIT: [BlagueType.LIMIT, 'limite', '18+', '18', 'adult', 'adulte', 'a', 'l'],
 }
 
@@ -190,7 +190,7 @@ def _create_joke_embed(lang: str, joke_data: dict):
     return embed
 
 
-async def _joke(lang: str,category: str = None):
+async def _joke(lang: str, category: str = None):
     """Main joke function that handles both English and French jokes"""
     if lang.startswith("en"):
         joke_data = await _fetch_english_joke(category)
@@ -209,8 +209,8 @@ async def joke_text(lang: str, message: nextcord.Message):
     # Normalize the category from message content
     category = message.content.lower().replace(
         " ", "").replace(
-        "pp", "p").replace( # misspellings
-        "mm", "m").replace( # misspellings
+        "pp", "p").replace(  # misspellings
+        "mm", "m").replace(  # misspellings
         "é", "e").replace(
         "è", "e").replace(
         "ê", "e") if message.content else None
@@ -298,5 +298,5 @@ def setup(bot: commands.Bot):
     bot.add_cog(JokeCog(bot))
 
 # Text command handler wrapper that adapts to message handler signature
-async def _message_handler(bot, message: nextcord.Message, lang: str, prefix: str):
+async def _message_handler(bot, message: nextcord.Message, lang: str, guild_prefix: str):
     await joke_text(lang, message)

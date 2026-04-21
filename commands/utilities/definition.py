@@ -288,7 +288,7 @@ info = {
         "category": "utilities",
         "aliases": [],
         "hidden_aliases": ["dictionnaire", "dictionaire", "dico", "larousse", "larouse",
-                           "definnition", "def","dictionary", "define",
+                           "definnition", "def", "dictionary", "define",
                            "meaning", "meaningof", "worddef", "worddefinition",
                            "lexicon"],
         "available": ["slash_command", "text_command"],
@@ -328,5 +328,5 @@ def setup(bot: commands.Bot):
     bot.add_cog(DefinitionCog(bot))
 
 # Text command handler wrapper that adapts to message handler signature
-async def _message_handler(bot, message: nextcord.Message, lang: str, prefix: str):
+async def _message_handler(bot, message: nextcord.Message, lang: str, guild_prefix: str):
     await definition_text(lang, message)

@@ -108,9 +108,9 @@ async def handle_guild_join(bot, guild: nextcord.Guild):
         notification_channel = bot.get_channel(config["new-guild-notification-channel"])
         if notification_channel:
             await notification_channel.send(
-                f"**__New server:__** {guild.name}\n" \
-                f"**__Message sent in:__** {welcome_channel.name if welcome_channel else 'N/A'}\n" \
-                f"**__Owner:__** ||`{guild.owner}` (`{guild.owner_id}`)  -  <@{guild.owner_id}>||\n" \
+                f"**__New server:__** {guild.name}\n"
+                f"**__Message sent in:__** {welcome_channel.name if welcome_channel else 'N/A'}\n"
+                f"**__Owner:__** ||`{guild.owner}` (`{guild.owner_id}`)  -  <@{guild.owner_id}>||\n"
                 f"**__Members:__** {guild.member_count}"
             )
     except Exception as e:

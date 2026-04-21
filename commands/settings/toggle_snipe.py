@@ -41,7 +41,8 @@ async def _toggle_snipe(guild_id: int, lang: str):
         else:
             return text("toggle_snipe_success_off", lang)
 
-    except:
+    except Exception as e:
+        log.exception(e, f"Error toggling snipe for guild {guild_id}", expected=False)
         return text("toggle_snipe_error", lang)
     
     finally:
@@ -104,5 +105,5 @@ def setup(bot: commands.Bot):
 # Text command handler wrapper that adapts to message handler signature
 @checks.guild_only()
 @checks.user_permissions(manage_guild=True)
-async def _message_handler(bot, message: nextcord.Message, lang: str, prefix: str):
+async def _message_handler(bot, message: nextcord.Message, lang: str, guild_prefix: str):
     await toggle_snipe(lang, message)

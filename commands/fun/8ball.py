@@ -14,14 +14,14 @@ import random
 
 def _ball(lang: str, response_type: str, ask_again: bool):
     if response_type == "evasive":
-        response = text(f'8ball_evasive_awnser{random.randint(1, 5-1)}', lang)
+        response = text(f'8ball_evasive_awnser{random.randint(1, 5 - 1)}', lang)
     elif response_type == "affirmative":
-        response = text(f'8ball_affirmative_awnser{random.randint(1, 8-1)}', lang)
+        response = text(f'8ball_affirmative_awnser{random.randint(1, 8 - 1)}', lang)
     elif response_type == "negative":
         if lang == "fr" and random.randint(0, 30) == 20:
             response = "Bonsoir non"
         else:
-            response = text(f'8ball_negative_awnser{random.randint(1, 5-1)}', lang)
+            response = text(f'8ball_negative_awnser{random.randint(1, 5 - 1)}', lang)
 
     embed = nextcord.Embed(
         title="🎱 8Ball",
@@ -31,7 +31,7 @@ def _ball(lang: str, response_type: str, ask_again: bool):
     return embed
 
 
-async def ball(lang: str, message: nextcord.Message):  
+async def ball(lang: str, message: nextcord.Message):
     if random.randint(1, 4) == 1:
         response_type = "evasive"
     else:
@@ -95,5 +95,5 @@ def setup(bot: commands.Bot):
     bot.add_cog(ballCog(bot))
 
 # Text command handler wrapper that adapts to message handler signature
-async def _message_handler(bot, message: nextcord.Message, lang: str, prefix: str):
+async def _message_handler(bot, message: nextcord.Message, lang: str, guild_prefix: str):
     await ball(lang, message)

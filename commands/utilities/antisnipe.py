@@ -86,7 +86,7 @@ async def antisnipe_text(lang: str, message: nextcord.Message):
 async def antisnipe_text_slash(lang: str, interaction: nextcord.Interaction):
     await interaction.response.send_message(
         await _antisnipe(lang, interaction.user.id, interaction.guild.id, interaction.channel.id),
-        ephemeral=True # TODO: make this configurable?
+        ephemeral=True  # TODO: make this configurable?
     )
 
 
@@ -128,5 +128,5 @@ def setup(bot: commands.Bot):
 
 # Text command handler wrapper that adapts to message handler signature
 @checks.guild_only()
-async def _message_handler(bot, message: nextcord.Message, lang: str, prefix: str):
+async def _message_handler(bot, message: nextcord.Message, lang: str, guild_prefix: str):
     await antisnipe_text(lang, message)

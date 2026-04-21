@@ -153,7 +153,7 @@ info = {
     "wordplay": {
         "category": "fun",
         "aliases": [],
-        "hidden_aliases": ["jeudemot", "jeuxdemot", "jeudemots", "jeuxdemots"], # unused since it's not a text command
+        "hidden_aliases": ["jeudemot", "jeuxdemot", "jeudemots", "jeuxdemots"],  # unused since it's not a text command
         "locale_only": nextcord.Locale.fr,
         "available": ["slash_command"],
         "visibility": "everyone",

@@ -91,7 +91,7 @@ def get(guild_id: int, client: nextcord.Client = None, emoji_type: str = 'both')
         emoji_type (str, optional): The type of emoji to retrieve. Can be 'up', 'down', or 'both'. Defaults to 'both'.
 
     Returns:
-        tuple: A tuple containing the ratio emoji IDs for the guild. 
+        tuple: A tuple containing the ratio emoji IDs for the guild.
                If emoji_type is 'up', returns (up_emoji_id, None).
                If emoji_type is 'down', returns (None, down_emoji_id).
                If emoji_type is 'both', returns (up_emoji_id, down_emoji_id).
@@ -127,7 +127,8 @@ def get(guild_id: int, client: nextcord.Client = None, emoji_type: str = 'both')
             if isinstance(value, str):
                 try:
                     return value.encode('latin-1').decode('unicode-escape')
-                except:
+                except (UnicodeDecodeError, Exception) as e:
+                    log.exception(e, f"Error decoding emoji value: {value}", expected=False)
                     return value
             return value
 

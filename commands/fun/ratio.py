@@ -33,14 +33,15 @@ async def ratio_context(lang: str, interaction: nextcord.Interaction, original_m
     await original_message.add_reaction(up_emoji)
     
     embed = nextcord.Embed(
-        title=text(f'ratio_context_title{random.randint(1, 9)}', lang),
-        description=text('ratio_context_description', lang).replace(
-                         '%original_author%', original_message.author.mention).replace(
-                         '%interaction_user%', interaction.user.mention),
-                    # + '\n\n' + text('ratio_context_original_message', lang) + ':\n' +
-                    # f"*[{text('ratio_context_see_original_message', lang)}]({original_message.jump_url})*",
-        color=config.get('embed-color')
+        title=text(f"ratio_context_title{random.randint(1, 9)}", lang),
+        description=text("ratio_context_description", lang)
+        .replace("%original_author%", original_message.author.mention)
+        .replace("%interaction_user%", interaction.user.mention),
+        # + '\n\n' + text('ratio_context_original_message', lang) + ':\n' +
+        # f"*[{text('ratio_context_see_original_message', lang)}]({original_message.jump_url})*",
+        color=config.get("embed-color"),
     )
+    
     # embed.add_field(
     #     name=f'{get_nickname(original_message.author)}',
     #     value=f'{original_message.content}',
@@ -109,5 +110,5 @@ def setup(bot: commands.Bot):
     bot.add_cog(RatioCog(bot))
 
 # Text command handler wrapper that adapts to message handler signature
-async def _message_handler(bot, message: nextcord.Message, lang: str, prefix: str):
+async def _message_handler(bot, message: nextcord.Message, lang: str, guild_prefix: str):
     await ratio(bot, message)

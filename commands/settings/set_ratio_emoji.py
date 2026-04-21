@@ -151,7 +151,7 @@ class SetRatioEmojiCog(commands.Cog):
         up_emoji: str = get_slash_option(cmd.arg(0)),
         down_emoji: str = get_slash_option(cmd.arg(1))
     ):
-        await set_ratio_emoji_slash(get_lang(interaction), interaction, up_emoji, down_emoji)   
+        await set_ratio_emoji_slash(get_lang(interaction), interaction, up_emoji, down_emoji)
 
 
 def setup(bot: commands.Bot):

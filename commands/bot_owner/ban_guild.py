@@ -29,10 +29,10 @@ async def bot_ban_guild(interaction: nextcord.Interaction, guild_id: int, ban_ty
             
 
     await interaction.response.send_message(
-        f"Guild `{guild_name} ({guild_id})` has been banned successfully.\n" \
-        f"Owner: `{guild.owner.name} ({guild.owner_id})`\n" \
-        f"\n" \
-        f"Reason: `{reason}`\n" \
+        f"Guild `{guild_name} ({guild_id})` has been banned successfully.\n"
+        f"Owner: `{guild.owner.name} ({guild.owner_id})`\n"
+        f"\n"
+        f"Reason: `{reason}`\n"
         f"{instantleave_success}"
     )
     

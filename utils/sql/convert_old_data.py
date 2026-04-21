@@ -96,7 +96,7 @@ def get_guild_prefix(guild_id):
         prefix = data[f"{guild_id}"]["prefix"]
         if prefix == '':
             prefix = '!'
-    except:
+    except KeyError:
         prefix = '!'
     return prefix.replace('"', '\\"')
 
@@ -248,7 +248,7 @@ def convert_data():
     """
     This function is used to convert the previous bot version data (before rewrite) to the rewrite version (SQL).
     """
-    global old_db_dir, empty_dict, oomf_servers_ids, oomf_ids, guild_ids
+    global old_db_dir, oomf_servers_ids, oomf_ids, guild_ids
     
     old_db_dir = input("Enter the path to the old database directory: ")
     if old_db_dir.strip() == "":

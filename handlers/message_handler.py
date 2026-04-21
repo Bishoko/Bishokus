@@ -156,7 +156,7 @@ async def handle_message(bot, message: nextcord.Message):
     message_content_backup = message.content
     
     if message.content.startswith(p) or message.content.lstrip('!').startswith(f'<@{bot.application_id}>'):
-        message.content = message.content.removeprefix(p).removeprefix(f'<@{bot.application_id}>').removeprefix(f'<@!{bot.application_id}>').strip()        
+        message.content = message.content.removeprefix(p).removeprefix(f'<@{bot.application_id}>').removeprefix(f'<@!{bot.application_id}>').strip()
         if not len(message.content) > 0:
             return
         lang = language.get(message.guild.id if message.guild else 0, message.author.id)
@@ -167,7 +167,7 @@ async def handle_message(bot, message: nextcord.Message):
         
         if commands_info is None:
             commands_info = get_commands_locales()
-            log.info(f"Loaded commands locales")
+            log.info("Loaded commands locales")
         
         # Remove accents from message.content
         message.content = unidecode(message.content, errors="preserve")

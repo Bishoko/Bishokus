@@ -18,8 +18,8 @@ async def handle_guild_remove(bot, guild: nextcord.Guild):
         notification_channel = bot.get_channel(config["new-guild-notification-channel"])
         if notification_channel:
             await notification_channel.send(
-                f"**__Server left:__** {guild.name}\n" \
-                f"**__Owner:__** ||`{guild.owner}` (`{guild.owner_id}`)  -  <@{guild.owner_id}>||\n" \
+                f"**__Server left:__** {guild.name}\n"
+                f"**__Owner:__** ||`{guild.owner}` (`{guild.owner_id}`)  -  <@{guild.owner_id}>||\n"
                 f"**__Members:__** {guild.member_count}"
             )
     except Exception as e:

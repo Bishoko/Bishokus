@@ -20,13 +20,13 @@ def normalize_wordplay(input: str) -> str:
         return "hein"
     
     # Remove duplicate letters and numbers when they are next to each other, and lowercase the input
-    input = ''.join(ch for i, ch in enumerate(input) if i == 0 or ch.lower() != input[i-1].lower() or not ch.isalnum()).lower()
+    input = ''.join(ch for i, ch in enumerate(input) if i == 0 or ch.lower() != input[i - 1].lower() or not ch.isalnum()).lower()
     # Replace numbers (skip if base word is max 3 characters and is not "oui")
     if base_length > 3:
         input = input.replace("1", "i").replace("0", "o").replace("3", "e")
     
     if base_length == 3 and input[0] == "0":
-        input = "o" + input[1:] # special case for "oui","oue" to avoid cheating
+        input = "o" + input[1:]  # special case for "oui","oue" to avoid cheating
     
     if base_length > 2 and not input.endswith("4"):
         # special case for "ah" to avoid replying to a sentence ending with "4"

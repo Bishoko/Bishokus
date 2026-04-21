@@ -76,9 +76,10 @@ def _build_invite_embed(bot: commands.Bot, lang: str) -> nextcord.Embed:
 
     embed.add_field(
         name=bishokus_emoji + " " + text("invite_field1_title", lang),
-        value=text("invite_field1_desc", lang).replace("%laugh_emoji%", laugh_emoji) + "\n" +
-              text("invite_field1_desc_l2", lang),
-        inline=False
+        value=text("invite_field1_desc", lang).replace("%laugh_emoji%", laugh_emoji)
+        + "\n"
+        + text("invite_field1_desc_l2", lang),
+        inline=False,
     )
     
     # embed.add_field(
@@ -90,9 +91,14 @@ def _build_invite_embed(bot: commands.Bot, lang: str) -> nextcord.Embed:
     
     embed.add_field(
         name=text("invite_field3_title", lang),
-        value=text("invite_field3_desc", lang).replace("%support_server_url%", SUPPORT_SERVER_URL) + "\n" +
-              text("invite_field3_desc_l2", lang).replace("%joy_emoji%", joy_emoji).replace("%member_count%", support_server_member_count),
-        inline=False
+        value=text("invite_field3_desc", lang).replace(
+            "%support_server_url%", SUPPORT_SERVER_URL
+        )
+        + "\n"
+        + text("invite_field3_desc_l2", lang)
+        .replace("%joy_emoji%", joy_emoji)
+        .replace("%member_count%", support_server_member_count),
+        inline=False,
     )
 
     return embed
@@ -147,5 +153,5 @@ class InviteCog(commands.Cog):
 def setup(bot: commands.Bot):
     bot.add_cog(InviteCog(bot))
 
-async def _message_handler(bot, message: nextcord.Message, lang: str, prefix: str):
+async def _message_handler(bot, message: nextcord.Message, lang: str, guild_prefix: str):
     await invite_text(bot, lang, message)

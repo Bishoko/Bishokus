@@ -64,9 +64,9 @@ async def _get_user(message: nextcord.Message) -> nextcord.Member:
                 matches_global_name.append((member, match))
     
     # If there are multiple matches, return the one with the highest similarity ratio
-    matches_username.sort(key=lambda x: x[1]-0.05, reverse=True)
+    matches_username.sort(key=lambda x: x[1] - 0.05, reverse=True)
     matches_display_name.sort(key=lambda x: x[1], reverse=True)
-    matches_global_name.sort(key=lambda x: x[1]-0.1, reverse=True)
+    matches_global_name.sort(key=lambda x: x[1] - 0.1, reverse=True)
     
     best_match = max(matches_username[0] if matches_username else (None, 0),
                      matches_display_name[0] if matches_display_name else (None, 0),
@@ -74,8 +74,8 @@ async def _get_user(message: nextcord.Message) -> nextcord.Member:
                      key=lambda x: x[1])
     log.debug(f"Best match for user '{message.content}' is '{best_match[0]}' with ratio {best_match[1]:.2f}")
     if best_match:
-        return best_match[0] 
-    # TODO: if there are multiple matches, lower the ratio if: 
+        return best_match[0]
+    # TODO: if there are multiple matches, lower the ratio if:
     #        - user doesn't have acces to the interaction channel
     #        - user is a bot
     # TODO: if there are multiple matches __with the same ratio__, lower the ratio for offline users

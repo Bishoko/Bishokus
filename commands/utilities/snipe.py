@@ -118,9 +118,9 @@ async def _snipe_embed(lang: str, guild_id: int, channel_id: int, prefix_str: st
         return embed
 
 
-async def snipe_text(lang: str, message: nextcord.Message, prefix: str):
+async def snipe_text(lang: str, message: nextcord.Message, guild_prefix: str):
     maximum = int(message.content) if message.content.isdigit() else None
-    snipeembed = await _snipe_embed(lang, message.guild.id, message.channel.id, prefix_str=prefix, maximum=maximum)
+    snipeembed = await _snipe_embed(lang, message.guild.id, message.channel.id, prefix_str=guild_prefix, maximum=maximum)
     if snipeembed:
         await message.reply(embed=snipeembed, mention_author=False)
 
@@ -178,5 +178,5 @@ def setup(bot: commands.Bot):
 
 # Text command handler wrapper that adapts to message handler signature
 @checks.guild_only()
-async def _message_handler(bot, message: nextcord.Message, lang: str, prefix: str):
-    await snipe_text(lang, message, prefix)
+async def _message_handler(bot, message: nextcord.Message, lang: str, guild_prefix: str):
+    await snipe_text(lang, message, guild_prefix)

@@ -54,7 +54,7 @@ def guild_db(func):
         if not guild_id or isinstance(guild_id, nextcord.Message):
             message = args[0] if args else kwargs.get('message')
             if message and hasattr(message, 'guild'):
-                guild_id = message.guild.id if message.guild else None # Handle DMs
+                guild_id = message.guild.id if message.guild else None  # Handle DMs
         if guild_id:
             ensure_guild_exists(guild_id)
         return func(*args, **kwargs)

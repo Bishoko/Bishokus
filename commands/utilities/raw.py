@@ -11,14 +11,14 @@ from utils.settings import prefix
 from utils.settings.lang import get_lang
 
 
-def _raw(text: str, everyone_permission: bool, lang: str) -> str:
-    if text.replace(" ", "") == "":
+def _raw(input: str, everyone_permission: bool, lang: str) -> str:
+    if input.replace(" ", "") == "":
         return text('raw_error_empty_msg', lang)
     
-    if ("@everyone" in text or "@here" in text): # and not everyone_permission:
-        return f"```{text}```"
+    if ("@everyone" in input or "@here" in input):  # and not everyone_permission:
+        return f"```{input}```"
     
-    return f"```{text}```\n{text}"
+    return f"```{input}```\n{input}"
 
 
 async def raw_text(lang: str, message: nextcord.Message):
@@ -27,9 +27,9 @@ async def raw_text(lang: str, message: nextcord.Message):
         mention_author=False
     )
 
-async def raw_slash(lang: str, interaction: nextcord.Interaction, content: str):
+async def raw_slash(lang: str, interaction: nextcord.Interaction, input: str):
     await interaction.response.send_message(
-        _raw(content, interaction.permissions.mention_everyone, lang),
+        _raw(input, interaction.permissions.mention_everyone, lang),
         ephemeral=False
     )
 
@@ -67,14 +67,14 @@ class RawCog(commands.Cog):
         description_localizations=cmd.description_localizations
     )
     async def raw_command(self, interaction: nextcord.Interaction,
-        text: str = get_slash_option(cmd.arg(0))
+        input: str = get_slash_option(cmd.arg(0))
     ):
-        await raw_slash(get_lang(interaction), interaction, text)
+        await raw_slash(get_lang(interaction), interaction, input)
 
 
 def setup(bot: commands.Bot):
     bot.add_cog(RawCog(bot))
 
 # Text command handler wrapper that adapts to message handler signature
-async def _message_handler(bot, message: nextcord.Message, lang: str, prefix: str):
+async def _message_handler(bot, message: nextcord.Message, lang: str, guild_prefix: str):
     await raw_text(lang, message)
