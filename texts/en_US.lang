@@ -546,3 +546,13 @@ open_to_work_arg_name=image
 open_to_work_arg_desc=Image to apply the badge to
 
 open_to_work_no_image_error=🚫 Please attach an image or reply to a message containing one!
+
+
+# ====  !zamn  ====
+zamn_name=zamn
+zamn_desc=Applies the ZAMN overlay effect to an image
+
+zamn_arg_name=image
+zamn_arg_desc=Image to apply the effect to
+
+zamn_no_image_error=🚫 Please attach an image or reply to a message containing one!

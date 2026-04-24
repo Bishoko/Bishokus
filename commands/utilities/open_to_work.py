@@ -10,9 +10,10 @@ from utils.languages import text
 from utils.settings import prefix
 from utils.settings.lang import get_lang
 
+from utils.get_first_image import get_first_image
+from PIL import Image
 import io
 import os
-from PIL import Image
 
 OVERLAY_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "medias", "open_to_work.png")
 SIZE = (720, 720)
@@ -39,19 +40,12 @@ async def _open_to_work(image_bytes: bytes) -> nextcord.File:
 
 async def open_to_work_text(lang: str, message: nextcord.Message):
     # Check message attachments first, then the replied message's attachments
-    attachment = None
-    if message.attachments:
-        attachment = message.attachments[0]
-    elif message.reference and isinstance(message.reference.resolved, nextcord.Message):
-        ref_msg = message.reference.resolved
-        if ref_msg.attachments:
-            attachment = ref_msg.attachments[0]
+    image_bytes = await get_first_image(message)
 
-    if attachment is None:
+    if image_bytes is None:
         await message.reply(text('open_to_work_no_image_error', lang), mention_author=False)
         return
 
-    image_bytes = await attachment.read()
     file = await _open_to_work(image_bytes)
 
     await message.reply(
