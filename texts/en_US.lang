@@ -536,3 +536,13 @@ clear_error_invalid_count=🚫 Invalid number of messages!
 clear_error_too_many=🚫 You cannot clear more than 1000 messages at once!
 clear_success=✅ %moderator% just successfully cleared **%count%** message%s%!
 clear_success_slash=✅ Successfully cleared **%count%** message%s%!
+
+
+# ====  !open_to_work  ====
+open_to_work_name=open_to_work
+open_to_work_desc=Adds an "Open to Work" LinkedIn badge over an image
+
+open_to_work_arg_name=image
+open_to_work_arg_desc=Image to apply the badge to
+
+open_to_work_no_image_error=🚫 Please attach an image or reply to a message containing one!
