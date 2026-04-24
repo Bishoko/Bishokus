@@ -41,7 +41,8 @@ def set(guild_id: int, client: nextcord.Client = None, up_emoji: str = None, dow
                 return None
 
             if is_emoji(emoji):
-                return emoji.encode('unicode-escape')
+                # Store unicode emojis as escaped text for DB compatibility.
+                return emoji.encode('unicode-escape').decode('ascii')
             
             elif ("<:" in emoji or "<a:" in emoji) and ">" in emoji:
                 match = re.match(r'<a?:\w+:(\d+)>', emoji)
@@ -124,18 +125,43 @@ def get(guild_id: int, client: nextcord.Client = None, emoji_type: str = 'both')
         result = cursor.fetchone() or [config.get('default-ratio-emoji-up'), config.get('default-ratio-emoji-down')]
 
         def decode_if_needed(value):
-            if isinstance(value, str):
+            if value is None:
+                return None
+
+            if isinstance(value, (bytes, bytearray)):
                 try:
-                    return value.encode('latin-1').decode('unicode-escape')
-                except (UnicodeDecodeError, Exception) as e:
-                    log.exception(e, f"Error decoding emoji value: {value}", expected=False)
+                    value = value.decode('utf-8')
+                except UnicodeDecodeError:
+                    value = value.decode('latin-1', errors='ignore')
+
+            if not isinstance(value, str):
+                return value
+
+            normalized = value.strip()
+
+            # Handle python-like bytes repr persisted as text: b'\\U0001f44d'
+            if (
+                len(normalized) >= 3
+                and normalized[0] == 'b'
+                and normalized[1] in ['\'', '"']
+                and normalized[-1] == normalized[1]
+            ):
+                normalized = normalized[2:-1]
+
+            has_unicode_escape = bool(re.search(r'\\(u[0-9a-fA-F]{4}|U[0-9a-fA-F]{8}|x[0-9a-fA-F]{2}|N\{[^}]+\})', normalized))
+            if has_unicode_escape:
+                try:
+                    return normalized.encode('ascii').decode('unicode-escape')
+                except (UnicodeDecodeError, UnicodeEncodeError):
                     return value
-            return value
+
+            return normalized
 
         def get_emoji(emoji):
             if emoji and not emoji.startswith('<'):
                 try:
-                    return str(client.get_emoji(int(emoji)))
+                    custom_emoji = client.get_emoji(int(emoji))
+                    return str(custom_emoji) if custom_emoji else emoji
                 except ValueError:
                     return emoji
             return emoji
