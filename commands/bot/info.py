@@ -10,15 +10,42 @@ from utils.languages import text
 from utils.settings import prefix
 from utils.settings.lang import get_lang
 
+import subprocess
+
 BOT_NAME = "Bishokus"
 BOT_OWNER = config.get("owner-contact-username")
 BOT_CREATION_DATE = "17 Sep 2021"
 BOT_LIBRARY = "nextcord"
-BOT_VERSION = "rewrite"  # TODO: add versioning system
+BOT_VERSION = "rewrite"  # placeholder that will be replaced with git tag if available
 BOT_THUMBNAIL_URL = config.get("bot-avatar-url")
 BOT_PAGE_URL = config.get("bot-page-url")
+BOT_GITHUB_URL = config.get("github-url")
 SUPPORT_SERVER_URL = config.get("support-server-url")
 INVITE_URL = config.get("invite-url")
+
+def _get_and_format_version() -> str:
+    # Get git tag
+    try:
+        version = subprocess.check_output(["git", "describe", "--tags"], stderr=subprocess.DEVNULL).decode().strip()
+    except Exception as e:
+        log.warning(f"Failed to get git tag: {e}")
+        version = BOT_VERSION
+    
+    # Format version string
+    if version == "rewrite":
+        return version
+
+    # Check if version is in format tag-commits-githash (e.g. v2.0.0-8-g5450b8d)
+    splitted = version.split("-")
+    if len(splitted) == 3 and splitted[1].isdigit() and splitted[2].startswith("g"):
+        tag = splitted[0]
+        commit = splitted[2][1:]
+        return f"[{tag}]({BOT_GITHUB_URL}/releases/tag/{tag})[-{splitted[1]}-{commit}]({BOT_GITHUB_URL}/commit/{commit})"
+
+    # If it's just a tag (e.g. v2.0.0), link to the release page
+    return f"[{version}]({BOT_GITHUB_URL}/releases/tag/{version})"
+
+BOT_VERSION = _get_and_format_version()
 
 
 class InfoView(nextcord.ui.View):

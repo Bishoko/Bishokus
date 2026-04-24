@@ -84,7 +84,8 @@ jobs:
 
       - name: Run bandit
         run: |
-          bandit -r . --skip B311 -x .venv,venv,nextcord,utils/sql/get.py,utils/sql/convert_old_data.py,utils/settings/bot_ban.py
+          bandit -r . --skip B311 -x .venv,venv,nextcord,utils/sql/get.py,utils/sql/convert_old_data.py,utils/settings/bot_ban.py,commands/bot/info.py
           bandit utils/sql/get.py --skip B311,B608
           bandit utils/sql/convert_old_data.py --skip B311,B608
           bandit utils/settings/bot_ban.py --skip B311,B608
+          bandit commands/bot/info.py --skip B404,B603,B607
