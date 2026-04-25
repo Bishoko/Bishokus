@@ -378,6 +378,33 @@ say_error_empty_msg=🚫 The message cannot be empty!
 say_success=Message sent :)
 
 
+# ====  !serverinfo  ====
+serverinfo_name=serverinfo
+serverinfo_desc=Displays information about the current server
+
+serverinfo_embed_title=Server information for %guild_name%
+serverinfo_channels_summary=**%total_channels% Channels • %text_channels% Text • %voice_channels% Voice • %threads% Threads • %categories% Categories**
+
+serverinfo_field_description=Description
+serverinfo_field_members=Members
+serverinfo_field_humans=Presumed humans
+serverinfo_field_bots=Bots
+serverinfo_field_boosts=Boosts
+serverinfo_field_owner=Owner
+serverinfo_field_roles=Roles [%count%]
+serverinfo_field_emojis=Emojis [%count%]
+
+serverinfo_boosts_none=No boosts (Level %boost_level%)
+serverinfo_boosts_one=1 boost (Level %boost_level%)
+serverinfo_boosts_many=%boost_count% boosts (Level %boost_level%)
+
+serverinfo_no_description=None
+serverinfo_no_roles=No roles :(
+serverinfo_no_emojis=No emojis :(
+serverinfo_and_more=and more
+serverinfo_footer=ID: %guild_id%
+
+
 # ====  !snipe  ====
 snipe_name=snipe
 snipe_desc=Displays the last deleted messages
