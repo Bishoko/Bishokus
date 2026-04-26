@@ -20,8 +20,9 @@ async def ratio(client, message: nextcord.Message):
     await message.add_reaction(up_emoji)
     
     try:
-        target_message = await message.channel.fetch_message(message.reference.message_id)
-        await target_message.add_reaction(up_emoji)
+        if message.reference and message.reference.message_id:
+            target_message = await message.channel.fetch_message(message.reference.message_id)
+            await target_message.add_reaction(up_emoji)
     except AttributeError as e:
         log.warning(f"Failed to fetch target message for ratio: {e}")
 
