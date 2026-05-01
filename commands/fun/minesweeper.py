@@ -146,10 +146,6 @@ async def _minesweeper(lang: str, prefix: str, interaction_or_message, columns: 
     """Generate and send minesweeper game."""
     is_interaction = isinstance(interaction_or_message, nextcord.Interaction)
     
-    columns = int(columns) if isinstance(columns, int) else DEFAULT_GRID[0]
-    rows = int(rows) if isinstance(rows, int) else DEFAULT_GRID[1]
-    bombs = int(bombs) if isinstance(bombs, int) else DEFAULT_GRID[2]
-
     # Parse arguments if strings provided
     if isinstance(columns, str):
         parsed = _parse_minesweeper_args(columns)
@@ -161,6 +157,10 @@ async def _minesweeper(lang: str, prefix: str, interaction_or_message, columns: 
                 await interaction_or_message.channel.send(error_msg)
             return
         columns, rows, bombs = parsed[0], parsed[1], parsed[2]
+        
+    columns = int(columns) if isinstance(columns, int) else DEFAULT_GRID[0]
+    rows = int(rows) if isinstance(rows, int) else DEFAULT_GRID[1]
+    bombs = int(bombs) if isinstance(bombs, int) else DEFAULT_GRID[2]
 
     # Validate parameters
     validation_error = _validate_minesweeper_params(columns, rows, bombs, lang)
