@@ -1,6 +1,7 @@
 .logs/*
 *copy.*
 nextcord/
+.vscode/
 
 # Local runtime configuration (use config/config.example.json as template)
 config/config.json
