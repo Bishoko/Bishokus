@@ -114,7 +114,7 @@ info = {
     "info": {
         "category": "bot",
         "aliases": ["about", "bishokus"],
-        "hidden_aliases": ["botinfo", "information", "informations", "stats", "statistics"],
+        "hidden_aliases": ["botinfo", "information", "informations", "stats", "statistics", "version", "ver", "vers"],
         "available": ["slash_command", "text_command"],
         "visibility": "everyone",
         "user_permissions": [],
