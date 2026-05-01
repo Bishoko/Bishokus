@@ -11,6 +11,7 @@ from utils.settings.lang import get_lang
 
 from typing import Any
 from difflib import SequenceMatcher
+from utils.clean_mentions import clean_mentions
 import utils.global_variables as gv
 
 CATEGORIES = {
@@ -579,8 +580,9 @@ class HelpView(nextcord.ui.View):
         await interaction.response.edit_message(view=self)
 
 
-async def help_text(bot: commands.Bot, lang: str, message: nextcord.Message, command_query: str, command_prefix: str):
+async def help_text(bot: commands.Bot, lang: str, message: nextcord.Message, command_prefix: str):
     commands_info = gv.get("commands_info") or {}
+    command_query: str = message.clean_content.strip()
 
     if command_query:
         command_name, command_data, _ = _resolve_command_best_match(
@@ -613,10 +615,11 @@ async def help_text(bot: commands.Bot, lang: str, message: nextcord.Message, com
     await message.reply(view=view, flags=flags, mention_author=False)
 
 
-async def help_slash(bot: commands.Bot, lang: str, interaction: nextcord.Interaction, command_query: str = None, ephemeral: bool=True):
+async def help_slash(bot: commands.Bot, lang: str, interaction: nextcord.Interaction, command_query: str = "", ephemeral: bool=True):
     commands_info = gv.get("commands_info") or {}
     command_prefix = prefix.get(interaction.guild.id) if interaction.guild else config.get("default-prefix")
-
+    command_query = clean_mentions(command_query)
+    
     if command_query:
         command_name, command_data = _resolve_command(command_query, commands_info, lang, interaction.user.id)
         if command_data:
@@ -724,4 +727,4 @@ def setup(bot: commands.Bot):
     bot.add_cog(HelpCog(bot))
 
 async def _message_handler(bot, message: nextcord.Message, lang: str, guild_prefix: str):
-    await help_text(bot, lang, message, message.content.strip(), guild_prefix)
+    await help_text(bot, lang, message, guild_prefix)

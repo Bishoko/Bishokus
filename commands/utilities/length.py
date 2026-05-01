@@ -13,6 +13,8 @@ from utils.settings.lang import get_lang
 
 def _length(input: str, lang: str) -> str:
     input = input.strip()
+    # Prevent code block injection if the user tries to inject a code block with mentions
+    input = input.replace("```", "") if "```" in input and "@" in input else input
     
     output = [
         text("length_output_l1", lang),

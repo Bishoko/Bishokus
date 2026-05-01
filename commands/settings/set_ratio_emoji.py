@@ -43,7 +43,7 @@ async def set_ratio_emoji(lang: str, message: nextcord.Message):
             mention_author=False
         )
     
-    content = message.content.split()
+    content = message.clean_content.split()
     
     if len(content) == 1:
         try:
