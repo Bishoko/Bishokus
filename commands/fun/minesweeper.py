@@ -15,6 +15,7 @@ import random
 
 # Default: 8x8 with 10 bombs
 DEFAULT_GRID = (8, 8, 10, None)
+NO_GUESSING_DEFAULT = True
 
 def _generate_minesweeper_grid(columns: int, rows: int, bombs: int) -> tuple[list, float]:
     """Generate minesweeper grid and calculate bomb percentage."""
@@ -111,21 +112,25 @@ def _parse_minesweeper_args(content: str) -> tuple[int, int, int, str]:
         args = [int(arg) for arg in args]
     except ValueError:
         return None, None, None, "invalid_args"
-
+    
     if len(args) == 1:
         # One argument: square grid with bomb count = size * 1.25
         size = args[0]
-        return size, size, int(size * 1.25), None
+        return size, size, int(size * 1.25), NO_GUESSING_DEFAULT, None
     elif len(args) == 2:
         # Two arguments: columns, rows with bomb count = columns * 1.25
         columns, rows = args[0], args[1]
-        return columns, rows, int(columns * 1.25), None
+        return columns, rows, int(columns * 1.25), NO_GUESSING_DEFAULT, None
     elif len(args) == 3:
         # Three arguments: columns, rows, bombs
         columns, rows, bombs = args[0], args[1], args[2]
-        return columns, rows, bombs, None
+        return columns, rows, bombs, NO_GUESSING_DEFAULT, None
+    elif len(args) == 4:
+        # Four arguments: columns, rows, bombs, no_guessing
+        columns, rows, bombs, no_guessing = args[0], args[1], args[2], args[3]
+        return columns, rows, bombs, no_guessing, None
     else:
-        return None, None, None, "invalid_format"
+        return None, None, None, None, "invalid_format"
 
 
 def _validate_minesweeper_params(columns: int, rows: int, bombs: int, lang: str) -> str:
@@ -156,11 +161,12 @@ async def _minesweeper(lang: str, prefix: str, interaction_or_message, columns: 
             else:
                 await interaction_or_message.channel.send(error_msg)
             return
-        columns, rows, bombs = parsed[0], parsed[1], parsed[2]
+        columns, rows, bombs, no_guessing = parsed[0], parsed[1], parsed[2], parsed[3]
         
     columns = int(columns) if isinstance(columns, int) else DEFAULT_GRID[0]
     rows = int(rows) if isinstance(rows, int) else DEFAULT_GRID[1]
     bombs = int(bombs) if isinstance(bombs, int) else DEFAULT_GRID[2]
+    no_guessing = bool(no_guessing) if isinstance(no_guessing, int | bool) else NO_GUESSING_DEFAULT
 
     # Validate parameters
     validation_error = _validate_minesweeper_params(columns, rows, bombs, lang)
