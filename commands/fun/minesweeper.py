@@ -1,7 +1,6 @@
 import nextcord
 from nextcord.ext import commands, application_checks
 from nextcord.application_command import slash_command, message_command
-from utils.logger import log
 from utils.get_commands_locales import get_commands_locales
 from utils.locale_helpers import CmdLocale, get_slash_option
 from utils import config
@@ -36,11 +35,10 @@ def _generate_minesweeper_grid(columns: int, rows: int, bombs: int) -> tuple[lis
             if grid[pos_y][pos_x] != 'B':
                 adjacent_bomb_count = 0
                 for adj_y, adj_x in [(0, 1), (0, -1), (1, 0), (-1, 0), (1, 1), (-1, 1), (1, -1), (-1, -1)]:
-                    try:
-                        if grid[adj_y + pos_y][adj_x + pos_x] == 'B':
-                            adjacent_bomb_count += 1
-                    except IndexError as e:
-                        log.warning(f"IndexError while calculating adjacent bombs at ({pos_x}, {pos_y}): {e}")
+                    neighbor_y = pos_y + adj_y
+                    neighbor_x = pos_x + adj_x
+                    if 0 <= neighbor_y < rows and 0 <= neighbor_x < columns and grid[neighbor_y][neighbor_x] == 'B':
+                        adjacent_bomb_count += 1
                 grid[pos_y][pos_x] = adjacent_bomb_count
 
     # Calculate bomb percentage
