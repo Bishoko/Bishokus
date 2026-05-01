@@ -66,6 +66,11 @@ class InfoView(nextcord.ui.View):
             url=SUPPORT_SERVER_URL,
             style=nextcord.ButtonStyle.link
         ))
+        self.add_item(nextcord.ui.Button(
+            emoji="<:github:1499853061621944471>",
+            url=BOT_GITHUB_URL,
+            style=nextcord.ButtonStyle.link
+        ))
 
 def _build_info_embed(bot: commands.Bot, lang: str) -> nextcord.Embed:
     server_count = len(bot.guilds)
