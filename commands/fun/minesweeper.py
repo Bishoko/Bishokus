@@ -1,6 +1,7 @@
 import nextcord
 from nextcord.ext import commands, application_checks
 from nextcord.application_command import slash_command, message_command
+from utils.logger import log
 from utils.get_commands_locales import get_commands_locales
 from utils.locale_helpers import CmdLocale, get_slash_option
 from utils import config
@@ -48,7 +49,7 @@ def _generate_minesweeper_grid(columns: int, rows: int, bombs: int) -> tuple[lis
     return grid, percentage
 
 
-def _format_grid_as_string(grid: list) -> str:
+def _format_grid_as_string(grid: list, no_guessing: bool = True) -> str:
     """Convert grid to Discord-formatted string with spoiler tags and emojis."""
     emoji_map = {
         '0': '||:zero:||',
@@ -62,7 +63,33 @@ def _format_grid_as_string(grid: list) -> str:
         '8': '||:eight:||',
         'B': '||:boom:||'
     }
-
+    
+    # Replace a random zero with a hint
+    def reveal_adjacent(y, x, only_zeros: bool = True):
+        # Reveal all adjacent zeros from the hint
+        for dy in range(-1, 2):
+            for dx in range(-1, 2):
+                ny, nx = y + dy, x + dx
+                if 0 <= ny < len(grid) and 0 <= nx < len(grid[0]):
+                    if only_zeros and grid[ny][nx] == 0:
+                        grid[ny][nx] = emoji_map['0'].replace('|', '')
+                        reveal_adjacent(ny, nx)
+                    elif not only_zeros and grid[ny][nx] != ':zero:' and type(grid[ny][nx]) is int:
+                        grid[ny][nx] = emoji_map[str(grid[ny][nx])].replace('|', '')
+    
+    if no_guessing:
+        zero_positions = [(y, x) for y in range(len(grid)) for x in range(len(grid[0])) if grid[y][x] == 0]
+        if zero_positions:
+            y, x = random.choice(zero_positions)
+            grid[y][x] = ':zero:'
+            reveal_adjacent(y, x, only_zeros=True)
+    
+        # Reveal cells adjacents to the already revealed zeros
+        for y in range(len(grid)):
+            for x in range(len(grid[0])):
+                if grid[y][x] == ':zero:':
+                    reveal_adjacent(y, x, only_zeros=False)
+    
     result = []
     for row in grid:
         row_str = ''.join(str(cell) for cell in row)
@@ -115,7 +142,7 @@ def _validate_minesweeper_params(columns: int, rows: int, bombs: int, lang: str)
     return None
 
 
-async def _minesweeper(lang: str, prefix: str, interaction_or_message, columns: int = None, rows: int = None, bombs: int = None):
+async def _minesweeper(lang: str, prefix: str, interaction_or_message, columns: int = None, rows: int = None, bombs: int = None, no_guessing: bool = True):
     """Generate and send minesweeper game."""
     is_interaction = isinstance(interaction_or_message, nextcord.Interaction)
     
@@ -146,7 +173,7 @@ async def _minesweeper(lang: str, prefix: str, interaction_or_message, columns: 
 
     # Generate grid
     grid, percentage = _generate_minesweeper_grid(columns, rows, bombs)
-    grid_str = _format_grid_as_string(grid)
+    grid_str = _format_grid_as_string(grid, no_guessing)
 
     # Create embed
     embed = nextcord.Embed(
@@ -169,8 +196,9 @@ async def _minesweeper(lang: str, prefix: str, interaction_or_message, columns: 
 async def minesweeper_text(lang: str, prefix: str, message: nextcord.Message):
     await _minesweeper(lang, prefix, message, message.content)
 
-async def minesweeper_slash(lang: str, prefix: str, interaction: nextcord.Interaction, columns: int = None, rows: int = None, bombs: int = None):
-    await _minesweeper(lang, prefix, interaction, columns, rows, bombs)
+async def minesweeper_slash(lang: str, prefix: str, interaction: nextcord.Interaction, columns: int = None, rows: int = None, bombs: int = None, no_guessing: int = 1):
+    no_guessing: bool = bool(no_guessing)
+    await _minesweeper(lang, prefix, interaction, columns, rows, bombs, no_guessing)
 
 
 info = {
@@ -198,6 +226,16 @@ info = {
                 "name": "minesweeper_bombs_arg_name",
                 "desc": "minesweeper_bombs_arg_desc",
                 "required": False
+            },
+            {
+                "name": "minesweeper_no_guessing_arg_name",
+                "desc": "minesweeper_no_guessing_arg_desc",
+                "required": False,
+                "default": 1,
+                "choices": {
+                    "minesweeper_no_guessing_arg_true": 1,
+                    "minesweeper_no_guessing_arg_false": 0,
+                }
             }
         ]
     }
@@ -219,9 +257,10 @@ class MinesweeperCog(commands.Cog):
     async def minesweeper_command(self, interaction: nextcord.Interaction,
         columns: int = get_slash_option(cmd.arg(0)),
         rows: int = get_slash_option(cmd.arg(1)),
-        bombs: int = get_slash_option(cmd.arg(2))
+        bombs: int = get_slash_option(cmd.arg(2)),
+        no_guessing: int = get_slash_option(cmd.arg(3))
     ):
-        await minesweeper_slash(get_lang(interaction), prefix.get(interaction.guild_id), interaction, columns, rows, bombs)
+        await minesweeper_slash(get_lang(interaction), prefix.get(interaction.guild_id), interaction, columns, rows, bombs, int(no_guessing))
 
 
 def setup(bot: commands.Bot):

@@ -512,6 +512,10 @@ minesweeper_rows_arg_name=lignes
 minesweeper_rows_arg_desc=Nombre de lignes (1-11)
 minesweeper_bombs_arg_name=bombes
 minesweeper_bombs_arg_desc=Nombre de bombes
+minesweeper_no_guessing_arg_name=démarré
+minesweeper_no_guessing_arg_desc=Révèle une cellule 0 aléatoire au début du jeu (activé par défaut)
+minesweeper_no_guessing_arg_true=Oui
+minesweeper_no_guessing_arg_false=Non
 
 minesweeper_size_limit_error=🚫 La taille maximale pour les colonnes et lignes est 11 en raison des limitations de Discord !
 minesweeper_negative_error=🚫 Les colonnes, lignes et bombes doivent être des nombres positifs !

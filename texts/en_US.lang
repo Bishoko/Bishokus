@@ -512,6 +512,10 @@ minesweeper_rows_arg_name=rows
 minesweeper_rows_arg_desc=Number of rows (1-11)
 minesweeper_bombs_arg_name=bombs
 minesweeper_bombs_arg_desc=Number of bombs
+minesweeper_no_guessing_arg_name=no-guessing
+minesweeper_no_guessing_arg_desc=Reveals a random 0 cell when the game starts (default: true)
+minesweeper_no_guessing_arg_true=True
+minesweeper_no_guessing_arg_false=False
 
 minesweeper_size_limit_error=🚫 The maximum size for columns and rows is 11 due to Discord limitations!
 minesweeper_negative_error=🚫 Columns, rows, and bombs must be positive numbers!
