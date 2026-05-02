@@ -40,10 +40,10 @@ async def get_first_image(message: nextcord.Message) -> bytes | None:
         return None
     
     if isinstance(attachment, nextcord.Attachment):
-        image = await attachment.read() 
+        image = await attachment.read()
     else:
         # Get the image from the URL
-        response = requests.get(attachment)
+        response = requests.get(attachment, timeout=5)
         image = response.content
     
     return image
