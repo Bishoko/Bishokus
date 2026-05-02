@@ -7,6 +7,7 @@ from utils.settings import prefix
 from utils.settings import lang as language
 from utils.settings.bot_ban import check_ban_on_message
 from utils.normalize_wordplay import normalize_wordplay
+from utils.get_urls import get_urls
 from utils.sql.get import get
 from utils.logger import log
 import utils.global_variables as gv
@@ -238,8 +239,7 @@ async def handle_message(bot, message: nextcord.Message):
         
         gif_providers = ["tenor.com", "giphy.com", "imgur.com"]
         
-        url_regex = r'(https?://[^\s]+)'
-        urls = re.findall(url_regex, message.content.lower())
+        urls = get_urls(message.content.lower())
         
         for url in urls:
             if (url.endswith("gif") or any(provider in url for provider in gif_providers)) \

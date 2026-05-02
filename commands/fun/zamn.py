@@ -14,7 +14,7 @@ import io
 import os
 from PIL import Image
 
-from utils.get_first_image import get_first_image
+from utils.get_first_attachment import get_first_image
 
 OVERLAY_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "medias", "zamn.png")
 INPUT_SIZE = (250, 359)

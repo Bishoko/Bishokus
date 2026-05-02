@@ -1,4 +1,6 @@
 import nextcord
+import requests
+from utils.get_urls import get_urls
 
 
 async def get_first_image(message: nextcord.Message) -> bytes | None:
@@ -24,9 +26,24 @@ async def get_first_image(message: nextcord.Message) -> bytes | None:
                     attachment = att
                     break
 
+    # If no image found, check URLs
+    if attachment is None:
+        urls = get_urls(message.content.lower())
+        for url in urls:
+            if url.endswith(('.png', '.jpg', '.jpeg', '.gif', '.webp', '.avif')):
+                attachment = url
+                break
+    
     # TODO: If no image found, check mentioned members for pfp? (get_user.py)
     
     if attachment is None:
         return None
-
-    return await attachment.read()
+    
+    if isinstance(attachment, nextcord.Attachment):
+        image = await attachment.read() 
+    else:
+        # Get the image from the URL
+        response = requests.get(attachment)
+        image = response.content
+    
+    return image
