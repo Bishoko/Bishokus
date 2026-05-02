@@ -101,7 +101,7 @@ def _emoji_embed(input: str, lang: str) -> nextcord.Embed:
         
         embed = nextcord.Embed(
             title=f"{emoji if emoji.id else input} - Emoji",
-            description=f"```{text('emoji_name', lang)}: {emoji.name}\n"
+            description=f"```{text('emoji_name_', lang)}: {emoji.name}\n"
                            f"{text('emoji_id', lang)}: {emoji.id if not is_unicode else unicode_id}\n"  # noqa: E131
                            f"{text('emoji_animated', lang)}: {emoji.animated}\n"
                            f"{text('emoji_twitch', lang)}: {emoji.managed}\n"
