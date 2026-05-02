@@ -67,6 +67,16 @@ def _extract_matched_prefix(content: str, aliases: list[str]) -> str | None:
     return None
 
 
+def _strip_leading_words(content: str, word_count: int) -> str:
+    if word_count <= 0:
+        return content.strip()
+
+    parts = content.strip().split(maxsplit=word_count)
+    if len(parts) <= word_count:
+        return ""
+    return parts[word_count].strip()
+
+
 def _is_locale_allowed(command_data: dict, current_locale: str) -> bool:
     locale_only = command_data.get('locale_only')
     if not locale_only:
@@ -170,9 +180,13 @@ async def handle_message(bot, message: nextcord.Message):
             log.info("Loaded commands locales")
         
         # Remove accents from message.content
-        message.content = unidecode(message.content, errors="preserve")
+        raw_content = message.content.strip()
+        normalized_content = unidecode(raw_content, errors="preserve")
         
-        resolved_command_name, remaining_content, used_alias = _resolve_command_from_content(message.content, commands_info)
+        resolved_command_name, remaining_content, used_alias = _resolve_command_from_content(normalized_content, commands_info)
+        raw_remaining_content = _strip_leading_words(raw_content, len(used_alias.split())) if used_alias else raw_content
+        message.content = raw_remaining_content
+
 
         if resolved_command_name is None:
             log.warning(f"Unknown command: {message.content.split()[0].lower()}")
@@ -185,14 +199,14 @@ async def handle_message(bot, message: nextcord.Message):
         if not await check_ban_on_message(message):
             return
 
-        message.content = remaining_content
+        message.content = raw_remaining_content
 
         if resolved_command_name in message_handlers:
             handler = message_handlers[resolved_command_name]
 
             log_command_usage(
                 command_name=resolved_command_name,
-                command_args_str=remaining_content,
+                command_args_str=raw_remaining_content,
                 user_id=message.author.id,
                 guild_id=message.guild.id if message.guild else None,
                 slash_command=False,

@@ -12,9 +12,76 @@ from utils.settings.lang import get_lang
 
 from utils.is_emoji import is_emoji
 import utils.global_variables as gv
+import json
+from pathlib import Path
 import random
 import re
+import requests
+import time
 
+TWEMOJI_INDEX_URL = "https://data.jsdelivr.com/v1/package/gh/jdecked/twemoji@17.0.2?structure=flat"
+TWEMOJI_CACHE_PATH = Path(".cache/twemoji_unicode_emojis.json")
+TWEMOJI_CACHE_TTL_SECONDS = 60 * 60 * 24 * 7
+
+
+def _read_unicode_emoji_cache(allow_stale: bool = False) -> list[str] | None:
+    if not TWEMOJI_CACHE_PATH.exists():
+        return None
+
+    try:
+        with TWEMOJI_CACHE_PATH.open("r", encoding="utf-8") as cache_file:
+            payload = json.load(cache_file)
+    except (OSError, json.JSONDecodeError) as err:
+        log.warning(f"Failed to read Twemoji cache: {err}")
+        return None
+
+    emojis = payload.get("emojis")
+    fetched_at = payload.get("fetched_at", 0)
+    if not isinstance(emojis, list):
+        return None
+
+    is_fresh = time.time() - fetched_at < TWEMOJI_CACHE_TTL_SECONDS
+    if allow_stale or is_fresh:
+        return emojis
+    return None
+
+
+def _write_unicode_emoji_cache(emojis: list[str]) -> None:
+    try:
+        TWEMOJI_CACHE_PATH.parent.mkdir(parents=True, exist_ok=True)
+        with TWEMOJI_CACHE_PATH.open("w", encoding="utf-8") as cache_file:
+            json.dump({"fetched_at": int(time.time()), "emojis": emojis}, cache_file)
+    except OSError as err:
+        log.warning(f"Failed to write Twemoji cache: {err}")
+
+def _get_all_unicode_emojis() -> list[str]:
+    """Returns a list of all unicode emojis available in the twemoji API."""
+    cached_emojis = _read_unicode_emoji_cache()
+    if cached_emojis is not None:
+        return cached_emojis
+
+    try:
+        response = requests.get(TWEMOJI_INDEX_URL, timeout=30)
+        response.raise_for_status()
+    except requests.RequestException as err:
+        stale_cached_emojis = _read_unicode_emoji_cache(allow_stale=True)
+        if stale_cached_emojis is not None:
+            log.warning(f"Using stale Twemoji cache after fetch failure: {err}")
+            return stale_cached_emojis
+        raise
+
+    emojis: list[str] = []
+    for file_data in response.json().get("files", []):
+        file_name = file_data.get("name", "")
+        if not file_name.startswith("/assets/svg/") or not file_name.endswith(".svg"):
+            continue
+
+        emoji_name = file_name.removeprefix("/assets/svg/").removesuffix(".svg")
+        emojis.append(emoji_name)
+    _write_unicode_emoji_cache(emojis)
+    return emojis
+
+all_unicode_emojis: list[str] = _get_all_unicode_emojis()
 
 client: nextcord.Client = gv.get("client")
 
@@ -23,7 +90,6 @@ def _emoji_embed(input: str, lang: str) -> nextcord.Embed:
     If the emoji is not found/is just text, find an emoji among the available emojis the bot has access to.
     If the emoji is unicode, use the unicode character as the emoji.
     """
-    # TODO: add support for emoji combinations. e.g. !emoji 👁‍🗨
     def _make_embed(emoji: nextcord.Emoji, input: str = "", not_found: bool = False, is_unicode: bool = False, unicode_id: str = "") -> nextcord.Embed:
         not_found_url: str = "https://discord.com/assets/3eb3ebe2d01299ec.svg"
         not_found_url_thumbnail: str = "https://cdn.discordapp.com/emojis/932254269183238155.webp?size=128"
@@ -48,11 +114,17 @@ def _emoji_embed(input: str, lang: str) -> nextcord.Embed:
         return embed
     
     def _get_unicode_emoji_id(emoji: str) -> str:
-        log.debug(emoji)
-        # Remove fe0f (variation selector) from the emoji
-        emoji = emoji.replace('\ufe0f', '').strip()
-        log.debug(emoji)
-        return "-".join([f"{ord(c):x}" for c in emoji])
+        def _unicode_id_candidates(value: str) -> list[str]:
+            value = value.strip()
+            exact = "-".join(f"{ord(c):x}" for c in value)
+            no_vs16 = None if "\ufe0f" not in value else "-".join(f"{ord(c):x}" for c in value.replace("\ufe0f", ""))
+            if no_vs16:
+                return list(dict.fromkeys([exact, no_vs16]))
+            return [exact]
+
+        candidates = _unicode_id_candidates(emoji)
+        # In case of multiple candidates, get the first one that matches a twemoji
+        return str(next((c for c in candidates if c in all_unicode_emojis), None))
     
     def _get_emoji_id_regex(input: str) -> int:
         match = re.search(r'\d{17,21}', input)
