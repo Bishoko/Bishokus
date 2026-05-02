@@ -351,6 +351,26 @@ raw_arg_desc=Texte à répéter
 raw_error_empty_msg=🚫 Le message ne peut pas être vide!
 
 
+# ====  !emoji  ====
+emoji_name=emoji
+emoji_desc=Affiche des informations sur un emoji donné ou recherché
+
+emoji_arg_name=emoji
+emoji_arg_desc=Emoji directement ou juste un nom à rechercher
+
+emoji_name_=Nom
+emoji_id=ID
+emoji_animated=Animé
+emoji_available=Disponible
+emoji_twitch=Twitch
+emoji_download_url=Télécharger
+
+emoji_true=oui
+emoji_false=non
+
+emoji_error_empty_msg=🚫 Merci de spécifier un émoji!
+
+
 # ====  !length  ====
 length_name=longueur
 length_desc=Renvoie la longueur d'un message

@@ -1,12 +1,14 @@
+from typing import Any
+
 global_vars = {}
 
-def set(variable_name, value):
+def set(variable_name, value) -> None:
     global_vars[variable_name] = value
 
-def get(variable_name):
+def get(variable_name) -> Any:
     return global_vars.get(variable_name, None)
 
-def get_multiple(variables_names):
+def get_multiple(variables_names) -> tuple[Any]:
     """Get multiple global variables at once
 
     This function is used to load multiple global variables at once without having to reload the temp.json file multiple times.

@@ -351,6 +351,26 @@ raw_arg_desc=Input to repeat
 raw_error_empty_msg=🚫 The message cannot be empty!
 
 
+# ====  !emoji  ====
+emoji_name=emoji
+emoji_desc=Display information about given or searched emoji
+
+emoji_arg_name=emoji
+emoji_arg_desc=Emoji in raw or just a name to search for
+
+emoji_name_=Name
+emoji_id=ID
+emoji_animated=Animated
+emoji_available=Available
+emoji_twitch=Twitch
+emoji_download_url=Download URL
+
+emoji_true=True
+emoji_false=False
+
+emoji_error_empty_msg=🚫 You need to specify an emoji!
+
+
 # ====  !length  ====
 length_name=length
 length_desc=Returns the length of a message
