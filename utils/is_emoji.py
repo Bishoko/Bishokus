@@ -1,12 +1,11 @@
 import emoji
-from nextcord.ext.commands.core import T
 
 def is_emoji(value: str) -> bool:
     """
-    Check if a given character is an emoji.
+    Check if a given value is a single emoji sequence.
 
     Args:
-        value (str): A character to check.
+        value (str): The value to check.
 
     Returns:
         bool: True if the value is an emoji, False otherwise.
@@ -14,13 +13,7 @@ def is_emoji(value: str) -> bool:
     value = str(value).strip()
     if not value:
         return False
-
-    matches = emoji.emoji_list(value)
-    return (
-        len(matches) == 1
-        and matches[0]["match_start"] == 0
-        and matches[0]["match_end"] == len(value)
-    )
+    return emoji.is_emoji(value)
 
 if __name__ == "__main__":
     while True:
