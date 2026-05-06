@@ -7,6 +7,9 @@ from utils.settings.lang import get_lang
 from utils.settings.lang import get as get_lang_text_command
 
 from utils.vip import vip_command as vip_only
+from utils.config import config
+
+OWNER_ID = config["owner-id"]
 
 
 def _find_message(args, kwargs):
@@ -85,6 +88,47 @@ def guild_only():
                         )),
                         mention_author=False
                     )
+                    return False
+                return True
+
+            return handler
+
+        return _command_check_wrapper(func, slash_predicate_factory, text_handler_factory)
+    
+    return decorator
+
+
+def owner_only():
+    """
+    A decorator that ensures the command is only executed by the bot owner.
+
+    Works with both slash commands (interaction) and text commands (message).
+    
+    For slash commands:
+        @checks.owner_only()
+        async def some_command(interaction: nextcord.Interaction):
+            # Command implementation
+    
+    For text commands:
+        @checks.owner_only()
+        async def some_command(bot, message: nextcord.Message, lang: str, prefix_str: str):
+            # Command implementation
+    """
+    def decorator(func):
+        def slash_predicate_factory():
+            async def predicate(interaction: nextcord.Interaction):
+                if interaction.user.id != OWNER_ID:
+                    await interaction.response.send_message(
+                        text('owner_only_error', get_lang(interaction))
+                    )
+                    return False
+                return True
+
+            return predicate
+
+        def text_handler_factory():
+            async def handler(message: nextcord.Message):
+                if message.author.id != OWNER_ID:
                     return False
                 return True
 

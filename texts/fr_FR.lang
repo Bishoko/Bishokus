@@ -18,6 +18,7 @@ user_is_bot_banned=Vous êtes banni définitivement de ce bot.\n\nRaison: `%ban_
 guild_is_bot_banned=Ce serveur est banni définitivement de ce bot.\n\nRaison: `%ban_reason%`
 guild_only_error=🚫 Désolé, cette commande ne peut être utilisée que dans les serveurs!
 vip_only_error=🚫 Désolé, cette commande est uniquement disponible pour les utilisateurs VIP!
+owner_only_error=🚫 Désolé, cette commande est uniquement disponible pour le propriétaire du bot!
 
 arg_ephemeral_name=éphémère
 arg_ephemeral_desc=Tente de répondre en tant que réponse éphémère/temporaire
