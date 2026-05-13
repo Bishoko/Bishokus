@@ -12,6 +12,7 @@ from handlers.message_handler import handle_message
 from handlers.on_guild_join import handle_guild_join
 from handlers.on_guild_remove import handle_guild_remove
 from handlers.command_usage_logger import handle_application_command_completion
+from handlers.daily_logs import start_daily_logs_loop
 
 langs_init()
 db.init()
@@ -68,6 +69,7 @@ async def on_ready():
     status_loop.current_index = 0
     status_loop.start()
 
+    start_daily_logs_loop()
 
 @bot.event
 async def on_message(message):
