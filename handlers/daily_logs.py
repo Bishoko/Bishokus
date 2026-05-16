@@ -3,7 +3,7 @@ import datetime
 import nextcord
 from nextcord.ext import tasks
 
-from utils.logger import log
+from utils.logger import log, Logger
 from utils.config import config
 import utils.global_variables as gv
 
@@ -33,7 +33,7 @@ async def logs_loop():
 
     try:
         await channel.send(
-            file=nextcord.File(log.log_file)
+            file=nextcord.File(Logger().log_file)
         )
     except Exception as e:
         log.exception(e, "Error sending logs file.")
