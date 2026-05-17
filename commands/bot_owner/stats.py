@@ -325,10 +325,12 @@ class StatsCog(commands.Cog):
     
     @check_ban()
     @slash_command(
+        guild_ids=[config.get('bot-guild'), config.get('testing-guild')],
         name=cmd.name,
         description=cmd.description,
         name_localizations=cmd.name_localizations,
-        description_localizations=cmd.description_localizations
+        description_localizations=cmd.description_localizations,
+        default_member_permissions=None,
     )
     async def stats_command(self, interaction: nextcord.Interaction,
         category: str = get_slash_option(cmd.arg(0))
