@@ -158,7 +158,7 @@ async def _send_confession(bot, channel_info: dict, user: nextcord.User, message
         return False
 
 
-async def _confess(bot, user: nextcord.User, message_content: str, attachments: list, lang: str) -> tuple:
+async def _confess(bot, user: nextcord.User, message_content: str, attachments: list, lang: str, guild_id: int = 0, channel_id: int = 0) -> tuple:
     """Core confess logic used by both slash and text commands"""
     
     # Validate message not empty
@@ -186,13 +186,34 @@ async def _confess(bot, user: nextcord.User, message_content: str, attachments: 
     
     # Create selection view
     class ConfessView(nextcord.ui.View):
-        def __init__(self, parent_self):
+        def __init__(self, guild_id: int = 0, channel_id: int = 0):
             super().__init__(timeout=None)
             self.value = None
-            self.parent_self = parent_self
+            self.guild_id = guild_id
+            self.channel_id = channel_id
         
         async def create_buttons(self):
-            for i, channel_info in enumerate(confess_channels, 1):
+            def _sort_channels(channels):
+                """Sort channels to prioritize those where the user is typing in"""
+                sorted_guilds = []
+                sorted_channels = []
+                for ch in channels:
+                    if ch['guild_id'] == self.guild_id:
+                        sorted_guilds.insert(0, ch)  # Put current guild channels first
+                    else:
+                        sorted_guilds.append(ch)
+                for ch in sorted_guilds:
+                    if ch['channel_id'] == self.channel_id:
+                        ch['is_actual_channel'] = True
+                        sorted_channels.insert(0, ch)  # Put current channel first
+                    else:
+                        ch['is_actual_channel'] = False
+                        sorted_channels.append(ch)
+                return sorted_channels
+                
+            confess_channels_sorted = _sort_channels(confess_channels)
+            
+            for i, channel_info in enumerate(confess_channels_sorted, 1):
                 is_banned = _is_user_banned(channel_info['guild_id'], user.id)
                 guild_name = channel_info['guild'].name
                 channel_name = channel_info['channel'].name
@@ -293,7 +314,7 @@ async def _confess(bot, user: nextcord.User, message_content: str, attachments: 
                 
                 button = nextcord.ui.Button(
                     label=button_label,
-                    style=nextcord.ButtonStyle.grey if is_banned else nextcord.ButtonStyle.green,
+                    style=nextcord.ButtonStyle.grey if is_banned else nextcord.ButtonStyle.green if not channel_info.get('is_actual_channel', False) else nextcord.ButtonStyle.blurple,
                     disabled=is_banned
                 )
                 button.callback = button_callback
@@ -322,7 +343,10 @@ async def _confess(bot, user: nextcord.User, message_content: str, attachments: 
             self.value = True
             self.stop()
     
-    view = ConfessView(None)
+    view = ConfessView(
+        guild_id=guild_id,
+        channel_id=channel_id,
+    )
     await view.create_buttons()
     
     # Create main embed
@@ -339,7 +363,15 @@ async def _confess(bot, user: nextcord.User, message_content: str, attachments: 
 
 async def confess_text(lang: str, bot: commands.Bot, message: nextcord.Message):
     """Handle text command"""
-    embed, view = await _confess(bot=bot, user=message.author, message_content=message.content, attachments=message.attachments, lang=lang)
+    embed, view = await _confess(
+        bot=bot,
+        user=message.author,
+        message_content=message.content,
+        attachments=message.attachments,
+        lang=lang,
+        guild_id=message.guild.id if message.guild else 0,
+        channel_id=message.channel.id if message.channel else 0,
+    )
     
     await message.reply(
         embed=embed, mention_author=False,
@@ -348,8 +380,16 @@ async def confess_text(lang: str, bot: commands.Bot, message: nextcord.Message):
 
 async def confess_slash(lang: str, interaction: nextcord.Interaction, message: str):
     """Handle slash command"""
-    embed, view = await _confess(bot=interaction.client, user=interaction.user, message_content=message, attachments=[], lang=lang)
-    
+    embed, view = await _confess(
+        bot=interaction.client,
+        user=interaction.user,
+        message_content=message,
+        attachments=[],  # TODO: Add support for attachments in slash commands
+        lang=lang,
+        guild_id=interaction.guild.id if interaction.guild else 0,
+        channel_id=interaction.channel.id if interaction.channel else 0,
+    )
+
     await interaction.response.send_message(
         embed=embed,
         ephemeral=True if interaction.guild else False,
