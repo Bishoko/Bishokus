@@ -20,7 +20,7 @@ ALLOWED_MEDIA_EXTENSIONS = ['.png', '.jpg', '.jpeg', '.gif', '.webp', '.avif']
 CONFESS_COOLDOWNS = {}
 
 
-def _extract_media_urls(attachments: list, message_content: str) -> list:
+def _extract_media_urls(attachments: list[nextcord.Attachment], message_content: str) -> list:
     """Extract valid media URLs from attachments"""
     # TODO: Add support for videos (embed.video)
     media_urls = []
@@ -165,7 +165,7 @@ async def _send_confession(bot, channel_info: dict, user: nextcord.User, message
         return False
 
 
-async def _confess(bot, user: nextcord.User, message_content: str, attachments: list, lang: str, guild_id: int = 0, channel_id: int = 0) -> tuple:
+async def _confess(bot, user: nextcord.User, message_content: str, attachments: list[nextcord.Attachment], lang: str, guild_id: int = 0, channel_id: int = 0) -> tuple:
     """Core confess logic used by both slash and text commands"""
     
     # Validate message not empty
@@ -388,13 +388,22 @@ async def confess_text(lang: str, bot: commands.Bot, message: nextcord.Message):
         view=view if view else None
     )
 
-async def confess_slash(lang: str, interaction: nextcord.Interaction, message: str):
+async def confess_slash(lang: str, interaction: nextcord.Interaction, message: str = "", media: nextcord.Attachment = None, media_url: str = ""):
     """Handle slash command"""
+    if not message and not media and not media_url:
+        embed = nextcord.Embed(
+            title=text('confess_title', lang),
+            description=text('confess_empty_error', lang),
+            color=config.get('embed-color')
+        )
+        await interaction.response.send_message(embed=embed, ephemeral=True)
+        return
+    
     embed, view = await _confess(
         bot=interaction.client,
         user=interaction.user,
-        message_content=message,
-        attachments=[],  # TODO: Add support for attachments in slash commands
+        message_content=message if message else "" + media_url if media_url else "",
+        attachments=[media] if media else [],
         lang=lang,
         guild_id=interaction.guild.id if interaction.guild else 0,
         channel_id=interaction.channel.id if interaction.channel else 0,
@@ -421,8 +430,18 @@ info = {
             {
                 "name": "confess_message_arg_name",
                 "desc": "confess_message_arg_desc",
-                "required": True
-            }
+                "required": False
+            },
+            {
+                "name": "confess_media_arg_name",
+                "desc": "confess_media_arg_desc",
+                "required": False
+            },
+            {
+                "name": "confess_media_url_arg_name",
+                "desc": "confess_media_url_arg_desc",
+                "required": False
+            },
         ]
     },
 }
@@ -441,9 +460,11 @@ class confessCog(commands.Cog):
         description_localizations=cmd.description_localizations
     )
     async def confess_command(self, interaction: nextcord.Interaction,
-        message: str = get_slash_option(cmd.arg(0))
+        message: str = get_slash_option(cmd.arg(0)),
+        media: nextcord.Attachment = get_slash_option(cmd.arg(1)),
+        media_url: str = get_slash_option(cmd.arg(2)),
     ):
-        await confess_slash(get_lang(interaction), interaction, message)
+        await confess_slash(get_lang(interaction), interaction, message, media, media_url)
 
 
 def setup(bot: commands.Bot):

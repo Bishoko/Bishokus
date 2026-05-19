@@ -557,6 +557,10 @@ confess_desc=Envoie une confession anonyme à un serveur
 
 confess_message_arg_name=message
 confess_message_arg_desc=Votre message de confession
+confess_media_arg_name=image
+confess_media_arg_desc=Ficher image/GIF à joindre à votre confession
+confess_media_url_arg_name=image-url
+confess_media_url_arg_desc=URL d'une image/GIF à joindre à votre confession
 
 confess_title=Confession
 confess_anonymous_author=Confession Anonyme
