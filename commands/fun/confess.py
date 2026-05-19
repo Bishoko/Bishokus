@@ -13,21 +13,28 @@ from utils.settings.lang import get_lang
 import json
 from datetime import datetime
 from utils.sql import get_db_connection
+from utils.get_urls import get_urls
 
 ALLOWED_MEDIA_EXTENSIONS = ['.png', '.jpg', '.jpeg', '.gif', '.webp', '.avif']
 # Track confess cooldowns in memory: {(user_id, channel_id): expiration_time}
 CONFESS_COOLDOWNS = {}
 
 
-def _extract_media_urls(attachments: list) -> list:
+def _extract_media_urls(attachments: list, message_content: str) -> list:
     """Extract valid media URLs from attachments"""
-    # TODO: Also extract media urls in the message.content
     # TODO: Add support for videos (embed.video)
     media_urls = []
     for attachment in attachments:
         extension = attachment.filename.lower().rsplit('.', 1)[-1] if '.' in attachment.filename else ''
         if f'.{extension}' in ALLOWED_MEDIA_EXTENSIONS:
             media_urls.append(attachment.url)
+    
+    # Also extract media urls in the message.content
+    urls = get_urls(message_content)
+    for url in urls:
+        if any(url.lower().rsplit('?', 1)[0].endswith(ext) for ext in ALLOWED_MEDIA_EXTENSIONS):
+            media_urls.append(url)
+    
     return media_urls
 
 
@@ -162,8 +169,11 @@ async def _confess(bot, user: nextcord.User, message_content: str, attachments: 
     """Core confess logic used by both slash and text commands"""
     
     # Validate message not empty
-    media_urls = _extract_media_urls(attachments)
+    media_urls = _extract_media_urls(attachments, message_content)
     message_content = message_content.strip()
+    # Remove media URLs from message content to avoid confusion
+    for media_url in media_urls:
+        message_content = message_content.replace(media_url, '').strip()
     
     if not message_content and not media_urls:
         embed = nextcord.Embed(
