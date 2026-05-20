@@ -12,7 +12,7 @@ from utils.settings.lang import get_lang
 
 import io
 import os
-from PIL import Image
+from PIL import Image, ImageSequence, ImageFile, UnidentifiedImageError
 
 from utils.get_first_attachment import get_first_image
 
@@ -22,18 +22,87 @@ PASTE_POSITION = (255, 72)
 
 
 async def _zamn(image_bytes: bytes) -> nextcord.File:
-    # Resize input image to the required dimensions
-    input_img = Image.open(io.BytesIO(image_bytes)).convert("RGBA")
-    input_img = input_img.resize(INPUT_SIZE, Image.LANCZOS)
+    # Open input image (may be animated GIF)
+    try:
+        input_img = Image.open(io.BytesIO(image_bytes))
+    except UnidentifiedImageError:
+        # Fallback: try incremental parser
+        parser = ImageFile.Parser()
+        try:
+            parser.feed(image_bytes)
+            input_img = parser.close()
+        except Exception as e:
+            log.exception(e, f"Parser failed. First 32 bytes: {image_bytes[:32]!r}")
+            raise UnidentifiedImageError("cannot identify image file")
 
     # Load the zamn overlay
     overlay_img = Image.open(OVERLAY_PATH).convert("RGBA")
 
-    # Paste the input image on top of the overlay using its alpha channel as mask
-    overlay_img.paste(input_img, PASTE_POSITION, input_img)
+    # Handle animated GIFs
+    if getattr(input_img, "is_animated", False):
+        frames_rgba = []
+        durations = []
+        for frame in ImageSequence.Iterator(input_img):
+            # Convert frame to RGBA and resize
+            f = frame.convert("RGBA").resize(INPUT_SIZE, Image.LANCZOS)
+            base = overlay_img.copy()
+            base.paste(f, PASTE_POSITION, f)
+            frames_rgba.append(base)
+            durations.append(frame.info.get('duration', input_img.info.get('duration', 100)))
+
+        # Helper to save frames and return BytesIO
+        def _save_frames(frames, durations_list, loop):
+            pil_frames = [f.convert('P', palette=Image.ADAPTIVE) for f in frames]
+            out = io.BytesIO()
+            pil_frames[0].save(
+                out,
+                format='GIF',
+                save_all=True,
+                append_images=pil_frames[1:],
+                loop=loop,
+                duration=durations_list,
+                optimize=True,
+                disposal=2,
+            )
+            out.seek(0)
+            return out
+
+        MAX_BYTES = 8 * 1024 * 1024  # 8 MB Discord limit for non-Nitro
+        loop_val = input_img.info.get('loop', 0)
+
+        # Try saving at full size first
+        output = _save_frames(frames_rgba, durations, loop_val)
+        if output.getbuffer().nbytes <= MAX_BYTES:
+            return nextcord.File(output, filename="zamn.gif")
+
+        # Try progressively downscaling
+        w, h = frames_rgba[0].size
+        for scale in (0.9, 0.8, 0.7, 0.6, 0.5):
+            new_size = (max(1, int(w * scale)), max(1, int(h * scale)))
+            frames_scaled = [f.resize(new_size, Image.LANCZOS) for f in frames_rgba]
+            output = _save_frames(frames_scaled, durations, loop_val)
+            if output.getbuffer().nbytes <= MAX_BYTES:
+                return nextcord.File(output, filename="zamn.gif")
+
+        # Try reducing frame count (sample frames) and smaller scale
+        for sample in (2, 3):
+            frames_sampled = frames_rgba[::sample]
+            durations_sampled = [sum(durations[i:i + sample]) for i in range(0, len(durations), sample)]
+            frames_small = [f.resize((max(1, int(w * 0.5)), max(1, int(h * 0.5))), Image.LANCZOS) for f in frames_sampled]
+            output = _save_frames(frames_small, durations_sampled, loop_val)
+            if output.getbuffer().nbytes <= MAX_BYTES:
+                return nextcord.File(output, filename="zamn.gif")
+
+        # If still too large, raise informative error
+        raise Exception("Processed GIF is too large to send after optimization")
+
+    # Static image path (single-frame)
+    input_rgba = input_img.convert("RGBA").resize(INPUT_SIZE, Image.LANCZOS)
+    overlay = overlay_img.copy()
+    overlay.paste(input_rgba, PASTE_POSITION, input_rgba)
 
     output = io.BytesIO()
-    overlay_img.save(output, format="PNG")
+    overlay.save(output, format="PNG")
     output.seek(0)
 
     return nextcord.File(output, filename="zamn.png")
@@ -46,7 +115,12 @@ async def zamn_text(lang: str, message: nextcord.Message):
         await message.reply(text('zamn_no_image_error', lang), mention_author=False)
         return
 
-    file = await _zamn(image_bytes)
+    try:
+        file = await _zamn(image_bytes)
+    except Exception as e:
+        log.exception(e)
+        await message.reply(text('zamn_processing_error', lang), mention_author=False)
+        return
 
     await message.reply(
         file=file,
@@ -57,7 +131,12 @@ async def zamn_text(lang: str, message: nextcord.Message):
 async def zamn_slash(lang: str, interaction: nextcord.Interaction, image: nextcord.Attachment):
     await interaction.response.defer()
     image_bytes = await image.read()
-    file = await _zamn(image_bytes)
+    try:
+        file = await _zamn(image_bytes)
+    except Exception as e:
+        log.exception(e)
+        await interaction.followup.send(text('zamn_processing_error', lang))
+        return
 
     await interaction.followup.send(file=file)
 
