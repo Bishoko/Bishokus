@@ -30,7 +30,7 @@ async def get_first_image(message: nextcord.Message) -> bytes | None:
     if attachment is None:
         urls = get_urls(message.content.lower())
         for url in urls:
-            if url.endswith(('.png', '.jpg', '.jpeg', '.gif', '.webp', '.avif')):
+            if url.rsplit('?', 1)[0].endswith(('.png', '.jpg', '.jpeg', '.gif', '.webp', '.avif')):
                 attachment = url
                 break
     
