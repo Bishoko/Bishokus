@@ -565,6 +565,7 @@ confess_media_url_arg_desc=An image/GIF URL to attach to your confession
 confess_title=Confession
 confess_anonymous_author=Anonymous Confession
 confess_channel_field=Channel
+confess_cancel=Cancel
 confess_cancelled=Confession cancelled.
 confess_available_channels=**Available channels:**
 confess_select_channel=Click to send.

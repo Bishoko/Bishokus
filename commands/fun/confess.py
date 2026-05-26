@@ -330,7 +330,7 @@ async def _confess(bot, user: nextcord.User, message_content: str, attachments: 
                 button.callback = button_callback
                 self.add_item(button)
         
-        @nextcord.ui.button(label="Cancel", style=nextcord.ButtonStyle.danger)
+        @nextcord.ui.button(label=text('confess_cancel', lang), style=nextcord.ButtonStyle.danger)
         async def cancel_button(self, button: nextcord.ui.Button, interaction: nextcord.Interaction):
             await interaction.response.defer()
             
