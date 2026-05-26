@@ -420,7 +420,7 @@ info = {
     "confess": {
         "category": "fun",
         "aliases": ["confession"],
-        "hidden_aliases": ["confesser", "javoue"],
+        "hidden_aliases": ["confesser", "confes", "javoue"],
         "available": ["text_command", "slash_command"],
         "visibility": "everyone",
         "user_permissions": [],
