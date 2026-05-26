@@ -11,6 +11,7 @@ from utils.settings import prefix
 from utils.settings.lang import get_lang
 
 import subprocess
+import requests
 
 BOT_NAME = "Bishokus"
 BOT_OWNER = config.get("owner-contact-username")
@@ -23,13 +24,23 @@ BOT_GITHUB_URL = config.get("github-url")
 SUPPORT_SERVER_URL = config.get("support-server-url")
 INVITE_URL = config.get("invite-url")
 
+def _fetch_latest_release():
+    """Fetch the latest release tag from the GitHub API."""
+    api_url = "https://api.github.com/repos/Bishoko/Bishokus/tags"
+    response = requests.get(api_url, timeout=5)
+    response.raise_for_status()
+    data = response.json()[0]
+    return f"[{data['name']}]({BOT_GITHUB_URL}/releases/tag/{data['name']})"
+
+RELEASE_TAG = _fetch_latest_release()
+
 def _get_and_format_version() -> str:
     # Get git tag
     try:
         version = subprocess.check_output(["git", "describe", "--tags"], stderr=subprocess.DEVNULL).decode().strip()
     except Exception as e:
         log.warning(f"Failed to get git tag: {e}")
-        version = BOT_VERSION
+        return RELEASE_TAG
     
     # Format version string
     if version == "rewrite":
