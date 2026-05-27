@@ -372,6 +372,19 @@ emoji_false=non
 emoji_error_empty_msg=🚫 Merci de spécifier un émoji!
 
 
+# ====  !gif  ====
+gif_name=gif
+gif_desc=Convertit une image ou une vidéo en un GIF
+
+gif_arg_name=média
+gif_arg_desc=Image ou vidéo à convertir en GIF
+
+gif_error_missing_file=🚫 Veuillez joindre une image ou une vidéo!
+gif_invalid_attachment=🚫 Le fichier doit être une image ou une vidéo pélo
+gif_error_too_complex=❌ Impossible de compresser suffisamment le GIF, le contenu est trop complexe :/ désolé bébé ça va aller :white_heart:
+gif_unknown_error=❌ Une erreur inconnue est survenue :/
+
+
 # ====  !length  ====
 length_name=longueur
 length_desc=Renvoie la longueur d'un message
