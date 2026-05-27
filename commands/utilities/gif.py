@@ -11,13 +11,14 @@ from utils.settings import prefix
 from utils.settings.lang import get_lang
 
 from utils.get_first_attachment import get_first_image, get_first_video
+from pathlib import Path
+from PIL import Image
 import subprocess  # nosec B404
 import shutil
 import asyncio
 import tempfile
 import math
 import json
-import io
 import os
 
 # Empirically measured bytes/pixel for palettegen+paletteuse+bayer GIFs.
@@ -47,11 +48,9 @@ def _probe(input_path: str) -> dict:
         "height": int(vs["height"]),
     }
 
-
 def _estimate_size_bytes(width: int, height: int, fps: float, duration: float) -> float:
     """Predict GIF output size in bytes from pixel count alone."""
     return width * height * fps * duration * _BYTES_PER_PIXEL
-
 
 def _pick_params(
     src_w: int, src_h: int, src_fps: float, duration: float,
@@ -190,20 +189,61 @@ def _video_to_gif(
         if os.path.isfile(palette_path):
             os.remove(palette_path)
 
-async def _convert_to_gif(input_filename: str = "", image: bytes | None = None, video: bytes | None = None) -> str:
-    if image:
-        # If it's already an image, just return it as a file lol it just works
-        return nextcord.File(io.BytesIO(image), filename="output.gif")
-    elif video:
-        # Convert video to GIF using moviepy
-        try:
+
+def _image_to_gif(input_path: str) -> str:
+    """
+    Convert an image to a single-frame GIF.
+ 
+    Args:
+        input_path: Path to the source image.
+ 
+    Returns:
+        Path to the saved GIF file.
+    """
+    src = Path(input_path)
+    dst = src.with_suffix('.gif')
+ 
+    with Image.open(src) as img:
+        img = img.convert('RGBA')
+        alpha = img.getchannel('A').point(lambda a: 255 if a == 0 else 0)
+        frame = img.convert('RGB').convert('P', palette=Image.Palette.ADAPTIVE, colors=255)
+        frame.paste(255, mask=alpha)
+        frame.save(dst, format='GIF', save_all=True, transparency=255)
+ 
+    return str(dst)
+
+
+async def _convert_to_gif(input_filename: str = "", image: bytes | None = None, video: bytes | None = None) -> str | None:
+    original_extension = input_filename.split('.')[-1].lower()
+    output_path: str = ""
+    
+    try:
+        if image:
+            # Write image bytes to a temporary file
+            with tempfile.NamedTemporaryFile(delete=False, suffix=original_extension or ".png") as tmp_file:
+                tmp_file.write(image)
+                tmp_path = tmp_file.name
+                log.debug(f"Temporary image file created at: {tmp_path}")
+                
+            output_path = await asyncio.to_thread(_image_to_gif, tmp_path)
+            
+            try:
+                return output_path
+            finally:
+                try:
+                    os.unlink(tmp_path)
+                except Exception as e:
+                    log.exception(e, "Failed to delete temporary video file")
+            
+            
+        elif video:
             # Write video bytes to a temporary file
-            with tempfile.NamedTemporaryFile(delete=False, suffix=".mp4") as tmp_file:
+            with tempfile.NamedTemporaryFile(delete=False, suffix=original_extension or ".mp4") as tmp_file:
                 tmp_file.write(video)
                 tmp_path = tmp_file.name
                 log.debug(f"Temporary video file created at: {tmp_path}")
 
-            output_path: str = await asyncio.to_thread(_video_to_gif, tmp_path)
+            output_path = await asyncio.to_thread(_video_to_gif, tmp_path)
 
             try:
                 return output_path
@@ -212,9 +252,9 @@ async def _convert_to_gif(input_filename: str = "", image: bytes | None = None, 
                     os.unlink(tmp_path)
                 except Exception as e:
                     log.exception(e, "Failed to delete temporary video file")
-        except Exception as e:
-            log.exception(e, "Failed to convert video to GIF")
-            raise
+    except Exception as e:
+        log.exception(e, "Failed to convert video to GIF")
+        raise
 
 
 async def gif_text(lang: str, message: nextcord.Message):
@@ -273,11 +313,11 @@ async def gif_slash(lang: str, interaction: nextcord.Interaction, input: nextcor
         # Check message attachments first, then the replied message's attachments
         if input.content_type and input.content_type.startswith("image"):
             image_bytes = await input.read()
-            file = await _convert_to_gif(image=image_bytes)
+            file = await _convert_to_gif(input.filename, image=image_bytes)
             
         elif input.content_type and input.content_type.startswith("video"):
             video_bytes = await input.read()
-            file = await _convert_to_gif(video=video_bytes)
+            file = await _convert_to_gif(input.filename, video=video_bytes)
 
         else:
             await interaction.followup.send(
