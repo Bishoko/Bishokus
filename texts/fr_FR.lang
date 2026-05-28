@@ -588,6 +588,7 @@ confess_empty_error=🚫 Votre message ne peut pas être vide !
 confess_user_banned_error=🚫 Oups ! Il semble que vous êtes banni de cette commande sur ce serveur :(
 confess_cooldown_error=🚫 Vous devez attendre %seconds% secondes pour envoyer un autre message !
 confess_no_channels_error=❌ Désolé, il n'y a aucun salon de confession disponible pour vous ! :(
+confess_no_channels_error_l2=Un modérateur peut en ajouter avec `/settings confess addchannel` \n:flag_fr: `/paramètres confession ajouter_salon`
 confess_send_error=❌ Une erreur est survenue lors de l'envoi de la confession.
 
 confess_sent_success=✅ Votre message anonyme a bien été envoyé sur le serveur **%guild%** !

@@ -588,6 +588,7 @@ confess_empty_error=🚫 Your message cannot be empty!
 confess_user_banned_error=🚫 Oops! It looks like you are banned from this command on this server :(
 confess_cooldown_error=🚫 You must wait %seconds% seconds to send another message!
 confess_no_channels_error=❌ Sorry, there are no confession channels available for you! :(
+confess_no_channels_error_l2=You can add a channel with the command `/settings confess add_channel` (moderator only)
 confess_send_error=❌ An error occurred while sending the confession.
 
 confess_sent_success=✅ Your anonymous message has been successfully sent on the **%guild%** server!

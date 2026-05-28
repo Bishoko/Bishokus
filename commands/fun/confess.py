@@ -189,7 +189,7 @@ async def _confess(bot, user: nextcord.User, message_content: str, attachments: 
     if not confess_channels:
         embed = nextcord.Embed(
             title=text('confess_title', lang),
-            description=text('confess_no_channels_error', lang),
+            description=text('confess_no_channels_error', lang) + "\n\n" + text('confess_no_channels_error_l2', lang),
             color=config.get('embed-color')
         )
         return embed, None
