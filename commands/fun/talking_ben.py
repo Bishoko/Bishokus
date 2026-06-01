@@ -11,6 +11,7 @@ from utils.settings import prefix
 from utils.settings.lang import get_lang
 
 import random
+from utils.clean_mentions import clean_mentions
 
 # Ben settings
 WEBHOOK_AVATARS = {
@@ -83,10 +84,12 @@ def _get_ben_response(lang: str, has_message: bool) -> tuple[str, str]:
         return text('ben_response_default', lang), "default"
 
 
-async def _send_ben_response(webhook: nextcord.Webhook, lang: str, has_message: bool):
+async def _send_ben_response(webhook: nextcord.Webhook, lang: str, has_message: bool, from_slash_command: dict = {}):
     """Send Ben's response via webhook."""
     response_text, avatar_key = _get_ben_response(lang, has_message)
     avatar_url = WEBHOOK_AVATARS.get(avatar_key, WEBHOOK_AVATARS["default"])
+
+    response_text += f"\n-# {from_slash_command.get('username', '')}: {clean_mentions(from_slash_command.get('message', ''))}"
     
     await webhook.send(
         response_text,
@@ -127,7 +130,13 @@ async def ben_slash(bot: commands.Bot, lang: str, interaction: nextcord.Interact
             finalwebhook = await interaction.channel.create_webhook(name='Bishokus Webhook (ben)')
         
         has_message = bool(message_content)
-        await _send_ben_response(finalwebhook, lang, has_message)
+        await _send_ben_response(
+            finalwebhook, lang, has_message,
+            from_slash_command={
+                "username": interaction.user.display_name,
+                "message": message_content
+            }
+        )
         await interaction.response.send_message(
             text('ben_success_1', lang) if not has_message else text('ben_success_2', lang),
             ephemeral=True
