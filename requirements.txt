@@ -1,7 +1,7 @@
 mysql-connector-python
 emoji==2.15.0
 pyfiglet==1.0.4
-aiohttp==3.13.5
+aiohttp
 blagues-api==1.0.4
 Unidecode==1.4.0
 colorama==0.4.6
