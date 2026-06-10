@@ -15,7 +15,9 @@ from datetime import datetime
 from utils.sql import get_db_connection
 from utils.get_urls import get_urls
 
-ALLOWED_MEDIA_EXTENSIONS = ['.png', '.jpg', '.jpeg', '.gif', '.webp', '.avif']
+ALLOWED_IMAGES_EXTENSIONS = ['.png', '.jpg', '.jpeg', '.gif', '.webp', '.avif']
+ALLOWED_VIDEO_EXTENSIONS = ['.mp4', '.mov', '.webm']
+ALLOWED_MEDIA_EXTENSIONS = ALLOWED_IMAGES_EXTENSIONS + ALLOWED_VIDEO_EXTENSIONS
 # Track confess cooldowns in memory: {(user_id, channel_id): expiration_time}
 CONFESS_COOLDOWNS = {}
 
@@ -139,14 +141,24 @@ async def _send_confession(bot, channel_info: dict, user: nextcord.User, message
             name=text('confess_anonymous_author', lang),
             icon_url=channel_info['guild'].icon.url if channel_info['guild'].icon else None
         )
+
+        video_urls = ""
         
         if media_urls:
-            embed.set_image(url=media_urls[0])
             # TODO: check if adding multiple media is possible in nextcord embeds and if so add them here
+            for media in reversed(media_urls):
+                if media.lower().rsplit('?', 1)[0].endswith(tuple(ALLOWED_IMAGES_EXTENSIONS)):
+                    embed.set_image(url=media)
+                if media.lower().rsplit('?', 1)[0].endswith(tuple(ALLOWED_VIDEO_EXTENSIONS)):
+                    video_urls += f"[{media.rsplit('?', 1)[0].rsplit('/', 1)[-1]}]({media})"
+            if video_urls:
+                embed.description = f"{message}\n\n{video_urls}"
+                
         
         embed.set_footer(text=f"{text('confess_footer', lang)}")
         
         await channel_info['channel'].send(embed=embed)
+        await channel_info['channel'].send(video_urls)
         
         # Log to database
         await _log_confession(
