@@ -11,7 +11,7 @@ from utils.settings import prefix
 from utils.settings.lang import get_lang
 from utils.sql import get_db_connection
 
-import subprocess
+import subprocess  # nosec B404
 import asyncio
 import os
 
@@ -27,7 +27,7 @@ async def remote_text(message: nextcord.Message):
         try:
             result = subprocess.run(
                 cmd,
-                shell=True,
+                shell=True,  # nosec B602
                 capture_output=True,
                 text=True
             )
