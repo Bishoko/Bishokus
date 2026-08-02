@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Label</key>
+	<string>com.bishokus.bot</string>
+	
+	<key>ProgramArguments</key>
+	<array>
+		<string>/opt/bishokus/.venv/bin/python</string>
+		<string>bot.py</string>
+	</array>
+	
+	<key>WorkingDirectory</key>
+	<string>/opt/bishokus</string>
+	
+	<key>EnvironmentVariables</key>
+	<dict>
+		<key>PYTHONUNBUFFERED</key>
+		<string>1</string>
+	</dict>
+	
+	<key>UserName</key>
+	<string>jade</string>
+	
+	<key>GroupName</key>
+	<string>staff</string>
+	
+	<key>RunAtLoad</key>
+	<true/>
+	
+	<key>KeepAlive</key>
+	<true/>
+	
+	<key>StandardOutPath</key>
+	<string>/var/log/bishokus/out.log</string>
+	
+	<key>StandardErrorPath</key>
+	<string>/var/log/bishokus/error.log</string>
+	
+	<key>ProcessType</key>
+	<string>Interactive</string>
+</dict>
+</plist>

@@ -31,6 +31,7 @@ Originally developed by [Lenoch](https://github.com/Lenochxd), the bot was rewri
 - [🚀 Quick Start](#-quick-start)
 - [⚙️ Dev Setup](#️-dev-setup)
   - [🐧 Linux Setup](#setup-for-linux)
+  - [🍎 MacOS Setup](#setup-for-macos)
   - [🪟 Windows Setup](#setup-for-windows)
 - [🤝 Contributing](#-contributing)
 - [💬 Support](#-support)
@@ -109,6 +110,62 @@ All feedback is appreciated and will be considered.
    ```
 
 4. **Create Database & User:**
+   ```sh
+   sudo mysql -u root -p
+   ```
+   
+   ```sql
+   CREATE DATABASE your_database_name;
+   CREATE USER 'your_username'@'localhost' IDENTIFIED WITH caching_sha2_password BY 'your_password';
+   GRANT ALL PRIVILEGES ON your_database_name.* TO 'your_username'@'localhost';
+   FLUSH PRIVILEGES;
+   EXIT;
+   ```
+
+#### 🔧 Configure Application
+
+1. Open `config/config.json`
+2. Update with your database credentials and Discord bot token
+3. Reference `config/config.example.json` for the structure
+
+---
+
+### Setup for MacOS
+
+#### 🐍 Setup Python
+
+1. **Create & Activate Virtual Environment:**
+   ```sh
+   python3 -m venv .venv
+   source .venv/bin/activate
+   ```
+
+2. **Install Dependencies:**
+   ```sh
+   # Install nextcord (Discord library)
+   git clone -b components_v2 https://github.com/alentoghostflame/nextcord
+   cd nextcord
+   export POETRY_DYNAMIC_VERSIONING_BYPASS=0.0.1
+   pip install .
+   cd ..
+   
+   # Install other requirements
+   pip install -r requirements.txt
+   ```
+
+#### 🗄️ Setup MySQL
+
+1. **Install MySQL:**
+   ```sh
+   brew install mariadb
+   ```
+
+2. **Start MySQL Service:**
+   ```sh
+   brew services start mariadb
+   ```
+
+3. **Create Database & User:**
    ```sh
    sudo mysql -u root -p
    ```
