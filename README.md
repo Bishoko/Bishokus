@@ -80,13 +80,6 @@ All feedback is appreciated and will be considered.
 
 3. **Install Dependencies:**
    ```sh
-   # Install nextcord (Discord library)
-   git clone -b components_v2 https://github.com/alentoghostflame/nextcord
-   cd nextcord
-   POETRY_DYNAMIC_VERSIONING_BYPASS=0.0.1 pip install .
-   cd ..
-   
-   # Install other requirements
    pip install -r requirements.txt
    ```
 
@@ -142,14 +135,6 @@ All feedback is appreciated and will be considered.
 
 2. **Install Dependencies:**
    ```sh
-   # Install nextcord (Discord library)
-   git clone -b components_v2 https://github.com/alentoghostflame/nextcord
-   cd nextcord
-   export POETRY_DYNAMIC_VERSIONING_BYPASS=0.0.1
-   pip install .
-   cd ..
-   
-   # Install other requirements
    pip install -r requirements.txt
    ```
 
@@ -202,14 +187,6 @@ All feedback is appreciated and will be considered.
 
 3. **Install Dependencies:**
    ```powershell
-   # Install nextcord (Discord library)
-   git clone -b components_v2 https://github.com/alentoghostflame/nextcord
-   cd nextcord
-   $env:POETRY_DYNAMIC_VERSIONING_BYPASS="0.0.1"
-   pip install .
-   cd ..
-   
-   # Install other requirements
    pip install -r requirements.txt
    ```
 

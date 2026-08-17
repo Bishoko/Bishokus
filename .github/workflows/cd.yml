@@ -45,13 +45,9 @@ jobs:
           git checkout "$TARGET_BRANCH"
           git reset --hard "origin/$TARGET_BRANCH"
 
-          rm -rf /tmp/nextcord
-          git clone --depth 1 --branch components_v2 https://github.com/alentoghostflame/nextcord.git /tmp/nextcord
-
           python3.14 -m venv .venv
           source .venv/bin/activate
           pip install --upgrade pip
-          POETRY_DYNAMIC_VERSIONING_BYPASS=0.0.1 pip install /tmp/nextcord
           pip install -r requirements.txt
 
           sudo mkdir -p "$VPS_APP_DIR/config"
