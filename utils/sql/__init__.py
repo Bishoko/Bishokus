@@ -7,7 +7,19 @@ from utils.logger import log
 
 with open('config/config.json', encoding='utf-8') as f:
     config = json.load(f)
-    db_config = config['mysql']
+    db_config = config.get('mysql', {}).copy()
+
+# Override database credentials with environment variables if present
+if os.getenv("DB_HOST"):
+    db_config["host"] = os.getenv("DB_HOST")
+if os.getenv("DB_PORT"):
+    db_config["port"] = int(os.getenv("DB_PORT"))
+if os.getenv("DB_USER"):
+    db_config["user"] = os.getenv("DB_USER")
+if os.getenv("DB_PASSWORD"):
+    db_config["password"] = os.getenv("DB_PASSWORD")
+if os.getenv("DB_NAME"):
+    db_config["database"] = os.getenv("DB_NAME")
 
 
 def get_db_connection():

@@ -3,6 +3,11 @@ import json
 import nextcord
 from nextcord.ext import commands, tasks
 
+# Load .env file if it exists (development only; Docker uses environment variables)
+if os.path.exists(".env"):
+    from dotenv import load_dotenv
+    load_dotenv()
+
 import utils.global_variables as gv
 from utils.languages import init as langs_init
 from utils.logger import log

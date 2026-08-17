@@ -3,8 +3,9 @@
 nextcord/
 .vscode/
 
-# Local runtime configuration (use config/config.example.json as template)
+# Local runtime configuration
 config/config.json
+.env
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

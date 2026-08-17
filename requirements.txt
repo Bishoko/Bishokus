@@ -11,3 +11,4 @@ larousse-api-sunbro==0.0.5
 Pillow==12.3.0
 pandas==3.0.2
 matplotlib==3.10.9
+python-dotenv

@@ -15,25 +15,10 @@
     "bot-avatar-url": "https://cdn.discordapp.com/avatars/888484118852145182/1720decdb60d00751b44e7c28c1a14b0.webp?size=1024",
     "bot-page-url": "https://discord.com/discovery/applications/854081099638112256",
     "bot-vote-url": "https://top.gg/bot/854081099638112256/vote",
-    "tokens": {
-        "main": "BOT_TOKEN",
-        "test": "TEST_BOT_TOKEN"
-    },
-    "api-keys": {
-        "openweather": "",
-        "blagues": ""
-    },
     "owner-contact-username": "lenochj",
     "owner-contact-email": "contact.lenoch@gmail.com",
     "owner-id": 390265556357611521,
     "bot-guild": 391919052563546112,
     "testing-guild": 934123189548752946,
-    "new-guild-notification-channel": 1491910728884420766,
-    "mysql": {
-        "user": "DB_USER",
-        "password": "PASSWORD_HERE",
-        "host": "localhost",
-        "port": 3306,
-        "database": "DB_NAME"
-    }
+    "new-guild-notification-channel": 1491910728884420766
 }
