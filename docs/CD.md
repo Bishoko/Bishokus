@@ -24,7 +24,8 @@ so future releases deploy themselves.
 ## 1. How the image is built
 
 [`.github/workflows/cd.yml`](../.github/workflows/cd.yml) builds the image
-from the repo's [`Dockerfile`](../Dockerfile) and pushes it to:
+from the repo's [`Dockerfile`](../Dockerfile) for **both amd64 and arm64**
+(multiarch) and pushes it to:
 
 ```
 ghcr.io/bishoko/bishokus:<release-tag>
@@ -32,6 +33,10 @@ ghcr.io/bishoko/bishokus:latest
 ```
 
 (owner/repo lowercased, e.g. `ghcr.io/bishoko/bishokus:latest`).
+
+The same image tag works on both x86-64 and ARM64 architectures (e.g., Raspberry Pi,
+Mac M1/M2/M3, AWS Graviton). Docker automatically selects the correct variant
+based on your host's architecture.
 
 No extra secret is required for this step — it authenticates with the
 built-in `GITHUB_TOKEN`, which is granted `packages: write` at the job level.
