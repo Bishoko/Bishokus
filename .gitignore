@@ -6,6 +6,7 @@ nextcord/
 # Local runtime configuration
 config/config.json
 .env
+.env.compose
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

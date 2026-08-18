@@ -1,0 +1,62 @@
+version: "3.8"
+
+services:
+  mysql:
+    image: mariadb:11
+    environment:
+      MARIADB_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MARIADB_DATABASE: bishokus
+      MARIADB_USER: bishokus
+      MARIADB_PASSWORD: ${MYSQL_BISHOKUS_PASSWORD}
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - bishokus_net
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: any
+        delay: 5s
+
+  bishokus:
+    image: ghcr.io/bishoko/bishokus:latest
+    environment:
+      TZ: Europe/Paris
+      BOT_TOKEN: ${BOT_TOKEN}
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_USER: bishokus
+      DB_PASSWORD: ${MYSQL_BISHOKUS_PASSWORD}
+      DB_NAME: bishokus
+      TEST_BOT_TOKEN: ${TEST_BOT_TOKEN:-}
+      OPENWEATHER_API_KEY: ${OPENWEATHER_API_KEY:-}
+      BLAGUES_API_KEY: ${BLAGUES_API_KEY:-}
+    secrets:
+      - source: bishokus_config
+        target: /app/config/config.json
+        mode: 0444
+    volumes:
+      - bishokus_logs:/app/.logs
+    networks:
+      - bishokus_net
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: any
+        delay: 5s
+      update_config:
+        order: stop-first
+    depends_on:
+      - mysql
+
+networks:
+  bishokus_net:
+    driver: overlay
+
+volumes:
+  bishokus_logs:
+  mysql_data:
+
+secrets:
+  bishokus_config:
+    external: true
