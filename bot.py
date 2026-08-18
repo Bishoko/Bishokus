@@ -9,6 +9,7 @@ if os.path.exists(".env"):
     load_dotenv()
 
 import utils.global_variables as gv
+from utils.config import get_config
 from utils.languages import init as langs_init
 from utils.logger import log
 import utils.sql as db
@@ -27,11 +28,7 @@ intents = nextcord.Intents.all()
 intents.typing = False
 intents.presences = False
 
-def load_config():
-    with open("config/config.json", "r", encoding='utf-8') as f:
-        return json.load(f)
-
-config = load_config()
+config = get_config()
 
 
 bot = commands.Bot(
