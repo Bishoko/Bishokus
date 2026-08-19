@@ -11,8 +11,8 @@ from utils.settings import prefix
 from utils.settings.lang import get_lang
 from utils.sql import get_db_connection
 
+from utils.sql.db_utils import restore_database
 import os
-import subprocess  # nosec B404
 
 
 async def restoredb_text(message: nextcord.Message):
@@ -23,25 +23,22 @@ async def restoredb_text(message: nextcord.Message):
             await message.channel.send("Please attach a backup file to restore the database.")
             return
 
-        # Get the first attachment (assuming it's the backup file)
         backup_file = message.attachments[0]
 
-        # Download the backup file
         backup_file_path = f".logs/{backup_file.filename}"
         await backup_file.save(backup_file_path)
 
         conn = get_db_connection()
-
-        # Get the database name from the connection
         db_name = conn.database
+        conn.close()
 
-        # Use mysql command to restore the database from the backup file
-        restore_command = f"mysql -u {config.get('mysql').get('user')} -p{config.get('mysql').get('password')} {db_name} < {backup_file_path}"
-        subprocess.run(restore_command, shell=True, check=True)  # nosec B602
+        with open(backup_file_path, 'r', encoding='utf-8') as f:
+            sql_content = f.read()
+
+        restore_database(db_name, sql_content)
 
         await message.channel.send("Database restored successfully.")
 
-        # Clean up the backup file after restoring
         os.remove(backup_file_path)
     except Exception as e:
         log.debug(f"Error in restoredb_text: {e}")

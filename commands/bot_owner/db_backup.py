@@ -11,8 +11,8 @@ from utils.settings import prefix
 from utils.settings.lang import get_lang
 from utils.sql import get_db_connection
 
-import os
-import subprocess  # nosec B404
+from utils.sql.db_utils import backup_database
+import io
 import time
 
 
@@ -21,22 +21,15 @@ async def backupdb_text(message: nextcord.Message):
     # The backup needs to be restored later using the restoredb command.
     try:
         conn = get_db_connection()
-
-        # Get the database name from the connection
         db_name = conn.database
+        conn.close()
 
-        # Create a backup file name with timestamp
-        backup_file = f"backup_{db_name}_{int(time.time())}.sql"
+        sql_content = backup_database(db_name)
 
-        # Use mysqldump to create a backup of the database
-        dump_command = f"mysqldump -u {config.get('mysql').get('user')} -p{config.get('mysql').get('password')} {db_name} > {backup_file}"
-        subprocess.run(dump_command, shell=True, check=True)  # nosec B602
+        backup_filename = f"backup_{db_name}_{int(time.time())}.sql"
+        sql_bytes = sql_content.encode('utf-8')
+        await message.channel.send(file=nextcord.File(io.BytesIO(sql_bytes), filename=backup_filename))
 
-        # Send the backup file to the user
-        await message.channel.send(file=nextcord.File(backup_file))
-
-        # Clean up the backup file after sending
-        os.remove(backup_file)
     except Exception as e:
         log.debug(f"Error in backupdb_text: {e}")
         await message.channel.send("An error occurred while trying to backup the database.")
