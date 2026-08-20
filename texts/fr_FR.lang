@@ -508,6 +508,11 @@ math_error_syntax=❌ SyntaxError | Erreur de syntaxe, vous avez peut-être voul
 math_error_type=❌ TypeError | Erreur. Probablement parce que un caractère texte est présent dans votre calcul!
 
 
+# ====  !ping  ====
+ping_name=ping
+ping_desc=Évalue la latence du bot et de l'API Discord
+
+
 # ====  !avatar  ====
 avatar_name=avatar
 avatar_desc=Affiche l'avatar de l'utilisateur ciblé ou de vous-même

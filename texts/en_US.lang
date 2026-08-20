@@ -508,6 +508,11 @@ math_error_syntax=❌ SyntaxError | Syntax error, you may have tried to do an eq
 math_error_type=❌ TypeError | Error. Probably because a text character is present in your calculation!
 
 
+# ====  !ping  ====
+ping_name=ping
+ping_desc=Calculates Discord API + bot latency
+
+
 # ====  !avatar  ====
 avatar_name=avatar
 avatar_desc=Displays the avatar of the targeted user or yourself
