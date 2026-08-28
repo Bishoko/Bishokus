@@ -379,6 +379,9 @@ gif_desc=Converts an image or video into a GIF
 gif_arg_name=media
 gif_arg_desc=Image or video to convert
 
+gif_speedup_arg_name=speedup
+gif_speedup_arg_desc=Speed up the GIF
+
 gif_error_missing_file=🚫 Please attach an image or a video!
 gif_invalid_attachment=🚫 The attachment must be an image or a video!
 gif_error_too_complex=❌ Failed to compress GIF enough, content is too complex :/

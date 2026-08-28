@@ -85,6 +85,7 @@ def _video_to_gif(
     max_size_mb: float = 15.0,
     max_fps: float = 24.0,
     colors: int = 128,
+    speedup: int = 0,
 ) -> str:
     """
     Convert a video to a GIF, targeting a maximum output file size.
@@ -95,6 +96,8 @@ def _video_to_gif(
         max_fps:     FPS cap, original FPS is used if lower (default 24).
         colors:      Palette size: 64 | 128 | 256. Lower = smaller, less accurate
                      color reproduction (default 128, good balance).
+        speedup:     Speed multiplier as a percentage (0, 25, 50, 75, 100, 125, 150).
+                     0% = normal speed, 50% = 1.5x speed (recommended), 75% = 1.75x, 100% = 2x, 125 = x2.25, 150 = x2.5.
 
     Returns:
         Path to the generated GIF.
@@ -108,11 +111,13 @@ def _video_to_gif(
     max_bytes = max_size_mb * 1024 * 1024
     palette_path = output_path + ".palette.png"
 
+    speedup_multiplier = 1 + (speedup / 100)
+
     # Probe
     probe = _probe(input_path)
     src_w, src_h = probe["width"], probe["height"]
     src_fps = probe["fps"]
-    duration = probe["duration"]
+    duration = probe["duration"] / speedup_multiplier
 
     est_full = _estimate_size_bytes(src_w, src_h, min(src_fps, max_fps), duration)
     log.debug(f"Source: {src_w}×{src_h} @ {src_fps:.1f}fps, {duration:.1f}s")
@@ -126,12 +131,16 @@ def _video_to_gif(
     log.debug(f"Target: {width}px wide @ {fps:.1f}fps → estimated {est / 1024 / 1024:.1f} MB")
 
     def encode(w: int, fps: float) -> int:
+        setpts_filter = f"setpts=PTS/{speedup_multiplier}," if speedup_multiplier > 1 else ""
+
         vf_palette = (
+            f"{setpts_filter}"
             f"fps={fps:.3f},"
             f"scale={w}:{height}:flags=lanczos,"
             f"palettegen=max_colors={colors}:stats_mode=diff"
         )
         vf_gif = (
+            f"{setpts_filter}"
             f"fps={fps:.3f},"
             f"scale={w}:{height}:flags=lanczos[x];"
             f"[x][1:v]paletteuse=dither=bayer:bayer_scale=5:diff_mode=rectangle"
@@ -213,7 +222,46 @@ def _image_to_gif(input_path: str) -> str:
     return str(dst)
 
 
-async def _convert_to_gif(input_filename: str = "", image: bytes | None = None, video: bytes | None = None) -> str | None:
+def _parse_speedup(speedup_input: str) -> int | None:
+    """
+    Parse speedup input and return the speedup percentage (additive).
+    Accepts formats like: "1.5", "1.5x", "150%"
+    Returns the speedup amount (e.g., 50 for 150% total speed).
+    Returns None if parsing fails.
+    """
+    if not speedup_input:
+        return None
+
+    speedup_input = speedup_input.strip().lower()
+
+    try:
+        # Remove 'x' if present
+        if speedup_input.endswith('x'):
+            speedup_input = speedup_input[:-1]
+
+        # Remove '%' if present
+        if speedup_input.endswith('%'):
+            speedup_input = speedup_input[:-1]
+
+        speedup_value = float(speedup_input)
+
+        # If value > 10, assume it's a percentage (e.g., 150)
+        if speedup_value > 10:
+            total_percent = speedup_value
+        else:
+            # Assume it's a multiplier (e.g., 1.5)
+            total_percent = speedup_value * 100
+
+        # Convert total percent to speedup (additive)
+        speedup = int(total_percent - 100)
+
+        # Clamp to reasonable values
+        return max(0, min(speedup, 150))
+    except (ValueError, AttributeError):
+        return None
+
+
+async def _convert_to_gif(input_filename: str = "", image: bytes | None = None, video: bytes | None = None, speedup: int = 0) -> str | None:
     original_extension = input_filename.split('.')[-1].lower()
     output_path: str = ""
     
@@ -243,7 +291,7 @@ async def _convert_to_gif(input_filename: str = "", image: bytes | None = None, 
                 tmp_path = tmp_file.name
                 log.debug(f"Temporary video file created at: {tmp_path}")
 
-            output_path = await asyncio.to_thread(_video_to_gif, tmp_path)
+            output_path = await asyncio.to_thread(_video_to_gif, tmp_path, speedup=speedup)
 
             try:
                 return output_path
@@ -258,16 +306,25 @@ async def _convert_to_gif(input_filename: str = "", image: bytes | None = None, 
 
 
 async def gif_text(lang: str, message: nextcord.Message):
+    # Parse speedup from message content
+    speedup = 0
+    words = message.content.split()
+    for word in words:
+        parsed = _parse_speedup(word)
+        if parsed is not None:
+            speedup = parsed
+            break
+
     # Check message attachments first, then the replied message's attachments
     file = None
     image_bytes = await get_first_image(message)
 
     try:
         if image_bytes:
-            file = await _convert_to_gif(image=image_bytes)
+            file = await _convert_to_gif(image=image_bytes, speedup=speedup)
         else:
             video_bytes = await get_first_video(message)
-            file = await _convert_to_gif(video=video_bytes)
+            file = await _convert_to_gif(video=video_bytes, speedup=speedup)
     except ValueError:
         await message.reply(
             text("gif_error_too_complex", lang),
@@ -305,7 +362,7 @@ async def gif_text(lang: str, message: nextcord.Message):
         log.exception(e, "Failed to delete temporary video output file")
     return
 
-async def gif_slash(lang: str, interaction: nextcord.Interaction, input: nextcord.Attachment):
+async def gif_slash(lang: str, interaction: nextcord.Interaction, input: nextcord.Attachment, speedup: int = 0):
     await interaction.response.defer()
     file = None
 
@@ -313,11 +370,11 @@ async def gif_slash(lang: str, interaction: nextcord.Interaction, input: nextcor
         # Check message attachments first, then the replied message's attachments
         if input.content_type and input.content_type.startswith("image"):
             image_bytes = await input.read()
-            file = await _convert_to_gif(input.filename, image=image_bytes)
-            
+            file = await _convert_to_gif(input.filename, image=image_bytes, speedup=speedup)
+
         elif input.content_type and input.content_type.startswith("video"):
             video_bytes = await input.read()
-            file = await _convert_to_gif(input.filename, video=video_bytes)
+            file = await _convert_to_gif(input.filename, video=video_bytes, speedup=speedup)
 
         else:
             await interaction.followup.send(
@@ -376,6 +433,21 @@ info = {
             {
                 "name": "gif_arg_name",
                 "desc": "gif_arg_desc"
+            },
+            {
+                "name": "gif_speedup_arg_name",
+                "desc": "gif_speedup_arg_desc",
+                "choices": {
+                    "100% (Normal)": 0,
+                    "125%": 25,
+                    "150%": 50,
+                    "175%": 75,
+                    "200% (Recommended)": 100,
+                    "225%": 125,
+                    "250%": 150,
+                },
+                "default": 0,
+                "required": False,
             }
         ]
     }
@@ -395,9 +467,10 @@ class GifCog(commands.Cog):
         description_localizations=cmd.description_localizations
     )
     async def gif_command(self, interaction: nextcord.Interaction,
-        attachment: nextcord.Attachment = get_slash_option(cmd.arg(0))
+        attachment: nextcord.Attachment = get_slash_option(cmd.arg(0)),
+        speedup: int = get_slash_option(cmd.arg(1)),
     ):
-        await gif_slash(get_lang(interaction), interaction, attachment)
+        await gif_slash(get_lang(interaction), interaction, attachment, speedup)
 
 
 def setup(bot: commands.Bot):
