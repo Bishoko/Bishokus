@@ -12,6 +12,7 @@ from utils.settings.lang import get_lang
 
 from utils.get_first_attachment import get_first_image
 from PIL import Image
+from types import NoneType
 import io
 import os
 
@@ -54,9 +55,19 @@ async def open_to_work_text(lang: str, message: nextcord.Message):
     )
 
 
-async def open_to_work_slash(lang: str, interaction: nextcord.Interaction, image: nextcord.Attachment):
+async def open_to_work_slash(lang: str, interaction: nextcord.Interaction, image: nextcord.Attachment | NoneType = None, link: str = ""):
     await interaction.response.defer()
-    image_bytes = await image.read()
+
+    image_bytes = None
+    if image:
+        image_bytes = await image.read()
+    elif link:
+        image_bytes = await get_first_image(link)
+    
+    if not image_bytes:
+        await interaction.followup.send(text('open_to_work_missing_argument_error', lang))
+        return
+        
     file = await _open_to_work(image_bytes)
 
     await interaction.followup.send(file=file)
@@ -74,9 +85,15 @@ info = {
         "desc": "open_to_work_desc",
         "args": [
             {
-                "name": "open_to_work_arg_name",
-                "desc": "open_to_work_arg_desc",
-            }
+                "name": "open_to_work_image_arg_name",
+                "desc": "open_to_work_image_arg_desc",
+                "required": False,
+            },
+            {
+                "name": "open_to_work_link_arg_name",
+                "desc": "open_to_work_link_arg_desc",
+                "required": False,
+            },
         ]
     }
 }
@@ -97,8 +114,9 @@ class OpenToWorkCog(commands.Cog):
     )
     async def open_to_work_command(self, interaction: nextcord.Interaction,
         image: nextcord.Attachment = get_slash_option(cmd.arg(0)),
+        link: str = get_slash_option(cmd.arg(1)),
     ):
-        await open_to_work_slash(get_lang(interaction), interaction, image)
+        await open_to_work_slash(get_lang(interaction), interaction, image, link)
 
 
 def setup(bot: commands.Bot):

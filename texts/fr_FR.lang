@@ -621,9 +621,13 @@ clear_success_slash=✅ Vous avez supprimé **%count%** message%s%!
 open_to_work_name=open_to_work
 open_to_work_desc=Ajoute un badge "Open to Work" LinkedIn sur une image
 
-open_to_work_arg_name=image
-open_to_work_arg_desc=Image sur laquelle appliquer le badge
+open_to_work_image_arg_name=image
+open_to_work_image_arg_desc=Image sur laquelle appliquer le badge
 
+open_to_work_link_arg_name=url
+open_to_work_link_arg_desc=Lien de l'image sur laquelle appliquer le badge
+
+open_to_work_missing_argument_error=🚫 Vous devez fournir une image sur laquelle appliquer le filtre!
 open_to_work_no_image_error=🚫 Veuillez joindre une image ou répondre à un message en contenant une!
 
 

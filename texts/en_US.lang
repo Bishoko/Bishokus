@@ -621,9 +621,13 @@ clear_success_slash=✅ Successfully cleared **%count%** message%s%!
 open_to_work_name=open_to_work
 open_to_work_desc=Adds an "Open to Work" LinkedIn badge over an image
 
-open_to_work_arg_name=image
-open_to_work_arg_desc=Image to apply the badge to
+open_to_work_image_arg_name=image
+open_to_work_image_arg_desc=Image to apply the badge to
 
+open_to_work_link_arg_name=link
+open_to_work_link_arg_desc=URL for the image to apply the badge to
+
+open_to_work_missing_argument_error=🚫 You need to provide an image to apply the filter on! 
 open_to_work_no_image_error=🚫 Please attach an image or reply to a message containing one!
 
 
