@@ -11,6 +11,7 @@ from utils.settings import prefix
 from utils.settings.lang import get_lang
 
 from utils.get_first_attachment import get_first_image, get_first_video
+from utils.vip import is_vip
 from types import NoneType
 from pathlib import Path
 from PIL import Image
@@ -225,7 +226,7 @@ def _image_to_gif(input_path: str) -> str:
     return str(dst)
 
 
-def _parse_speedup(speedup_input: str) -> int | None:
+def _parse_speedup(speedup_input: str, user_id: int) -> int | None:
     """
     Parse speedup input and return the speedup percentage (additive).
     Accepts formats like: "1.5", "1.5x", "150%"
@@ -259,6 +260,9 @@ def _parse_speedup(speedup_input: str) -> int | None:
         speedup = int(total_percent - 100)
 
         # Clamp to reasonable values
+        if is_vip(user_id):
+            log.debug(f"User is VIP, skipping gif speedup limits for: {speedup}")
+            return speedup
         return max(0, min(speedup, 150))
     except (ValueError, AttributeError):
         return None
@@ -313,7 +317,7 @@ async def gif_text(lang: str, message: nextcord.Message):
     speedup = 0
     words = message.content.split()
     for word in words:
-        parsed = _parse_speedup(word)
+        parsed = _parse_speedup(word, message.author.id)
         if parsed is not None:
             speedup = parsed
             break
