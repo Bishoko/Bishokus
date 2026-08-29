@@ -11,12 +11,15 @@ from utils.settings import prefix
 from utils.settings.lang import get_lang
 
 from utils.get_first_attachment import get_first_image, get_first_video
+from types import NoneType
 from pathlib import Path
 from PIL import Image
 import subprocess  # nosec B404
 import shutil
 import asyncio
 import tempfile
+import random
+import string
 import math
 import json
 import os
@@ -362,19 +365,34 @@ async def gif_text(lang: str, message: nextcord.Message):
         log.exception(e, "Failed to delete temporary video output file")
     return
 
-async def gif_slash(lang: str, interaction: nextcord.Interaction, input: nextcord.Attachment, speedup: int = 0):
+async def gif_slash(lang: str, interaction: nextcord.Interaction, attachment: nextcord.Attachment | NoneType, link: str = "", speedup: int = 0):
+    if not attachment and not link:
+        await interaction.response.send_message(text('gif_error_missing_file', lang))
+        return
+
     await interaction.response.defer()
     file = None
+    original_filename = attachment.filename if attachment else ''.join(random.choices(string.ascii_letters + string.digits, k=8))  # TODO: get actual original filename
 
     try:
         # Check message attachments first, then the replied message's attachments
-        if input.content_type and input.content_type.startswith("image"):
-            image_bytes = await input.read()
-            file = await _convert_to_gif(input.filename, image=image_bytes, speedup=speedup)
+        if attachment and attachment.content_type and attachment.content_type.startswith("image"):
+            image_bytes = await attachment.read()
+            file = await _convert_to_gif(attachment.filename, image=image_bytes, speedup=speedup)
 
-        elif input.content_type and input.content_type.startswith("video"):
-            video_bytes = await input.read()
-            file = await _convert_to_gif(input.filename, video=video_bytes, speedup=speedup)
+        elif attachment and attachment.content_type and attachment.content_type.startswith("video"):
+            video_bytes = await attachment.read()
+            file = await _convert_to_gif(attachment.filename, video=video_bytes, speedup=speedup)
+
+        # Check for the provided link
+        if link:
+            image_bytes = await get_first_image(link)
+            if image_bytes:
+                file = await _convert_to_gif(original_filename, image=image_bytes, speedup=speedup)
+
+            video_bytes = await get_first_video(link)
+            if video_bytes:
+                file = await _convert_to_gif(original_filename, video=video_bytes, speedup=speedup)
 
         else:
             await interaction.followup.send(
@@ -403,7 +421,7 @@ async def gif_slash(lang: str, interaction: nextcord.Interaction, input: nextcor
     await interaction.followup.send(
         file=nextcord.File(
             file,
-            filename=f"{input.filename}_bishokus.gif",
+            filename=f"{original_filename}_bishokus.gif",
             force_close=True
         ),
         ephemeral=False
@@ -431,8 +449,14 @@ info = {
         "desc": "gif_desc",
         "args": [
             {
-                "name": "gif_arg_name",
-                "desc": "gif_arg_desc"
+                "name": "gif_media_arg_name",
+                "desc": "gif_media_arg_desc",
+                "required": False,
+            },
+            {
+                "name": "gif_link_arg_name",
+                "desc": "gif_link_arg_desc",
+                "required": False,
             },
             {
                 "name": "gif_speedup_arg_name",
@@ -468,9 +492,10 @@ class GifCog(commands.Cog):
     )
     async def gif_command(self, interaction: nextcord.Interaction,
         attachment: nextcord.Attachment = get_slash_option(cmd.arg(0)),
-        speedup: int = get_slash_option(cmd.arg(1)),
+        link: str = get_slash_option(cmd.arg(1)),
+        speedup: int = get_slash_option(cmd.arg(2)),
     ):
-        await gif_slash(get_lang(interaction), interaction, attachment, speedup)
+        await gif_slash(get_lang(interaction), interaction, attachment, link, speedup)
 
 
 def setup(bot: commands.Bot):

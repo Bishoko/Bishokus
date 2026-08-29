@@ -55,11 +55,11 @@ async def get_first_attachment(message: nextcord.Message | str, type: str = "ima
     
     return attachment
 
-async def get_first_image(message: nextcord.Message) -> bytes | None:
+async def get_first_image(message: nextcord.Message | str) -> bytes | None:
     # TODO: If no image found, check mentioned members for pfp? (get_user.py)
     IMAGE_EXTENSIONS = ('.png', '.jpg', '.jpeg', '.gif', '.webp', '.avif')
     return await get_first_attachment(message, type="image", allowed_extensions=IMAGE_EXTENSIONS)
 
-async def get_first_video(message: nextcord.Message) -> bytes | None:
+async def get_first_video(message: nextcord.Message | str) -> bytes | None:
     VIDEO_EXTENSIONS = ('.mp4', '.webm', '.wmv', '.avi', '.mov', '.mkv', '.flv')
     return await get_first_attachment(message, type="video", allowed_extensions=VIDEO_EXTENSIONS)

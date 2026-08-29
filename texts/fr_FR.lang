@@ -376,8 +376,11 @@ emoji_error_empty_msg=🚫 Merci de spécifier un émoji!
 gif_name=gif
 gif_desc=Convertit une image ou une vidéo en un GIF
 
-gif_arg_name=média
-gif_arg_desc=Image ou vidéo à convertir en GIF
+gif_media_arg_name=média
+gif_media_arg_desc=Image ou vidéo à convertir en GIF
+
+gif_link_arg_name=url
+gif_link_arg_desc=Lien de l'image ou vidéo à convertir en GIF
 
 gif_speedup_arg_name=speedup
 gif_speedup_arg_desc=Accélérer le GIF
