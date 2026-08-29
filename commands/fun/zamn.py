@@ -11,7 +11,7 @@ from utils.settings import prefix
 from utils.settings.lang import get_lang
 
 from utils.get_first_attachment import get_first_image
-from PIL import Image
+from PIL import Image, ImageSequence, ImageFile, UnidentifiedImageError
 from types import NoneType
 import io
 import os
