@@ -635,7 +635,11 @@ open_to_work_no_image_error=🚫 Please attach an image or reply to a message co
 zamn_name=zamn
 zamn_desc=Applies the ZAMN overlay effect to an image
 
-zamn_arg_name=image
-zamn_arg_desc=Image to apply the effect to
+zamn_image_arg_name=image
+zamn_image_arg_desc=Image to apply the effect to
 
+zamn_link_arg_name=link
+zamn_link_arg_desc=URL for the image to apply the effect to
+
+zamn_missing_argument_error=🚫 You need to provide an image to apply the effect on! 
 zamn_no_image_error=🚫 Please attach an image or reply to a message containing one!

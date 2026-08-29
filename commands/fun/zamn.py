@@ -10,11 +10,11 @@ from utils.languages import text
 from utils.settings import prefix
 from utils.settings.lang import get_lang
 
+from utils.get_first_attachment import get_first_image
+from PIL import Image
+from types import NoneType
 import io
 import os
-from PIL import Image, ImageSequence, ImageFile, UnidentifiedImageError
-
-from utils.get_first_attachment import get_first_image
 
 OVERLAY_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "medias", "zamn.png")
 INPUT_SIZE = (250, 359)
@@ -128,9 +128,19 @@ async def zamn_text(lang: str, message: nextcord.Message):
     )
 
 
-async def zamn_slash(lang: str, interaction: nextcord.Interaction, image: nextcord.Attachment):
+async def zamn_slash(lang: str, interaction: nextcord.Interaction, image: nextcord.Attachment | NoneType = None, link: str = ""):
     await interaction.response.defer()
-    image_bytes = await image.read()
+
+    image_bytes = None
+    if image:
+        image_bytes = await image.read()
+    elif link:
+        image_bytes = await get_first_image(link)
+        
+    if not image_bytes:
+        await interaction.followup.send(text('zamn_missing_argument_error', lang))
+        return
+    
     try:
         file = await _zamn(image_bytes)
     except Exception as e:
@@ -153,9 +163,15 @@ info = {
         "desc": "zamn_desc",
         "args": [
             {
-                "name": "zamn_arg_name",
-                "desc": "zamn_arg_desc",
-            }
+                "name": "zamn_image_arg_name",
+                "desc": "zamn_image_arg_desc",
+                "required": False,
+            },
+            {
+                "name": "zamn_link_arg_name",
+                "desc": "zamn_link_arg_desc",
+                "required": False,
+            },
         ]
     }
 }
@@ -176,8 +192,9 @@ class ZamnCog(commands.Cog):
     )
     async def zamn_command(self, interaction: nextcord.Interaction,
         image: nextcord.Attachment = get_slash_option(cmd.arg(0)),
+        link: str = get_slash_option(cmd.arg(1)),
     ):
-        await zamn_slash(get_lang(interaction), interaction, image)
+        await zamn_slash(get_lang(interaction), interaction, image, link)
 
 
 def setup(bot: commands.Bot):
