@@ -98,8 +98,13 @@ async def remove_confess_channel(lang: str, message: nextcord.Message):
         result = await _remove_confess_channel_from_db(message.guild.id, channel_id, lang)
         await message.reply(result, mention_author=False)
         return
-    
-    await message.reply(text('settings_confess_removechannel_notfound_error', lang), mention_author=False)
+
+    try:
+        result = await _remove_confess_channel_from_db(message.guild.id, message.channel.id, lang)
+        await message.reply(result, mention_author=False)
+    except Exception:
+        await message.reply(text('settings_confess_removechannel_notfound_error', lang), mention_author=False)
+
     return
 
 async def remove_confess_channel_slash(lang: str, interaction: nextcord.Interaction, channel_id: int):

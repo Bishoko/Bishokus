@@ -80,8 +80,13 @@ async def add_confess_channel(lang: str, message: nextcord.Message):
         result = await _add_confess_channel_to_db(message.guild.id, channel_id, lang)
         await message.reply(result, mention_author=False)
         return
-    
-    await message.reply(text('settings_confess_addchannel_notfound_error', lang), mention_author=False)
+
+    try:
+        result = await _add_confess_channel_to_db(message.guild.id, message.channel.id, lang)
+        await message.reply(result, mention_author=False)
+    except Exception:
+        await message.reply(text('settings_confess_addchannel_notfound_error', lang), mention_author=False)
+
     return
 
 async def add_confess_channel_slash(lang: str, interaction: nextcord.Interaction, new_channel: nextcord.TextChannel):
