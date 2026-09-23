@@ -19,6 +19,7 @@ from handlers.on_guild_join import handle_guild_join
 from handlers.on_guild_remove import handle_guild_remove
 from handlers.command_usage_logger import handle_application_command_completion
 from handlers.daily_logs import start_daily_logs_loop
+from handlers.mudae_rank_loop import start_mudae_rank_loop
 
 langs_init()
 db.init()
@@ -72,6 +73,7 @@ async def on_ready():
     status_loop.start()
 
     start_daily_logs_loop()
+    start_mudae_rank_loop()
 
 @bot.event
 async def on_message(message):

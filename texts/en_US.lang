@@ -97,6 +97,7 @@ category_bot=Bot
 category_bot_owner=Bot Owner
 category_fun=Fun
 category_moderation=Moderation
+category_mudae=Mudae
 category_settings=Settings
 category_utilities=Utilities
 
@@ -644,5 +645,151 @@ zamn_image_arg_desc=Image to apply the effect to
 zamn_link_arg_name=link
 zamn_link_arg_desc=URL for the image to apply the effect to
 
-zamn_missing_argument_error=🚫 You need to provide an image to apply the effect on! 
+zamn_missing_argument_error=🚫 You need to provide an image to apply the effect on!
 zamn_no_image_error=🚫 Please attach an image or reply to a message containing one!
+
+
+# ====  !m / !w / !h / !nb  ====
+m_name=m
+m_desc=Roll a random character (any gender)
+
+w_name=w
+w_desc=Roll a random waifu (female character)
+
+h_name=h
+h_desc=Roll a random husbando (male character)
+
+nb_name=nb
+nb_desc=Roll a random non-binary character
+
+mudae_claims_label=Claims
+mudae_likes_label=Likes
+mudae_unranked=Unranked
+mudae_unknown_series=Unknown series
+mudae_unknown_user=Unknown user
+mudae_belongs_to=Belongs to %user%
+
+mudae_no_characters_error=🚫 There's no character available to roll here!
+mudae_roll_cooldown_error=🚫 You've used all your rolls! You can roll again in **%reset%**.
+
+mudae_claim_button_label=Claim
+mudae_claimed_label=Claimed by %user%
+mudae_already_claimed_error=🚫 %character% has already been claimed!
+mudae_claim_success=💖 **%user%** and **%character%** are now married! 💖
+mudae_claim_error=🚫 Something went wrong while claiming this character.
+mudae_claim_cooldown_error=🚫 %user%, you can't claim for another **%remaining%**!
+mudae_claim_steal_buffer_error=🚫 **%user%** tried to steal **%character%** from **%roller%**, but the roller gets priority for a few more seconds!
+
+mudae_kakera_already_claimed_error=🚫 Someone already collected this kakera!
+mudae_kakera_react_success=%kakera_emoji% **%user% +%kakera%**
+
+profile_name=profile
+profile_desc=Show your mudae collection profile
+
+mudae_profile_collection_label=Collection size
+mudae_profile_kakera_label=Kakera
+
+mm_name=mm
+mm_desc=Show your character collection
+
+mmi_name=mmi
+mmi_desc=Show your character collection, one character per page with a big image
+
+mudae_unknown_type=Unknown type
+mudae_harem_title=%user%'s harem
+mudae_collection_empty=Nobody's here yet... time to roll!
+mudae_collection_page_footer=Page %current% / %total%
+mudae_card_footer=Belongs to %user% • %current% / %total%
+mudae_collection_not_for_you=🚫 This isn't your collection to browse :p
+
+give_name=give
+give_desc=Give one of your characters to another user
+
+give_member_arg_name=member
+give_member_arg_desc=Who to give the character to
+
+give_character_arg_name=character
+give_character_arg_desc=The character to give away (must be one you currently own)
+
+mudae_give_usage_error=🚫 Usage: mention who you're giving a character to, followed by the character's name.
+mudae_give_self_error=🚫 You can't give a character to yourself!
+mudae_give_bot_error=🚫 You can't give a character to a bot!
+mudae_give_not_owned_error=🚫 You don't currently own a character matching **%query%** here.
+mudae_give_offer=%giver% wants to give **%character%** to %receiver%! Click Accept to confirm.
+mudae_give_accept_button=Accept
+mudae_give_not_for_you_error=🚫 This trade offer isn't for you :p
+mudae_give_no_longer_valid=🚫 This trade is no longer valid, the character isn't owned by the giver anymore.
+mudae_give_expired=⌛ This trade offer has expired.
+mudae_give_success=🎉 **%character%** now belongs to **%receiver%**! (given by **%giver%**)
+
+divorce_name=divorce
+divorce_desc=Release one of your characters
+
+divorce_character_arg_name=character
+divorce_character_arg_desc=The character to release (must be one you currently own)
+
+mudae_divorce_usage_error=🚫 Usage: give the name of the character you want to divorce.
+mudae_divorce_not_owned_error=🚫 You don't currently own a character matching **%query%** here.
+mudae_divorce_prompt=%user%, are you sure you want to divorce **%character%**?
+mudae_divorce_confirm_button=Confirm
+mudae_divorce_not_for_you_error=🚫 This divorce isn't yours to confirm :p
+mudae_divorce_no_longer_valid=🚫 You don't own this character anymore, there's nothing to divorce.
+mudae_divorce_success=💔 **%character%** and **%user%** are now divorced. 💔 (+**%kakera%**%kakera_emoji%)
+
+like_name=like
+like_desc=Like a character
+like_character_arg_name=character
+like_character_arg_desc=The character to like
+
+likem_name=likem
+likem_desc=Like a series
+likem_series_arg_name=series
+likem_series_arg_desc=The series to like
+
+likelist_name=likelist
+likelist_desc=Show the characters and series you like
+
+mudae_like_usage_error=🚫 Usage: give the name of the character you want to like.
+mudae_like_not_found_error=🚫 I couldn't find any character matching **%query%** here.
+mudae_like_ambiguous_error=🤔 Several characters match **%query%**, be more specific:\n%suggestions%
+mudae_like_already_error=🚫 You already like **%name%**!
+mudae_like_success=❤️ **%user%** now likes **%name%** from '%serie%'!
+
+mudae_likem_usage_error=🚫 Usage: give the name of the series you want to like.
+mudae_likem_not_found_error=🚫 I couldn't find any series matching **%query%** here.
+mudae_likem_ambiguous_error=🤔 Several series match **%query%**, be more specific:\n%suggestions%
+mudae_likem_already_error=🚫 You already like the series **%name%**!
+mudae_likem_success=❤️ **%user%** now likes the series **%name%**!
+
+unlike_name=unlike
+unlike_desc=Remove a character from your likes
+unlike_character_arg_name=character
+unlike_character_arg_desc=The character to unlike
+
+unlikem_name=unlikem
+unlikem_desc=Remove a series from your likes
+unlikem_series_arg_name=series
+unlikem_series_arg_desc=The series to unlike
+
+mudae_unlike_usage_error=🚫 Usage: give the name of the character you want to unlike.
+mudae_unlike_not_found_error=🚫 You don't like any character matching **%query%** here.
+mudae_unlike_ambiguous_error=🤔 Several liked characters match **%query%**, be more specific:\n%suggestions%
+mudae_unlike_not_liked_error=🚫 You don't like **%name%** anymore!
+mudae_unlike_success=💔 **%user%** doesn't like **%name%** anymore.
+
+mudae_unlikem_usage_error=🚫 Usage: give the name of the series you want to unlike.
+mudae_unlikem_not_found_error=🚫 You don't like any series matching **%query%** here.
+mudae_unlikem_ambiguous_error=🤔 Several liked series match **%query%**, be more specific:\n%suggestions%
+mudae_unlikem_not_liked_error=🚫 You don't like the series **%name%** anymore!
+mudae_unlikem_success=💔 **%user%** doesn't like the series **%name%** anymore.
+
+mudae_likelist_title=%user%'s likes
+mudae_likelist_empty=You haven't liked anything yet... try /like!
+mudae_likelist_footer=Page %current% / %total% • %characters% characters • %series% series
+mudae_likelist_not_for_you=🚫 This isn't your like list to browse :p
+
+mu_name=mu
+mu_desc=Check when you can next claim a character
+
+mudae_status_can_claim=**%user%**, you __can__ claim right now! The next claim reset is in **%reset%**.
+mudae_status_cant_claim=**%user%**, you can't claim for another **%remaining%**.

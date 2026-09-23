@@ -44,7 +44,7 @@ info = {
     "length": {
         "category": "utilities",
         "aliases": [],
-        "hidden_aliases": ["l", "len", "longueur", "long", "taille",
+        "hidden_aliases": ["len", "longueur", "long", "taille",
                            "mesurer", "measure", "compte", "compter", "count"],
         "available": ["slash_command", "text_command"],
         "visibility": "everyone",
