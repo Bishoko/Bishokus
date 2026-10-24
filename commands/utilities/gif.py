@@ -399,7 +399,7 @@ async def gif_slash(lang: str, interaction: nextcord.Interaction, attachment: ne
             if video_bytes:
                 file = await _convert_to_gif(original_filename, video=video_bytes, speedup=speedup)
 
-        else:
+        if not file:
             await interaction.followup.send(
                 text("gif_invalid_attachment", lang),
                 ephemeral=True
