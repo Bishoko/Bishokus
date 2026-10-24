@@ -115,6 +115,7 @@ def _video_to_gif(
     max_bytes = max_size_mb * 1024 * 1024
     palette_path = output_path + ".palette.png"
 
+    speedup = speedup or 0
     speedup_multiplier = 1 + (speedup / 100)
 
     # Probe
