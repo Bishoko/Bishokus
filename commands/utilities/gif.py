@@ -372,10 +372,9 @@ async def gif_text(lang: str, message: nextcord.Message):
 
 async def gif_slash(lang: str, interaction: nextcord.Interaction, attachment: nextcord.Attachment | NoneType, link: str = "", speedup: int = 0):
     if not attachment and not link:
-        await interaction.response.send_message(text('gif_error_missing_file', lang))
+        await interaction.followup.send(text('gif_error_missing_file', lang))
         return
 
-    await interaction.response.defer()
     file = None
     original_filename = attachment.filename if attachment else ''.join(random.choices(string.ascii_letters + string.digits, k=8))  # TODO: get actual original filename
 
@@ -500,6 +499,7 @@ class GifCog(commands.Cog):
         link: str = get_slash_option(cmd.arg(1)),
         speedup: int = get_slash_option(cmd.arg(2)),
     ):
+        await interaction.response.defer()
         await gif_slash(get_lang(interaction), interaction, attachment, link, speedup)
 
 
